@@ -36,23 +36,23 @@ const createUserBody = {
   },
 };
 
-// const loginUserBody = {
-//   type: "object",
-//   properties: {
-//     [REQ_CUSTOM_FILED.LOGIN_DATA]: {
-//       type: "object",
-//       properties: {
-//         email: {
-//           type: "string",
-//           example: "john.snow@email.com",
-//         },
-//         password: {
-//           type: "string",
-//           example: "!1234aWe1Ro3$#",
-//         },
-//       },
-//     },
-//   },
-// };
+const loginUserBody = {
+  type: "object",
+  properties: {
+    [REQ_CUSTOM_FILED.USER_DATA]: {
+      type: "object",
+      properties: {
+        email: {
+          type: "string",
+          example: "john.snow@email.com",
+        },
+        password: {
+          type: "string",
+          example: "!1234aWe1Ro3$#",
+        },
+      },
+    },
+  },
+};
 
-module.exports = { createUserBody };
+module.exports = { createUserBody, loginUserBody };

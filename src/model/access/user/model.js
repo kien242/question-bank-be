@@ -1,9 +1,9 @@
 const { Schema, model } = require("mongoose");
 const isEmail = require("validator/lib/isEmail");
-const { ACTIVE_STATUS } = require("#config/activeStatus.js");
-const { COLLECTION_NAME } = require("#config/collectionName.js");
-const { ROLE } = require("#config/userRole.js");
-const { GENDER_IDENTITY } = require("#config/gender.js");
+const { ACTIVE_STATUS } = require("#config/database/activeStatus.js");
+const { COLLECTION_NAME } = require("#config/database/collectionName.js");
+const { ROLE } = require("#config/database/userRole.js");
+const { GENDER_IDENTITY } = require("#config/database/gender.js");
 
 const modelSchema = new Schema(
   {
@@ -16,9 +16,6 @@ const modelSchema = new Schema(
     email: {
       type: String,
       lowercase: true,
-      validate: (value) => {
-        return isEmail(value);
-      },
       required: true,
       unique: true,
     },

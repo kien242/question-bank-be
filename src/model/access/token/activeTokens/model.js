@@ -1,5 +1,5 @@
 const { Schema, model } = require("mongoose");
-const { COLLECTION_NAME } = require("#config/collectionName.js");
+const { COLLECTION_NAME } = require("#config/database/collectionName.js");
 const modelSchema = new Schema(
   {
     userId: {

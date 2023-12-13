@@ -1,6 +1,11 @@
 const { HEADER } = require("#config/header.js");
 
 const securitySchemes = {
+  userId: {
+    type: "apiKey",
+    name: HEADER.USER_ID,
+    in: "header",
+  },
   access_token: {
     type: "apiKey",
     name: HEADER.ACCESS_TOKEN,

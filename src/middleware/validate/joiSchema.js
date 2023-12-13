@@ -1,13 +1,14 @@
-const { ROLE } = require("#config/userRole.js");
+const { ROLE } = require("#config/database/userRole.js");
 const Joi = require("joi");
 
-const joiSchema = Joi.object({
+const userReqSch = Joi.object({
   fullName: Joi.string(),
-  userName: Joi.string().alphanum().min(3).max(30).required(),
-  password: Joi.string().pattern(
-    // prettier-ignore
-    new RegExp('^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[-_@#$%^*()<>]).{8,}$')
-  ),
+  userName: Joi.string().alphanum().min(3).max(30),
+  password: Joi.string()
+    .pattern(
+      new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[-_@#$%^*()<>]).{8,}$")
+    )
+    .required(),
   birth_year: Joi.number().integer().min(1900).max(new Date().getFullYear()),
   email: Joi.string()
     .email({
@@ -21,4 +22,4 @@ const joiSchema = Joi.object({
   role: Joi.string().valid(ROLE.ADMIN, ROLE.TEACHER, ROLE.STUDENT),
 });
 
-module.exports = { joiSchema };
+module.exports = { userReqSch };

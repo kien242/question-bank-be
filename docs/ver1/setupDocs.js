@@ -1,7 +1,12 @@
 const swaggerJsdoc = require("swagger-jsdoc");
-const { securitySchemes } = require("./schema/security.js");
-const { createUserBody } = require("./schema/user.js");
-const { signUp } = require("./tag/access/access.js");
+const { securitySchemes } = require("#docs/ver1/schema/security.js");
+const { createUserBody, loginUserBody } = require("#docs/ver1/schema/user.js");
+const {
+  signUp,
+  login,
+  logout,
+  handleRefreshToken,
+} = require("#docs/ver1/tag/access/access.js");
 
 const options = {
   definition: {
@@ -25,26 +30,36 @@ const options = {
     tags: [
       {
         name: "Access",
-        description: "Operations about accessing",
+        description: "API for accessing",
       },
       {
         name: "User",
-        description: "Operations about user",
+        description: "API for user",
       },
     ],
     paths: {
       "/access/signup": {
         post: signUp,
       },
+      "/access/login": {
+        post: login,
+      },
+      "/access/logout": {
+        delete: logout,
+      },
+      "/access/handle-refresh-token": {
+        get: handleRefreshToken,
+      },
     },
     components: {
       securitySchemes: securitySchemes,
       schemas: {
         createUserBody,
+        loginUserBody,
       },
     },
   },
-  apis: ["../src/router/*.js"],
+  apis: ["#router/*.js"],
 };
 
 const specs = swaggerJsdoc(options);

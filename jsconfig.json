@@ -10,7 +10,7 @@
       "#utils/*": ["./src/utils/*"],
       "#service/*": ["./src/service/*"],
       "#helper/*": ["./src/helper/*"],
-      "#docs/*": ["./src/docs/*"]
+      "#docs/*": ["./docs/*"]
     }
   }
 }
