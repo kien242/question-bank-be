@@ -1,8 +1,8 @@
 const COLLECTION_NAME = {
-  USER: "user",
+	USER: "user",
 
-  AUTHENTICATION_TOKEN: "auth_token",
-  ACTIVE_TOKEN: "active_token",
+	AUTHENTICATION_TOKEN: "auth_token",
+	ACTIVE_TOKEN: "active_token",
 };
 
 module.exports = { COLLECTION_NAME };

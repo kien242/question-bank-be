@@ -8,25 +8,25 @@ const { Router } = require("express");
 const accessRouter = Router();
 
 accessRouter.post(
-  "/signup",
-  asyncHandle(validateReq(userReqSch)),
-  asyncHandle(AccessController.signUp)
+	"/signup",
+	asyncHandle(validateReq(userReqSch)),
+	asyncHandle(AccessController.signUp),
 );
 accessRouter.post(
-  "/login",
-  asyncHandle(validateReq(userReqSch)),
-  asyncHandle(AccessController.login)
+	"/login",
+	asyncHandle(validateReq(userReqSch)),
+	asyncHandle(AccessController.login),
 );
 
 accessRouter.delete(
-  "/logout",
-  asyncHandle(checkAuth),
-  asyncHandle(AccessController.logout)
+	"/logout",
+	asyncHandle(checkAuth),
+	asyncHandle(AccessController.logout),
 );
 
 accessRouter.get(
-  "/handle-refresh-token",
-  asyncHandle(AccessController.handleRefreshToken)
+	"/handle-refresh-token",
+	asyncHandle(AccessController.handleRefreshToken),
 );
 
 accessRouter.get("/active", asyncHandle(AccessController.activeUser));
