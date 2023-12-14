@@ -26,19 +26,20 @@ const UserService = {
 	},
 	updateCurrentUser: async (req, res) => {
 		const userId = req.headers[HEADER.USER_ID];
-
 		const rawData = removeInfoData({
 			filed: ["email", "userName", "password", "googleId", "facebookId", "role", "status"],
 			source: req.body[REQ_CUSTOM_FILED.USER_DATA],
 		});
-		const update = _.omitBy(rawData, _.isEmpty);
-		console.log("file: user.js:35 ~ updateCurrentUser: ~ update:", update);
-
+		const update = _.pickBy(rawData, function (value) {
+			return value !== null && value !== undefined && value !== "";
+		});
+		console.log(rawData);
+		console.log(update);
 		const options = { upsert: true, new: true, setDefaultsOnInsert: true };
 		const updateUser = await userModel.findOneAndUpdate({ _id: userId }, update, options).lean();
 		return {
 			userData: removeInfoData({
-				filed: ["password", "googleId", "facebookId"],
+				filed: ["password", "googleId", "facebookId", "createdAt", "__v"],
 				source: updateUser,
 			}),
 		};

@@ -6,9 +6,9 @@ const { userReqSch } = require("#middleware/validate/joiSchema.js");
 
 const userRouter = Router();
 userRouter.get("/get-current-user-profile", asyncHandle(UserController.getCurrentUserInfo));
-userRouter.post(
+userRouter.put(
 	"/update-current-user-profile",
-	asyncHandle(validateReq(userReqSch)),
+	// asyncHandle(validateReq(userReqSch)),
 	asyncHandle(UserController.updateCurrentUser),
 );
 module.exports = userRouter;
