@@ -17,17 +17,8 @@ accessRouter.post(
 	asyncHandle(validateReq(userReqSch)),
 	asyncHandle(AccessController.login),
 );
-
-accessRouter.delete(
-	"/logout",
-	asyncHandle(checkAuth),
-	asyncHandle(AccessController.logout),
-);
-
-accessRouter.get(
-	"/handle-refresh-token",
-	asyncHandle(AccessController.handleRefreshToken),
-);
+accessRouter.get("/handle-refresh-token", asyncHandle(AccessController.handleRefreshToken));
+accessRouter.delete("/logout", asyncHandle(checkAuth), asyncHandle(AccessController.logout));
 
 accessRouter.get("/active", asyncHandle(AccessController.activeUser));
 module.exports = accessRouter;

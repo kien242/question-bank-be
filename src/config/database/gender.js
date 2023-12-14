@@ -1,4 +1,5 @@
 const GENDER_IDENTITY = {
+	OTHER: "other",
 	MALE: "male",
 	FEMALE: "female",
 	BISEXUAL: "bisexual",

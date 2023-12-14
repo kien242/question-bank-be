@@ -1,12 +1,13 @@
 const { HEADER } = require("#config/header.js");
-const { userModel } = require("#model/access/user/model.js");
+const { UserService } = require("#service/user.js");
 const { logInfo } = require("#utils/consoleLog/consoleColors.js");
 const { ForbiddenError } = require("#utils/core/error.res.js");
 
-const checkRole = (role) => {
+// Dùng để check role, pass với duy nhất role truyền vào
+const checkAbsoluteRole = (role) => {
 	return async (req, res, next) => {
 		const userId = req.headers[HEADER.USER_ID];
-		const foundUser = await userModel.findOne({ _id: userId });
+		const foundUser = UserService.findUserById(userId);
 		if (foundUser.role !== role) {
 			logInfo("User is not have role");
 			throw new ForbiddenError("User is not have role");
@@ -15,4 +16,16 @@ const checkRole = (role) => {
 	};
 };
 
-module.exports = { checkRole };
+// Dùng để check role, pass với tất cả các role có độ ưu tiên lớn hơn role truyền vào
+const checkRelativeRole = (role) => {
+	return async (req, res, next) => {
+		const userId = req.headers[HEADER.USER_ID];
+		foundUser = UserService.findUserById(userId);
+		if (foundUser.role > role) {
+			logInfo("User is not have role");
+			throw new ForbiddenError("User is not have role");
+		}
+		return next();
+	};
+};
+module.exports = { checkAbsoluteRole, checkRelativeRole };

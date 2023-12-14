@@ -1,5 +1,4 @@
 const { Schema, model } = require("mongoose");
-const isEmail = require("validator/lib/isEmail");
 const { ACTIVE_STATUS } = require("#config/database/activeStatus.js");
 const { COLLECTION_NAME } = require("#config/database/collectionName.js");
 const { ROLE } = require("#config/database/userRole.js");
@@ -28,6 +27,8 @@ const modelSchema = new Schema(
 		},
 		avatarUrl: {
 			type: String,
+			default:
+				"https://png.pngtree.com/element_our/20200610/ourmid/pngtree-character-default-avatar-image_2237203.jpg",
 		},
 		birthday: {
 			type: Date,
@@ -35,6 +36,7 @@ const modelSchema = new Schema(
 		genderIdentity: {
 			type: String,
 			enum: [GENDER_IDENTITY],
+			default: GENDER_IDENTITY.OTHER,
 		},
 		organization: {
 			type: String,
@@ -43,12 +45,12 @@ const modelSchema = new Schema(
 			type: String,
 		},
 		status: {
-			type: String,
+			type: Number,
 			enum: [ACTIVE_STATUS],
 			default: ACTIVE_STATUS.INACTIVE,
 		},
 		role: {
-			type: String,
+			type: Number,
 			enum: [ROLE],
 			default: ROLE.STUDENT,
 		},

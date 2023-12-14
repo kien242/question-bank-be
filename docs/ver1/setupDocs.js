@@ -2,6 +2,7 @@ const swaggerJsdoc = require("swagger-jsdoc");
 const { securitySchemes } = require("#docs/ver1/schema/security.js");
 const { createUserBody, loginUserBody } = require("#docs/ver1/schema/user.js");
 const { signUp, login, logout, handleRefreshToken } = require("#docs/ver1/tag/access/access.js");
+const { getCurrentUserInfo } = require("#docs/ver1/tag/user/user.js");
 
 const options = {
 	definition: {
@@ -9,7 +10,8 @@ const options = {
 		info: {
 			title: "Question Bank ",
 			version: "1.0.0",
-			description: "This is a simple CRUD API application made with Express and documented with Swagger",
+			description:
+				"This is a simple CRUD API application made with Express and documented with Swagger",
 			license: {
 				name: "MIT",
 				url: "https://spdx.org/licenses/MIT.html",
@@ -43,6 +45,9 @@ const options = {
 			},
 			"/access/handle-refresh-token": {
 				get: handleRefreshToken,
+			},
+			"/user/get-current-user-info": {
+				get: getCurrentUserInfo,
 			},
 		},
 		components: {

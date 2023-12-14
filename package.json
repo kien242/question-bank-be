@@ -4,7 +4,8 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "dev": "node --env-file=.env --watch server.js"
+    "dev": "node --env-file=.env --watch server.js",
+    "dev-warning" : "node --trace-warnings --env-file=.env --watch server.js"
   },
   "author": "",
   "license": "MIT",

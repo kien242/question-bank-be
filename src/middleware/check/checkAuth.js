@@ -2,10 +2,10 @@ const { HEADER } = require("#config/header.js");
 const { authTokenService } = require("#service/authToken.js");
 const { logError } = require("#utils/consoleLog/consoleColors.js");
 const { AuthFailureError, NotFoundError } = require("#utils/core/error.res.js");
-const { verify } = require("jsonwebtoken");
+const JWT = require("jsonwebtoken");
 
 const checkAuth = async (req, res, next) => {
-	const accessToken = req.headers[HEADER.ACCESS_TOKEN];
+	const accessToken = req.headers[HEADER.ACCESS_TOKEN].split(" ")[1];
 	const userId = req.headers[HEADER.USER_ID];
 	if (!userId) {
 		logError("Missing userId in request");
@@ -19,27 +19,26 @@ const checkAuth = async (req, res, next) => {
 	if (!accessToken) {
 		logError("Missing accessToken");
 		throw new AuthFailureError("Invalid request");
-	} else {
-		try {
-			verify(accessToken, keyTokens.publicKey, function (err, decode) {
-				if (err) {
-					switch (err.name) {
-						case "TokenExpiredError":
-							logError("Token expired, Pls get new access token");
-							throw new AuthFailureError(err.message);
-						case "NotBeforeError":
-							logError("JWT not active");
-							throw new AuthFailureError(err.message);
-						default:
-							logError(`JWT error: ${err.name}`);
-							throw new AuthFailureError(err.message);
-					}
+	}
+	try {
+		JWT.verify(accessToken, keyTokens.publicKey, function (err, decode) {
+			if (err) {
+				switch (err.name) {
+					case "TokenExpiredError":
+						logError("Token expired, Pls get new access token");
+						throw new AuthFailureError(err.message);
+					case "NotBeforeError":
+						logError("JWT not active");
+						throw new AuthFailureError(err.message);
+					default:
+						logError(`JWT error: ${err.name}`);
+						throw new AuthFailureError(err.message);
 				}
-			});
-			return next();
-		} catch (error) {
-			throw error;
-		}
+			}
+		});
+		return next();
+	} catch (error) {
+		throw error;
 	}
 };
 

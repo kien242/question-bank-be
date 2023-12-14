@@ -4,28 +4,28 @@ const { CREATE, OK } = require("#utils/core/success.res.js");
 
 const AccessController = {
 	signUp: async (req, res) => {
-		logInfo("[Access]:: signUp");
+		logInfo("[Access]::signUp");
 		new CREATE({
 			message: "Create a new user",
 			metadata: await AccessService.signUp(req),
 		}).send(res);
 	},
 	login: async (req, res) => {
-		logInfo("[Access]:: login");
+		logInfo("[Access]::login");
 		new OK({
 			message: "Login successfully",
 			metadata: await AccessService.login(req),
 		}).send(res);
 	},
 	logout: async (req, res) => {
-		logInfo("[Access]:: logout");
+		logInfo("[Access]::logout");
 		new OK({
 			message: "Logout successfully",
 			metadata: await AccessService.logout(req),
 		}).send(res);
 	},
 	activeUser: async (req, res) => {
-		logInfo("[Access]:: activeUser");
+		logInfo("[Access]::activeUser");
 		new OK({
 			message: "Active user successfully",
 			metadata: await AccessService.activeUser(req),
