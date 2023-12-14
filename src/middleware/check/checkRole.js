@@ -7,7 +7,7 @@ const { ForbiddenError } = require("#utils/core/error.res.js");
 const checkAbsoluteRole = (role) => {
 	return async (req, res, next) => {
 		const userId = req.headers[HEADER.USER_ID];
-		const foundUser = UserService.findUserById(userId);
+		const foundUser = await UserService.findUserById(userId);
 		if (foundUser.role !== role) {
 			logInfo("User is not have role");
 			throw new ForbiddenError("User is not have role");
@@ -20,7 +20,7 @@ const checkAbsoluteRole = (role) => {
 const checkRelativeRole = (role) => {
 	return async (req, res, next) => {
 		const userId = req.headers[HEADER.USER_ID];
-		foundUser = UserService.findUserById(userId);
+		const foundUser = await UserService.findUserById(userId);
 		if (foundUser.role > role) {
 			logInfo("User is not have role");
 			throw new ForbiddenError("User is not have role");
