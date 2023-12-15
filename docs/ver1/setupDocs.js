@@ -29,8 +29,24 @@ const options = {
 				description: "API for accessing",
 			},
 			{
+				name: "Admin",
+				description: "API for user",
+			},
+			{
+				name: "User",
+				description: "API for user (teacher and student)",
+			},
+			{
 				name: "User",
 				description: "API for user",
+			},
+			{
+				name: "Question",
+				description: "API for question",
+			},
+			{
+				name: "Test",
+				description: "API for test",
 			},
 		],
 		paths: {
@@ -46,10 +62,8 @@ const options = {
 			"/access/handle-refresh-token": {
 				get: handleRefreshToken,
 			},
-			"/user/get-current-user-info": {
+			"/user": {
 				get: getCurrentUserInfo,
-			},
-			"/user/update-current-user-info": {
 				put: updateCurrentUserInfo,
 			},
 		},
