@@ -3,5 +3,6 @@ const { asyncHandle } = require("#utils/asyncHandle/index.js");
 const { Router } = require("express");
 
 const adminRouter = Router();
-adminRouter.get("/get-user-profile", asyncHandle(AdminController.getUserProfile));
+adminRouter.get("/user", asyncHandle(AdminController.getUserProfile));
+adminRouter.delete("/user", asyncHandle(AdminController.deleteUser));
 module.exports = adminRouter;

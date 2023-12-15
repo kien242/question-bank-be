@@ -38,7 +38,7 @@ const logError = (text) => {
 
 const logWarn = (text) => {
 	if (ENV == "dev") {
-		console.log(colorize(text).warn);
+		console.log(colorize(text).yellow);
 	} else {
 	}
 };
