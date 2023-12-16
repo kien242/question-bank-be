@@ -54,7 +54,6 @@ const modelSchema = new Schema(
 			enum: [ROLE],
 			default: ROLE.STUDENT,
 		},
-
 		googleId: {
 			// Login với google
 			type: String,
