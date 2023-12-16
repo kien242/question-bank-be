@@ -16,9 +16,9 @@ const AdminService = {
 		const userList = req.body[REQ_CUSTOM_FILED.USER_DATA];
 		console.log(typeof userList);
 		console.log(userList);
-		// await userModel.deleteMany({
-		// 	_id: { $in: userList },
-		// });
+		await userModel.deleteMany({
+			_id: { $in: userList },
+		});
 	},
 };
 

@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 const { logSuccess, logError } = require("#utils/consoleLog/consoleColors.js");
-const connectString = `mongodb://${process.env.DB_HOST}:${process.env.DB_PORT}/${process.env.DB_NAME}`;
+const connectString = `${process.env.MONGO_ATLAT_URL}/${process.env.DB_NAME}`;
 
 class Database {
 	constructor() {
