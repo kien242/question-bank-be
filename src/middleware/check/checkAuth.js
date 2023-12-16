@@ -5,7 +5,7 @@ const { AuthFailureError, NotFoundError } = require("#utils/core/error.res.js");
 const JWT = require("jsonwebtoken");
 
 const checkAuth = async (req, res, next) => {
-	const accessToken = req.headers[HEADER.ACCESS_TOKEN].split(" ")[1];
+	const rawAccessToken = req.headers[HEADER.ACCESS_TOKEN];
 	const userId = req.headers[HEADER.USER_ID];
 	if (!userId) {
 		logError("Missing userId in request");
@@ -16,10 +16,11 @@ const checkAuth = async (req, res, next) => {
 		logError("Not found ID in Authentication Token Model");
 		throw new NotFoundError("Not found token");
 	}
-	if (!accessToken) {
+	if (!rawAccessToken) {
 		logError("Missing accessToken");
 		throw new AuthFailureError("Invalid request");
 	}
+	const accessToken = rawAccessToken.split(" ")[1];
 	try {
 		JWT.verify(accessToken, keyTokens.publicKey, function (err, decode) {
 			if (err) {
