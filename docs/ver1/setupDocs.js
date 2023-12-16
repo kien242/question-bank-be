@@ -1,4 +1,5 @@
 const swaggerJsdoc = require("swagger-jsdoc");
+const { getUserInfo } = require("./tag/admin/admin.js");
 const { securitySchemes } = require("#docs/ver1/schema/security.js");
 const { getCurrentUserInfo, updateCurrentUserInfo } = require("#docs/ver1/tag/user/user.js");
 const { createUserBody, loginUserBody, updateUserBody } = require("#docs/ver1/schema/user.js");
@@ -30,15 +31,11 @@ const options = {
 			},
 			{
 				name: "Admin",
-				description: "API for user",
+				description: "API for administration",
 			},
 			{
 				name: "User",
 				description: "API for user (teacher and student)",
-			},
-			{
-				name: "User",
-				description: "API for user",
 			},
 			{
 				name: "Question",
@@ -65,6 +62,9 @@ const options = {
 			"/user": {
 				get: getCurrentUserInfo,
 				put: updateCurrentUserInfo,
+			},
+			"/admin/user": {
+				get: getUserInfo,
 			},
 		},
 		components: {

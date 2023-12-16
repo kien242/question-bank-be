@@ -7,7 +7,8 @@ const securitySchemes = {
 		in: "header",
 	},
 	access_token: {
-		type: "apiKey",
+		type: "http",
+		scheme: "bearer",
 		name: HEADER.ACCESS_TOKEN,
 		in: "header",
 	},
