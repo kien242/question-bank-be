@@ -1,22 +1,23 @@
-const { Router } = require("express");
-const { specs } = require("#docs/ver1/setupDocs.js");
-const { serve, setup } = require("swagger-ui-express");
-const { ROLE } = require("#config/database/userRole.js");
-const { asyncHandle } = require("#utils/asyncHandle/index.js");
-const { checkAuth } = require("#middleware/check/checkAuth.js");
-const { checkRole } = require("#middleware/check/checkRole.js");
+const {Router} = require('express');
+const {specs} = require('#docs/ver1/setupDocs.js');
+const {serve, setup} = require('swagger-ui-express');
+const {ROLE} = require('#config/database/userRole.js');
+const {asyncHandle} = require('#utils/asyncHandle/index.js');
+const {checkAuth} = require('#middleware/check/checkAuth.js');
+const {checkRole} = require('#middleware/check/checkRole.js');
 
+// eslint-disable-next-line new-cap
 const ver1 = Router();
 
-ver1.use("/docs", serve, setup(specs));
+ver1.use('/docs', serve, setup(specs));
 
-ver1.use("/access", require("#router/ver1/access/router.js"));
+ver1.use('/access', require('#router/ver1/access/router.js'));
 ver1.use(asyncHandle(checkAuth));
-ver1.use("/user", require("#router/ver1/user/router.js"));
+ver1.use('/user', require('#router/ver1/user/router.js'));
 ver1.use(
-	"/admin",
-	// asyncHandle(checkAbsoluteRole(ROLE.ADMIN)),
-	asyncHandle(checkRole(ROLE.ADMIN)),
-	require("#router/ver1/admin/router.js"),
+    '/admin',
+    // asyncHandle(checkAbsoluteRole(ROLE.ADMIN)),
+    asyncHandle(checkRole(ROLE.ADMIN)),
+    require('#router/ver1/admin/router.js'),
 );
 module.exports = ver1;

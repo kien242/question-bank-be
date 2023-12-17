@@ -1,6 +1,8 @@
-const express = require("express");
-const router = express.Router();
+const {Router} = require('express');
 
-router.use("/v1", require("#router/ver1/router.js"));
+// eslint-disable-next-line new-cap
+const router = Router();
+
+router.use('/v1', require('#router/ver1/router.js'));
 
 module.exports = router;
