@@ -1,4 +1,4 @@
-const {Router} = require('express');
+const { Router } = require('express');
 
 // eslint-disable-next-line new-cap
 const router = Router();

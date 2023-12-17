@@ -3,4 +3,4 @@ const asyncHandle = (fn) => {
     fn(req, res, next).catch(next);
   };
 };
-module.exports = {asyncHandle};
+module.exports = { asyncHandle };

@@ -1,7 +1,7 @@
-const {HEADER} = require('#config/header.js');
-const {UserService} = require('#service/user.js');
-const {logWarn} = require('#utils/consoleLog/consoleColors.js');
-const {ForbiddenError} = require('#utils/core/error.res.js');
+const { HEADER } = require('#config/header.js');
+const { UserService } = require('#service/user.js');
+const { logWarn } = require('#utils/consoleLog/consoleColors.js');
+const { ForbiddenError } = require('#utils/core/error.res.js');
 
 // Dùng để check role, pass với duy nhất role truyền vào
 const checkAbsoluteRole = (role) => {
@@ -40,4 +40,4 @@ const checkRole =
       }
       return next();
     };
-module.exports = {checkAbsoluteRole, checkRelativeRole, checkRole};
+module.exports = { checkAbsoluteRole, checkRelativeRole, checkRole };

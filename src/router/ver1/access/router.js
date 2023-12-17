@@ -1,9 +1,9 @@
-const {AccessController} = require('#controller/access.js');
-const {checkAuth} = require('#middleware/check/checkAuth.js');
-const {userReqSch} = require('#middleware/validate/joiSchema.js');
-const {validateReq} = require('#middleware/validate/validate.js');
-const {asyncHandle} = require('#utils/asyncHandle/index.js');
-const {Router} = require('express');
+const { AccessController } = require('#controller/access.js');
+const { checkAuth } = require('#middleware/check/checkAuth.js');
+const { userReqSch } = require('#middleware/validate/joiSchema.js');
+const { validateReq } = require('#middleware/validate/validate.js');
+const { asyncHandle } = require('#utils/asyncHandle/index.js');
+const { Router } = require('express');
 
 // eslint-disable-next-line new-cap
 const accessRouter = Router();

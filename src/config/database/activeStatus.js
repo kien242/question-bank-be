@@ -4,4 +4,4 @@ const ACTIVE_STATUS = {
   LOCKER: 3333,
 };
 
-module.exports = {ACTIVE_STATUS};
+module.exports = { ACTIVE_STATUS };

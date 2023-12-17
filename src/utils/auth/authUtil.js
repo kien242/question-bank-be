@@ -1,4 +1,4 @@
-const {logError} = require('#utils/consoleLog/consoleColors.js');
+const { logError } = require('#utils/consoleLog/consoleColors.js');
 const JWT = require('jsonwebtoken');
 
 const createTokenPairSync = async (payload, publicKey, privateKey) => {
@@ -18,7 +18,7 @@ const createTokenPairSync = async (payload, publicKey, privateKey) => {
         logError('error verifying access token');
       }
     });
-    return {accessToken, refreshToken};
+    return { accessToken, refreshToken };
   } catch (error) {
     throw error;
   }
@@ -39,10 +39,10 @@ const createTokenPair = async (payload, publicKey, privateKey) => {
         logError('error verifying access token');
       }
     });
-    return {accessToken, refreshToken};
+    return { accessToken, refreshToken };
   } catch (error) {
     throw error;
   }
 };
 
-module.exports = {createTokenPairSync, createTokenPair};
+module.exports = { createTokenPairSync, createTokenPair };

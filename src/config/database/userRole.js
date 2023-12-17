@@ -4,4 +4,4 @@ const ROLE = {
   STUDENT: 3333,
 };
 
-module.exports = {ROLE};
+module.exports = { ROLE };

@@ -1,9 +1,9 @@
-const {Types} = require('mongoose');
-const {checkIdValid} = require('#utils/other/checkIdValid.js');
-const {authTokenModel} = require('#model/access/token/auth/model.js');
+const { Types } = require('mongoose');
+const { checkIdValid } = require('#utils/other/checkIdValid.js');
+const { authTokenModel } = require('#model/access/token/auth/model.js');
 
 class authTokenService {
-  static createKeyTokenSync = async ({userId, publicKey}) => {
+  static createKeyTokenSync = async ({ userId, publicKey }) => {
     // Thuật toán bất đối xứng
     try {
       const publicKeyString = publicKey.toString();
@@ -16,17 +16,17 @@ class authTokenService {
       return error;
     }
   };
-  static createKeyToken = async ({userId, publicKey, privateKey, refreshToken}) => {
+  static createKeyToken = async ({ userId, publicKey, privateKey, refreshToken }) => {
     // Thuật toán đối xứng
     try {
-      const filter = {userId};
+      const filter = { userId };
       const update = {
         publicKey,
         privateKey,
         refreshTokensUsed: [],
         refreshToken,
       };
-      const option = {upsert: true, new: true, setDefaultsOnInsert: true};
+      const option = { upsert: true, new: true, setDefaultsOnInsert: true };
       const tokens = await authTokenModel.findOneAndUpdate(filter, update, option);
       return tokens ? tokens.publicKey : null;
     } catch (error) {
@@ -59,12 +59,12 @@ class authTokenService {
   };
   static findByRefreshToken = async (refreshToken) => {
     checkIdValid(userId);
-    return await authTokenModel.findOne({refreshToken});
+    return await authTokenModel.findOne({ refreshToken });
   };
   static deleteKeyById = async (userId) => {
     checkIdValid(userId);
-    return await authTokenModel.deleteOne({userId: userId});
+    return await authTokenModel.deleteOne({ userId: userId });
   };
 }
 
-module.exports = {authTokenService};
+module.exports = { authTokenService };

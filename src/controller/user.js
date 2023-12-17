@@ -1,6 +1,6 @@
-const {UserService} = require('#service/user.js');
-const {logInfo} = require('#utils/consoleLog/consoleColors.js');
-const {OK} = require('#utils/core/success.res.js');
+const { UserService } = require('#service/user.js');
+const { logInfo } = require('#utils/consoleLog/consoleColors.js');
+const { OK } = require('#utils/core/success.res.js');
 
 const UserController = {
   getCurrentUserInfo: async (req, res) => {
@@ -19,4 +19,4 @@ const UserController = {
   },
 };
 
-module.exports = {UserController};
+module.exports = { UserController };

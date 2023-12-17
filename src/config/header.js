@@ -4,4 +4,4 @@ const HEADER = {
   REFRESH_TOKEN: 'x-refresh-token',
   USER_ID: 'x-user-id',
 };
-module.exports = {HEADER};
+module.exports = { HEADER };

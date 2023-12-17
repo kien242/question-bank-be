@@ -57,4 +57,4 @@ const logInfo = (text) => {
   }
 };
 
-module.exports = {colorize, logError, logSuccess, logWarn, logInfo};
+module.exports = { colorize, logError, logSuccess, logWarn, logInfo };

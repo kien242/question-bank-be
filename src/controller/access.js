@@ -1,6 +1,6 @@
-const {AccessService} = require('#service/access.js');
-const {logInfo} = require('#utils/consoleLog/consoleColors.js');
-const {CREATE, OK} = require('#utils/core/success.res.js');
+const { AccessService } = require('#service/access.js');
+const { logInfo } = require('#utils/consoleLog/consoleColors.js');
+const { CREATE, OK } = require('#utils/core/success.res.js');
 
 const AccessController = {
   signUp: async (req, res) => {
@@ -39,4 +39,4 @@ const AccessController = {
     }).send(res);
   },
 };
-module.exports = {AccessController};
+module.exports = { AccessController };

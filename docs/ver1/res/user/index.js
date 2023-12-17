@@ -53,4 +53,4 @@ const currentUserProfile200 = {
   },
 };
 
-module.exports = {currentUserProfile200};
+module.exports = { currentUserProfile200 };

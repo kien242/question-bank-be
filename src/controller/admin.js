@@ -1,6 +1,6 @@
-const {AdminService} = require('#service/admin.js');
-const {logInfo} = require('#utils/consoleLog/consoleColors.js');
-const {OK} = require('#utils/core/success.res.js');
+const { AdminService } = require('#service/admin.js');
+const { logInfo } = require('#utils/consoleLog/consoleColors.js');
+const { OK } = require('#utils/core/success.res.js');
 
 const AdminController = {
   getUserProfile: async (req, res) => {
@@ -19,4 +19,4 @@ const AdminController = {
   },
 };
 
-module.exports = {AdminController};
+module.exports = { AdminController };

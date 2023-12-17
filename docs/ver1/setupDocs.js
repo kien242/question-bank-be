@@ -1,9 +1,9 @@
 const swaggerJsdoc = require('swagger-jsdoc');
-const {getUserInfo} = require('./tag/admin/admin.js');
-const {securitySchemes} = require('#docs/ver1/schema/security.js');
-const {getCurrentUserInfo, updateCurrentUserInfo} = require('#docs/ver1/tag/user/user.js');
-const {createUserBody, loginUserBody, updateUserBody} = require('#docs/ver1/schema/user.js');
-const {signUp, login, logout, handleRefreshToken} = require('#docs/ver1/tag/access/access.js');
+const { getUserInfo } = require('./tag/admin/admin.js');
+const { securitySchemes } = require('#docs/ver1/schema/security.js');
+const { getCurrentUserInfo, updateCurrentUserInfo } = require('#docs/ver1/tag/user/user.js');
+const { createUserBody, loginUserBody, updateUserBody } = require('#docs/ver1/schema/user.js');
+const { signUp, login, logout, handleRefreshToken } = require('#docs/ver1/tag/access/access.js');
 
 const options = {
   definition: {
@@ -81,4 +81,4 @@ const options = {
 
 const specs = swaggerJsdoc(options);
 
-module.exports = {specs};
+module.exports = { specs };

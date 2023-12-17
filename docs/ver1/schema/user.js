@@ -1,4 +1,4 @@
-const {REQ_CUSTOM_FILED} = require('#config/reqCustom.js');
+const { REQ_CUSTOM_FILED } = require('#config/reqCustom.js');
 
 const createUserBody = {
   type: 'object',
@@ -90,4 +90,4 @@ const updateUserBody = {
     },
   },
 };
-module.exports = {createUserBody, loginUserBody, updateUserBody};
+module.exports = { createUserBody, loginUserBody, updateUserBody };

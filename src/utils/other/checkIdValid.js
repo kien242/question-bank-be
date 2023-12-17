@@ -1,6 +1,6 @@
-const {Types} = require('mongoose');
-const {logError} = require('../consoleLog/consoleColors.js');
-const {ForbiddenError} = require('../core/error.res.js');
+const { Types } = require('mongoose');
+const { logError } = require('../consoleLog/consoleColors.js');
+const { ForbiddenError } = require('../core/error.res.js');
 const checkIdValid = (id) => {
   if (!Types.ObjectId.isValid(id)) {
     logError('UserId is not a valid');
@@ -8,4 +8,4 @@ const checkIdValid = (id) => {
   }
   return true;
 };
-module.exports = {checkIdValid};
+module.exports = { checkIdValid };

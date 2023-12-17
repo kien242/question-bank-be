@@ -3,4 +3,4 @@ const QUERY = {
   TOKEN: 't',
   TYPE_USER: 'type_user',
 };
-module.exports = {QUERY};
+module.exports = { QUERY };

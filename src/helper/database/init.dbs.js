@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const {logSuccess, logError} = require('#utils/consoleLog/consoleColors.js');
+const { logSuccess, logError } = require('#utils/consoleLog/consoleColors.js');
 const connectString = `${process.env.MONGO_ATLAT_URL}/${process.env.DB_NAME}`;
 
 class Database {
@@ -10,11 +10,11 @@ class Database {
   connect(type = 'mongodb') {
     if (process.env.MONGO_CONSOLE === 'true') {
       mongoose.set('debug', true);
-      mongoose.set('debug', {color: true});
+      mongoose.set('debug', { color: true });
     }
 
     mongoose
-        .connect(connectString, {maxPoolSize: 50})
+        .connect(connectString, { maxPoolSize: 50 })
         .then((_) => {
           logSuccess('Connected to MongoDB successfully');
           switch (mongoose.connection.readyState) {

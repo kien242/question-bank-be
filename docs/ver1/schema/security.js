@@ -1,4 +1,4 @@
-const {HEADER} = require('#config/header.js');
+const { HEADER } = require('#config/header.js');
 
 const securitySchemes = {
   userId: {
@@ -19,4 +19,4 @@ const securitySchemes = {
   },
 };
 
-module.exports = {securitySchemes};
+module.exports = { securitySchemes };

@@ -1,8 +1,8 @@
-const {Schema, model} = require('mongoose');
-const {ACTIVE_STATUS} = require('#config/database/activeStatus.js');
-const {COLLECTION_NAME} = require('#config/database/collectionName.js');
-const {ROLE} = require('#config/database/userRole.js');
-const {GENDER_IDENTITY} = require('#config/database/gender.js');
+const { Schema, model } = require('mongoose');
+const { ACTIVE_STATUS } = require('#config/database/activeStatus.js');
+const { COLLECTION_NAME } = require('#config/database/collectionName.js');
+const { ROLE } = require('#config/database/userRole.js');
+const { GENDER_IDENTITY } = require('#config/database/gender.js');
 
 const modelSchema = new Schema(
     {
@@ -71,4 +71,4 @@ const modelSchema = new Schema(
 // Export the model
 const userModel = model(COLLECTION_NAME.USER, modelSchema);
 
-module.exports = {userModel};
+module.exports = { userModel };

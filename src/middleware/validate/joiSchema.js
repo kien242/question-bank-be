@@ -1,5 +1,5 @@
-const {GENDER_IDENTITY} = require('#config/database/gender.js');
-const {ROLE} = require('#config/database/userRole.js');
+const { GENDER_IDENTITY } = require('#config/database/gender.js');
+const { ROLE } = require('#config/database/userRole.js');
 const Joi = require('joi');
 
 const userReqSch = Joi.object({
@@ -12,7 +12,7 @@ const userReqSch = Joi.object({
   email: Joi.string()
       .email({
         minDomainSegments: 2,
-        tlds: {allow: ['com', 'net']},
+        tlds: { allow: ['com', 'net'] },
       })
       .messages({
         'string.email': `Email không đúng định dạng cần có @ và domain (.com hoặc .net)`,
@@ -22,4 +22,4 @@ const userReqSch = Joi.object({
   genderIdentity: Joi.string().valid(...Object.values(GENDER_IDENTITY)),
 });
 
-module.exports = {userReqSch};
+module.exports = { userReqSch };

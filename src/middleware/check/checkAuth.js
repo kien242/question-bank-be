@@ -1,7 +1,7 @@
-const {HEADER} = require('#config/header.js');
-const {authTokenService} = require('#service/authToken.js');
-const {logError} = require('#utils/consoleLog/consoleColors.js');
-const {AuthFailureError, NotFoundError} = require('#utils/core/error.res.js');
+const { HEADER } = require('#config/header.js');
+const { authTokenService } = require('#service/authToken.js');
+const { logError } = require('#utils/consoleLog/consoleColors.js');
+const { AuthFailureError, NotFoundError } = require('#utils/core/error.res.js');
 const JWT = require('jsonwebtoken');
 
 const checkAuth = async (req, res, next) => {
@@ -43,4 +43,4 @@ const checkAuth = async (req, res, next) => {
   }
 };
 
-module.exports = {checkAuth};
+module.exports = { checkAuth };

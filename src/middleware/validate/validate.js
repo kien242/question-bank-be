@@ -1,6 +1,6 @@
-const {REQ_CUSTOM_FILED} = require('#config/reqCustom.js');
-const {logError} = require('#utils/consoleLog/consoleColors.js');
-const {ForbiddenError} = require('#utils/core/error.res.js');
+const { REQ_CUSTOM_FILED } = require('#config/reqCustom.js');
+const { logError } = require('#utils/consoleLog/consoleColors.js');
+const { ForbiddenError } = require('#utils/core/error.res.js');
 
 const validateReq = (schema) => {
   return async (req, res, next) => {
@@ -14,4 +14,4 @@ const validateReq = (schema) => {
   };
 };
 
-module.exports = {validateReq};
+module.exports = { validateReq };

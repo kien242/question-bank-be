@@ -1,31 +1,31 @@
-const {hash, compare} = require('bcrypt');
-const {HEADER} = require('#config/header.js');
-const {QUERY} = require('#config/customQuery.js');
-const {OTHER_CONFIG} = require('#config/other.js');
-const {authTokenService} = require('./authToken.js');
-const {getInfoData, removeInfoData} = require('#utils/other/respData.js');
-const {REQ_CUSTOM_FILED} = require('#config/reqCustom.js');
-const {userModel} = require('#model/access/user/model.js');
-const {createTokenPair} = require('#utils/auth/authUtil.js');
-const {generateSecretKey} = require('#utils/key/secretKey.js');
-const {ACTIVE_STATUS} = require('#config/database/activeStatus.js');
-const {generateActiveLink} = require('#helper/generateActiveLink.js');
-const {logError, logInfo} = require('#utils/consoleLog/consoleColors.js');
-const {activeModel} = require('#model/access/token/activeTokens/model.js');
+const { hash, compare } = require('bcrypt');
+const { HEADER } = require('#config/header.js');
+const { QUERY } = require('#config/customQuery.js');
+const { OTHER_CONFIG } = require('#config/other.js');
+const { authTokenService } = require('./authToken.js');
+const { getInfoData, removeInfoData } = require('#utils/other/respData.js');
+const { REQ_CUSTOM_FILED } = require('#config/reqCustom.js');
+const { userModel } = require('#model/access/user/model.js');
+const { createTokenPair } = require('#utils/auth/authUtil.js');
+const { generateSecretKey } = require('#utils/key/secretKey.js');
+const { ACTIVE_STATUS } = require('#config/database/activeStatus.js');
+const { generateActiveLink } = require('#helper/generateActiveLink.js');
+const { logError, logInfo } = require('#utils/consoleLog/consoleColors.js');
+const { activeModel } = require('#model/access/token/activeTokens/model.js');
 const {
   BadRequestError,
   ForbiddenError,
   AuthFailureError,
   NotFoundError,
 } = require('#utils/core/error.res.js');
-const {UserService} = require('./user.js');
+const { UserService } = require('./user.js');
 const JWT = require('jsonwebtoken');
 
 const AccessService = {
   signUp: async (req) => {
-    const {fullName, email, userName, password, role} = req.body[REQ_CUSTOM_FILED.USER_DATA];
+    const { fullName, email, userName, password, role } = req.body[REQ_CUSTOM_FILED.USER_DATA];
     const existUser = await userModel.findOne({
-      $or: [{email}, {userName}],
+      $or: [{ email }, { userName }],
     });
     if (existUser) {
       logError(`User ${userName} with ${email} already`);
@@ -46,9 +46,9 @@ const AccessService = {
       throw new ForbiddenError('Cant create new user');
     }
 
-    const {publicKey, privateKey} = generateSecretKey();
+    const { publicKey, privateKey } = generateSecretKey();
     const authToken = await createTokenPair(
-        {userName: newUser.userName, role: newUser.role},
+        { userName: newUser.userName, role: newUser.role },
         publicKey,
         privateKey,
     );
@@ -74,10 +74,10 @@ const AccessService = {
     };
   },
   login: async (req) => {
-    const {userName, password, email} = req.body[REQ_CUSTOM_FILED.USER_DATA];
+    const { userName, password, email } = req.body[REQ_CUSTOM_FILED.USER_DATA];
     const foundUser = await userModel
         .findOne({
-          $or: [{email}, {userName}],
+          $or: [{ email }, { userName }],
         })
         .lean();
     if (!foundUser) {
@@ -89,7 +89,7 @@ const AccessService = {
       logError('Password is not correct');
       throw new BadRequestError('User or password is not correct');
     }
-    const {publicKey, privateKey} = generateSecretKey();
+    const { publicKey, privateKey } = generateSecretKey();
     const authToken = await createTokenPair(
         {
           userName: foundUser.userName,
@@ -128,7 +128,7 @@ const AccessService = {
   activeUser: async (req) => {
     const userId = req.query[QUERY.USER_ID];
     const activeToken = req.query[QUERY.TOKEN];
-    const findToken = await activeModel.findOne({userId});
+    const findToken = await activeModel.findOne({ userId });
     if (!findToken) {
       logError('User Id or token is not correct');
       throw new ForbiddenError('User Id or token is not correct');
@@ -138,14 +138,14 @@ const AccessService = {
       throw new ForbiddenError('Active token failed');
     }
     await activeModel.findOneAndUpdate(
-        {userId},
-        {activeToken: '', activeTokenUse: findToken.activeToken},
-        {upsert: true, new: true, setDefaultsOnInsert: true},
+        { userId },
+        { activeToken: '', activeTokenUse: findToken.activeToken },
+        { upsert: true, new: true, setDefaultsOnInsert: true },
     );
     await userModel.findOneAndUpdate(
-        {_id: userId},
-        {status: ACTIVE_STATUS.ACTIVE},
-        {upsert: true, new: true, setDefaultsOnInsert: true},
+        { _id: userId },
+        { status: ACTIVE_STATUS.ACTIVE },
+        { upsert: true, new: true, setDefaultsOnInsert: true },
     );
     return {};
   },
@@ -217,4 +217,4 @@ const AccessService = {
     };
   },
 };
-module.exports = {AccessService};
+module.exports = { AccessService };

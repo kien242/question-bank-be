@@ -6,4 +6,4 @@ const PERMISSIONS = {
   VIA_LINK: 3333, // Bài kiểm tra, câu hỏi có thể truy cập thông qua baaft kỳ người nào có Link bài kiểm tra, câu hỏi đó
 };
 
-module.exports = {PERMISSIONS};
+module.exports = { PERMISSIONS };

@@ -1,10 +1,10 @@
-const {Router} = require('express');
-const {specs} = require('#docs/ver1/setupDocs.js');
-const {serve, setup} = require('swagger-ui-express');
-const {ROLE} = require('#config/database/userRole.js');
-const {asyncHandle} = require('#utils/asyncHandle/index.js');
-const {checkAuth} = require('#middleware/check/checkAuth.js');
-const {checkRole} = require('#middleware/check/checkRole.js');
+const { Router } = require('express');
+const { specs } = require('#docs/ver1/setupDocs.js');
+const { serve, setup } = require('swagger-ui-express');
+const { ROLE } = require('#config/database/userRole.js');
+const { asyncHandle } = require('#utils/asyncHandle/index.js');
+const { checkAuth } = require('#middleware/check/checkAuth.js');
+const { checkRole } = require('#middleware/check/checkRole.js');
 
 // eslint-disable-next-line new-cap
 const ver1 = Router();

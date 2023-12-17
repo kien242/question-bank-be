@@ -1,5 +1,5 @@
-const {Schema, model} = require('mongoose');
-const {COLLECTION_NAME} = require('#config/database/collectionName.js');
+const { Schema, model } = require('mongoose');
+const { COLLECTION_NAME } = require('#config/database/collectionName.js');
 const modelSchema = new Schema(
     {
       userId: {
@@ -17,8 +17,8 @@ const modelSchema = new Schema(
     },
     {
       timestamps: true,
-      collation: {locale: 'en_US', strength: 1},
+      collation: { locale: 'en_US', strength: 1 },
     },
 );
 const activeModel = model(COLLECTION_NAME.ACTIVE_TOKEN, modelSchema);
-module.exports = {activeModel};
+module.exports = { activeModel };

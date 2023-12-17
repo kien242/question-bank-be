@@ -1,5 +1,5 @@
-const {QUERY} = require('#config/customQuery.js');
-const {activeModel} = require('#model/access/token/activeTokens/model.js');
+const { QUERY } = require('#config/customQuery.js');
+const { activeModel } = require('#model/access/token/activeTokens/model.js');
 const crypto = require('crypto');
 
 const generateActiveLink = async (userId) => {
@@ -12,4 +12,4 @@ const generateActiveLink = async (userId) => {
   return activeLink;
 };
 
-module.exports = {generateActiveLink};
+module.exports = { generateActiveLink };

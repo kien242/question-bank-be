@@ -6,4 +6,4 @@ const GENDER_IDENTITY = {
   LESBIAN: 'lesbian',
   GAY: 'gay',
 };
-module.exports = {GENDER_IDENTITY};
+module.exports = { GENDER_IDENTITY };

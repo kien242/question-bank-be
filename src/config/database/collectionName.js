@@ -4,4 +4,4 @@ const COLLECTION_NAME = {
   ACTIVE_TOKEN: 'active_token',
 };
 
-module.exports = {COLLECTION_NAME};
+module.exports = { COLLECTION_NAME };
