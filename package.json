@@ -1,20 +1,36 @@
 {
-  "name": "question-bank-be",
+  "name": "qb-ts",
   "version": "1.0.0",
   "description": "",
-  "main": "server.js",
+  "main": ".build/server.js",
   "scripts": {
-    "production": "node --env-file=.env server.js",
-    "dev": "node --env-file=.env --watch server.js",
-    "dev:warning": "node --trace-warnings --env-file=.env --watch server.js",
-    "format:check": "prettier --check .",
-    "format:write": "prettier --write .",
-    "lint:check": "eslint .",
-    "lint:fix": "eslint --fix ."
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "tsc && node --env-file=.env .build/server.js "
   },
+  "keywords": [],
   "author": "",
-  "license": "MIT",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/bcrypt": "^5.0.2",
+    "@types/compression": "^1.7.5",
+    "@types/express": "^4.17.21",
+    "@types/joi": "^17.2.3",
+    "@types/jsonwebtoken": "^9.0.5",
+    "@types/lodash": "^4.14.202",
+    "@types/mongoose": "^5.11.97",
+    "@types/node": "^20.10.5",
+    "@types/swagger-jsdoc": "^6.0.4",
+    "@types/swagger-ui-express": "^4.1.6",
+    "@typescript-eslint/eslint-plugin": "^6.15.0",
+    "@typescript-eslint/parser": "^6.15.0",
+    "eslint": "^8.56.0",
+    "helmet": "^7.1.0",
+    "morgan": "^1.10.0",
+    "typescript": "^5.3.3",
+    "@types/morgan": "^1.9.9"
+  },
   "dependencies": {
+
     "bcrypt": "^5.1.1",
     "compression": "^1.7.4",
     "express": "^4.18.2",
@@ -22,27 +38,18 @@
     "jsonwebtoken": "^9.0.2",
     "lodash": "^4.17.21",
     "mongoose": "^8.0.2",
-    "password-validator": "^5.3.0",
     "swagger-jsdoc": "^6.2.8",
     "swagger-ui-express": "^5.0.0"
   },
-  "devDependencies": {
-    "eslint": "^8.56.0",
-    "eslint-config-google": "^0.14.0",
-    "eslint-config-prettier": "^9.1.0",
-    "helmet": "^7.1.0",
-    "morgan": "^1.10.0",
-    "prettier": "^3.1.1"
-  },
   "imports": {
-    "#config/*": "./src/config/*",
-    "#controller/*": "./src/controller/*",
+    "#config/*": "./.build/src/config/*",
+    "#controller/*": "./.build/src/controller/*",
     "#helper/*": "./src/helper/*",
-    "#middleware/*": "./src/middleware/*",
-    "#model/*": "./src/model/*",
-    "#router/*": "./src/router/*",
-    "#service/*": "./src/service/*",
-    "#utils/*": "./src/utils/*",
-    "#docs/*": "./docs/*"
+    "#middleware/*": "./.build/src/middleware/*",
+    "#model/*": "./.build/src/model/*",
+    "#router/*": "./.build/src/router/*",
+    "#service/*": "./.build/src/service/*",
+    "#utils/*": "./.build/src/utils/*",
+    "#docs/*": "./.build/docs/*"
   }
 }
