@@ -6,8 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "production": "tsc && node --env-file=.env server.js",
-    "dev": "node --env-file=.env --watch server.js",
-    "dev:warning": "node --trace-warnings --env-file=.env --watch server.js",
+    "build": "tsc --watch ",
+    "build:dev": "node --watch --env-file=.env .build/server.js",
     "format:check": "prettier --check .",
     "format:write": "prettier --write .",
     "lint:check": "eslint .",
@@ -36,7 +36,6 @@
     "@types/morgan": "^1.9.9"
   },
   "dependencies": {
-
     "bcrypt": "^5.1.1",
     "compression": "^1.7.4",
     "express": "^4.18.2",
@@ -46,16 +45,5 @@
     "mongoose": "^8.0.2",
     "swagger-jsdoc": "^6.2.8",
     "swagger-ui-express": "^5.0.0"
-  },
-  "imports": {
-    "#config/*": "./.build/src/config/*",
-    "#controller/*": "./.build/src/controller/*",
-    "#helper/*": "./src/helper/*",
-    "#middleware/*": "./.build/src/middleware/*",
-    "#model/*": "./.build/src/model/*",
-    "#router/*": "./.build/src/router/*",
-    "#service/*": "./.build/src/service/*",
-    "#utils/*": "./.build/src/utils/*",
-    "#docs/*": "./.build/docs/*"
   }
 }
