@@ -42,5 +42,12 @@ const updateUserBodyAdmin = {
     },
   },
 };
-
-export { updateUserBodyAdmin };
+const deleteUserArray = {
+  type: 'object',
+  properties: {
+    [REQ_CUSTOM_FILED.USER_DATA]: {
+      example: ['605636683f6e29c81c8b2db0', '65815a3c6e24213f767bbf59', '6581598df79061ae8f570787'],
+    },
+  },
+};
+export { updateUserBodyAdmin, deleteUserArray };

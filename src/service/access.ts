@@ -145,12 +145,12 @@ const AccessService = {
     await activeModel.findOneAndUpdate(
       { userId },
       { activeToken: '', activeTokenUse: findToken.activeToken },
-      { upsert: true, new: true, setDefauljsonInsert: true }
+      { upsert: true, new: true, setDefaultsOnInsert: true }
     );
     await userModel.findOneAndUpdate(
       { _id: userId },
       { status: ACTIVE_STATUS.ACTIVE },
-      { upsert: true, new: true, setDefauljsonInsert: true }
+      { upsert: true, new: true, setDefaultsOnInsert: true }
     );
     return {};
   },

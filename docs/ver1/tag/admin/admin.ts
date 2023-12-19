@@ -1,6 +1,6 @@
 import { QUERY } from '../../../../src/config/customQuery';
 import { currentUserProfile200 } from '../../res/user';
-import { updateUserBodyAdmin } from '../../schema/admin.user';
+import { deleteUserArray, updateUserBodyAdmin } from '../../schema/admin.user';
 
 const getUserInfo = {
   tags: ['Admin'],
@@ -57,5 +57,28 @@ const updateUserInfo = {
     200: currentUserProfile200,
   },
 };
-
-export { getUserInfo, updateUserInfo };
+const deleteUserInfo = {
+  tags: ['Admin'],
+  summary: 'Delete user profile',
+  description: 'Delete user profile',
+  operationId: 'DeleteUserProfile',
+  security: [
+    {
+      userId: [],
+    },
+    {
+      access_token: [],
+    },
+  ],
+  requestBody: {
+    content: {
+      'application/json': {
+        schema: deleteUserArray,
+      },
+    },
+  },
+  responses: {
+    200: currentUserProfile200,
+  },
+};
+export { getUserInfo, updateUserInfo, deleteUserInfo };

@@ -1,5 +1,5 @@
 import swaggerJsdoc from 'swagger-jsdoc';
-import { getUserInfo, updateUserInfo } from '../ver1/tag/admin/admin';
+import { deleteUserInfo, getUserInfo, updateUserInfo } from '../ver1/tag/admin/admin';
 // import { securitySchemes } from 'docs/ver1/schema/security';
 import { securitySchemes } from './schema/security';
 import { getCurrentUserInfo, updateCurrentUserInfo } from './tag/user/user';
@@ -67,6 +67,7 @@ const options = {
       '/admin/user': {
         get: getUserInfo,
         put: updateUserInfo,
+        delete: deleteUserInfo,
       },
     },
     components: {
