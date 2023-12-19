@@ -2,9 +2,11 @@ import { ReasonPhrases } from './code/reasonPhrases';
 import { StatusCodes } from './code/statusCodes';
 
 class errorResponse extends Error {
-  constructor(message, status) {
+  message: string;
+  statusCode: number;
+  constructor(message: string, status: number) {
     super(message);
-    this.status = status;
+    this.statusCode = status;
   }
 }
 
@@ -13,15 +15,6 @@ class ConflictError extends errorResponse {
     super(message, statusCode);
   }
 }
-
-// class BadRequestError extends errorResponse {
-//   constructor(
-//     message = ReasonPhrases.BAD_REQUEST,
-//     statusCode = StatusCodes.BAD_REQUEST
-//   ) {
-//     super(message, statusCode);
-//   }
-// }
 
 class BadRequestError extends errorResponse {
   constructor(message = ReasonPhrases.BAD_REQUEST, statusCode = StatusCodes.BAD_REQUEST) {

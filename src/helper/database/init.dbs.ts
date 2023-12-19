@@ -14,7 +14,7 @@ class Database {
 
     mongoose
       .connect(connectString, { maxPoolSize: 50 })
-      .then((_) => {
+      .then(() => {
         console.log('Connected to MongoDB successfully');
         switch (mongoose.connection.readyState) {
           case 0:

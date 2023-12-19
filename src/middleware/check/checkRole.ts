@@ -1,11 +1,12 @@
+import { NextFunction } from 'express';
 import { HEADER } from '../../../src/config/header';
 import { UserService } from '../../../src/service/user';
 import { logWarn } from '../../../src/utils/consoleLog/consoleColors';
 import { ForbiddenError } from '../../../src/utils/core/error.res';
 
 // Dùng để check role, pass với duy nhất role truyền vào
-const checkAbsoluteRole = (role) => {
-  return async (req, res, next) => {
+const checkAbsoluteRole = (role: number) => {
+  return async (req: Request, res: Response, next: NextFunction) => {
     const userId = req.headers[HEADER.USER_ID];
     const foundUser = await UserService.findUserById(userId);
     if (foundUser.role !== role) {
@@ -17,8 +18,8 @@ const checkAbsoluteRole = (role) => {
 };
 
 // Dùng để check role, pass với tất cả các role có độ ưu tiên lớn hơn role truyền vào
-const checkRelativeRole = (role) => {
-  return async (req, res, next) => {
+const checkRelativeRole = (role: number) => {
+  return async (req: Request, res: Response, next: NextFunction) => {
     const userId = req.headers[HEADER.USER_ID];
     const foundUser = await UserService.findUserById(userId);
     if (foundUser.role > role) {
@@ -30,8 +31,8 @@ const checkRelativeRole = (role) => {
 };
 
 const checkRole =
-  (...role) =>
-  async (req, res, next) => {
+  (...role: number[]) =>
+  async (req: Request, res: Response, next: NextFunction) => {
     const userId = req.headers[HEADER.USER_ID];
     const foundUser = await UserService.findUserById(userId);
     if (foundUser && !role.includes(foundUser.role)) {

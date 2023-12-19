@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { ReasonPhrases } from './code/reasonPhrases';
 import { StatusCodes } from './code/statusCodes';
 
@@ -14,6 +15,7 @@ class SuccessResponse {
   message: string;
   htmlStatus: number;
   metadata: Record<string, any>;
+  reasonStatusCode: string;
 
   constructor({
     status = 'success',
@@ -28,7 +30,7 @@ class SuccessResponse {
     this.metadata = metadata;
   }
 
-  send(res: Response, headers: Record<string, any> = {}) {
+  send(res) {
     return res.status(this.htmlStatus).json({
       status: this.status,
       statusCode: this.htmlStatus,

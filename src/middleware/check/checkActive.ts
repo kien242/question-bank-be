@@ -1,10 +1,11 @@
+import { NextFunction } from 'express';
 import { ACTIVE_STATUS } from '../../../src/config/database/activeStatus';
 import { HEADER } from '../../../src/config/header';
 import { userModel } from '../../../src/model/access/user/model';
 import { logInfo } from '../../../src/utils/consoleLog/consoleColors';
 import { ForbiddenError } from '../../../src/utils/core/error.res';
 
-const checkActive = async (req, res, next) => {
+const checkActive = async (req: Request, res: Response, next: NextFunction) => {
   const userId = req.headers[HEADER.USER_ID];
   const foundUser = await userModel.findOne({ _id: userId });
   switch (foundUser.status) {

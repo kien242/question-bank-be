@@ -21,8 +21,12 @@ import {
 import { UserService } from './user';
 import JWT from 'jsonwebtoken';
 
+export interface IGetUserAuthInfoRequest extends Request {
+  query: string; // or any other type
+}
+
 const AccessService = {
-  signUp: async (req) => {
+  signUp: async (req: Request) => {
     const { fullName, email, userName, password, role } = req.body[REQ_CUSTOM_FILED.USER_DATA];
     const existUser = await userModel.findOne({
       $or: [{ email }, { userName }],
@@ -73,7 +77,7 @@ const AccessService = {
       activeLink,
     };
   },
-  login: async (req) => {
+  login: async (req: Request) => {
     const { userName, password, email } = req.body[REQ_CUSTOM_FILED.USER_DATA];
     const foundUser = await userModel
       .findOne({
@@ -116,7 +120,7 @@ const AccessService = {
       authToken,
     };
   },
-  logout: async (req) => {
+  logout: async (req: Request) => {
     const userId = req.headers[HEADER.USER_ID];
     const deleteToken = await authTokenService.removeKeyByUserId(userId);
     if (!deleteToken) {
@@ -125,7 +129,7 @@ const AccessService = {
     }
     return {};
   },
-  activeUser: async (req) => {
+  activeUser: async (req: IGetUserAuthInfoRequest) => {
     const userId = req.query[QUERY.USER_ID];
     const activeToken = req.query[QUERY.TOKEN];
     const findToken = await activeModel.findOne({ userId });
@@ -149,7 +153,7 @@ const AccessService = {
     );
     return {};
   },
-  handleRefreshToken: async (req) => {
+  handleRefreshToken: async (req: Request) => {
     const oldRefreshToken = req.headers[HEADER.REFRESH_TOKEN];
     const userId = req.headers[HEADER.USER_ID];
 

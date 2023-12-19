@@ -18,12 +18,13 @@ app.use('/api/', router);
 
 // handling errors
 app.use((req: Request, res: Response, next: NextFunction) => {
-  const error = new Error('Not Found') as any;
+  const error = new Error('Not Found');
   error.status = 404;
   next(error);
 }); // Middleware handler error
 
 app.use((error: ErrorRequestHandler, req: Request, res: Response) => {
+  console.log(error);
   const statusCode = error.status || 500;
   console.log(error.stack);
   return res.status(statusCode).json({

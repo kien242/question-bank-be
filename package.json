@@ -5,7 +5,13 @@
   "main": ".build/server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "tsc && node --env-file=.env .build/server.js "
+    "production": "tsc && node --env-file=.env server.js",
+    "dev": "node --env-file=.env --watch server.js",
+    "dev:warning": "node --trace-warnings --env-file=.env --watch server.js",
+    "format:check": "prettier --check .",
+    "format:write": "prettier --write .",
+    "lint:check": "eslint .",
+    "lint:fix": "eslint --fix ."
   },
   "keywords": [],
   "author": "",
