@@ -1,6 +1,6 @@
 {
     "env": {
-        "browser": true,
+        "browser": false,
         "commonjs": true,
         "es2021": true
     },
@@ -11,6 +11,8 @@
     "rules": {
         "max-len": "off",
         "require-jsdoc": "off",
-        "object-curly-spacing": ["error", "always"]
+        "object-curly-spacing": ["error", "always"],
+        "new-cap": ["error", {"capIsNewExceptions": ["Router"]}],
+        "space-before-function-paren":"off"
     }
 }

@@ -30,11 +30,9 @@ const UserService = {
       filed: ['email', 'userName', 'password', 'googleId', 'facebookId', 'role', 'status'],
       source: req.body[REQ_CUSTOM_FILED.USER_DATA],
     });
-    const update = _.pickBy(rawData, function(value) {
+    const update = _.pickBy(rawData, function (value) {
       return value !== null && value !== undefined && value !== '';
     });
-    console.log(rawData);
-    console.log(update);
     const options = { upsert: true, new: true, setDefaultsOnInsert: true };
     const updateUser = await userModel.findOneAndUpdate({ _id: userId }, update, options).lean();
     return {

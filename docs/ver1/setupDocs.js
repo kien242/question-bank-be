@@ -1,5 +1,5 @@
 const swaggerJsdoc = require('swagger-jsdoc');
-const { getUserInfo } = require('./tag/admin/admin.js');
+const { getUserInfo, updateUserInfo } = require('./tag/admin/admin.js');
 const { securitySchemes } = require('#docs/ver1/schema/security.js');
 const { getCurrentUserInfo, updateCurrentUserInfo } = require('#docs/ver1/tag/user/user.js');
 const { createUserBody, loginUserBody, updateUserBody } = require('#docs/ver1/schema/user.js');
@@ -65,6 +65,7 @@ const options = {
       },
       '/admin/user': {
         get: getUserInfo,
+        put: updateUserInfo,
       },
     },
     components: {

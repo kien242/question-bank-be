@@ -5,7 +5,6 @@ const { validateReq } = require('#middleware/validate/validate.js');
 const { asyncHandle } = require('#utils/asyncHandle/index.js');
 const { Router } = require('express');
 
-// eslint-disable-next-line new-cap
 const accessRouter = Router();
 
 accessRouter.post(

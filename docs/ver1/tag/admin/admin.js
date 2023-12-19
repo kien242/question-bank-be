@@ -1,6 +1,6 @@
 const { QUERY } = require('#config/customQuery.js');
 const { currentUserProfile200 } = require('#docs/ver1/res/user/index.js');
-const { updateUserBody } = require('#docs/ver1/schema/user.js');
+const { updateUserBodyAdmin } = require('#docs/ver1/schema/admin.user.js');
 
 const getUserInfo = {
   tags: ['Admin'],
@@ -33,11 +33,11 @@ const getUserInfo = {
     200: currentUserProfile200,
   },
 };
-const updateCurrentUserInfo = {
+const updateUserInfo = {
   tags: ['Admin'],
-  summary: 'Update current user profile',
-  description: 'Update current user profile',
-  operationId: 'UpdateCurrentUserProfile',
+  summary: 'Update user profile',
+  description: 'Update user profile',
+  operationId: 'UpdateUserProfile',
   security: [
     {
       userId: [],
@@ -49,7 +49,7 @@ const updateCurrentUserInfo = {
   requestBody: {
     content: {
       'application/json': {
-        schema: updateUserBody,
+        schema: updateUserBodyAdmin,
       },
     },
   },
@@ -60,5 +60,5 @@ const updateCurrentUserInfo = {
 
 module.exports = {
   getUserInfo,
-  updateCurrentUserInfo,
+  updateUserInfo,
 };
