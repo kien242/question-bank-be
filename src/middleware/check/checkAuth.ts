@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { HEADER } from '../../../src/config/header';
 import { authTokenService } from '../../../src/service/authToken';
 import { logError } from '../../../src/utils/consoleLog/consoleColors';
@@ -37,7 +38,6 @@ const checkAuth = async (req: Request, res: Response, next: NextFunction) => {
           throw new AuthFailureError(err.message);
       }
     }
-    console.log(decode);
   });
   return next();
 };

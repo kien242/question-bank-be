@@ -16,7 +16,6 @@ const createTokenPairSync = async (payload, publicKey, privateKey) => {
     if (err) {
       logError('error verifying access token');
     }
-    console.log(decode);
   });
   return { accessToken, refreshToken };
 };
@@ -34,7 +33,6 @@ const createTokenPair = async (payload, publicKey, privateKey) => {
     if (err) {
       logError('error verifying access token');
     }
-    console.log(decode);
   });
   return { accessToken, refreshToken };
 };

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { hash, compare } from 'bcrypt';
 import { HEADER } from '../config/header';
 import { QUERY } from '../config/customQuery';
@@ -176,7 +177,6 @@ const AccessService = {
             throw new AuthFailureError(err.message);
         }
       }
-      console.log(decode);
     });
     if (keyStore.refreshTokensUsed.includes(oldRefreshToken)) {
       await authTokenService.deleteKeyById(userId);

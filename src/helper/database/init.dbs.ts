@@ -2,6 +2,7 @@ import mongoose from 'mongoose';
 const connectString = `${process.env.MONGO_ATLAS_URL}/${process.env.DB_NAME}`;
 
 class Database {
+  private static instance: Database | undefined = undefined;
   constructor() {
     this.connect();
   }

@@ -1,9 +1,10 @@
 import helmet from 'helmet';
 import morgan from 'morgan';
-import express, { Request, Response, NextFunction, ErrorRequestHandler } from 'express';
+import express from 'express';
 import compression from 'compression';
 import './helper/database/init.dbs';
 import router from './router/router';
+import { NotFoundError } from './utils/core/error.res';
 
 const app = express();
 
@@ -17,21 +18,19 @@ app.use(express.urlencoded({ extended: true }));
 app.use('/api/', router);
 
 // handling errors
-app.use((req: Request, res: Response, next: NextFunction) => {
-  const error = new Error('Not Found');
-  error.status = 404;
+app.use((req, res, next) => {
+  const error = new NotFoundError('Not Found API endpoint');
   next(error);
 }); // Middleware handler error
 
-app.use((error: ErrorRequestHandler, req: Request, res: Response) => {
-  console.log(error);
-  const statusCode = error.status || 500;
-  console.log(error.stack);
+app.use((error, req, res, next) => {
+  const statusCode = error.statusCode || 499;
+  console.log(error.message);
   return res.status(statusCode).json({
     status: 'error',
     code: statusCode,
     message: error.message || 'Internal Server Error',
   });
+  next();
 });
-
 export { app };
