@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+import { logError, logSuccess } from '../../utils/consoleLog/consoleColors';
 const connectString = `${process.env.MONGO_ATLAS_URL}/${process.env.DB_NAME}`;
 
 class Database {
@@ -15,24 +16,24 @@ class Database {
 
     mongoose
       .connect(connectString, { maxPoolSize: 50 })
-      .then(() => {
-        console.log('Connected to MongoDB successfully');
+      .then((_) => {
+        logSuccess('Connected to MongoDB successfully');
         switch (mongoose.connection.readyState) {
           case 0:
-            console.log('MongoDb is disconnected');
+            logError('MongoDb is disconnected');
             break;
           case 1:
-            console.log('MongoDb is connected');
+            logSuccess('MongoDb is connected');
             break;
           case 2:
-            console.log('MongoDb is connecting');
+            logSuccess('MongoDb is connecting');
             break;
           case 3:
-            console.log('MongoDb is disconnecting');
+            logError('MongoDb is disconnecting');
             break;
         }
       })
-      .catch(() => console.log('Error Connect!'));
+      .catch(() => logError('Error Connect!'));
   }
 
   static getInstance() {
