@@ -1,7 +1,7 @@
 import { Schema, model } from 'mongoose';
+import { ROLE } from '../../../config/database/userRole';
 import { GENDER_IDENTITY } from '../../../config/database/gender';
 import { ACTIVE_STATUS } from '../../../config/database/activeStatus';
-import { ROLE } from '../../../config/database/userRole';
 import { COLLECTION_NAME } from '../../../config/database/collectionName';
 
 const modelSchema = new Schema(
