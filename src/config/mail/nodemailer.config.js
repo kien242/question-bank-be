@@ -6,16 +6,6 @@ const setting = {
   },
 };
 
-const settingV2 = (service, user, password) => {
-  return {
-    service,
-    auth: {
-      user,
-      password,
-    },
-  };
-};
-
 const mailOptions = (fromEmail, toEmail, subject, text) => {
   return {
     from: fromEmail,
@@ -25,4 +15,4 @@ const mailOptions = (fromEmail, toEmail, subject, text) => {
   };
 };
 
-module.exports = { setting, mailOptions, settingV2 };
+module.exports = { setting, mailOptions };
