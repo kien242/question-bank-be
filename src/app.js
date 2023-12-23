@@ -15,7 +15,15 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use('/api/', require('#router/router.js'));
 
-// handling errors
+// const { questionModel } = require('#model/question/model.js');
+// questionModel.create({
+//   questionContent: {
+//     questionType: 3333,
+//     difficult: 'Nhận biết',
+//     contentQuestions: 'asdfjhkjhsdfkjhs',
+//   },
+// });
+
 app.use((req, res, next) => {
   const error = new Error('Not Found');
   error.status = 404;
