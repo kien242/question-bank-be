@@ -17,9 +17,12 @@ const {
   ForbiddenError,
   AuthFailureError,
   NotFoundError,
+  INTERNAL_SERVER_ERROR,
 } = require('#utils/core/error.res.js');
 const { UserService } = require('./user.js');
 const JWT = require('jsonwebtoken');
+const { createTransport } = require('nodemailer');
+const { setting, mailOptions } = require('#config/mail/nodemailer.config.js');
 
 const AccessService = {
   signUp: async (req) => {
@@ -48,9 +51,9 @@ const AccessService = {
 
     const { publicKey, privateKey } = generateSecretKey();
     const authToken = await createTokenPair(
-        { userName: newUser.userName, role: newUser.role },
-        publicKey,
-        privateKey,
+      { userName: newUser.userName, role: newUser.role },
+      publicKey,
+      privateKey,
     );
     const saveToken = await authTokenService.createKeyToken({
       userId: newUser._id,
@@ -63,12 +66,29 @@ const AccessService = {
       logError('Can not save token to database');
       throw new ForbiddenError('Can not save token to database');
     }
-    const data = newUser;
+
+    const userData = removeInfoData({
+      filed: ['password', 'googleId', 'facebookId'],
+      source: newUser,
+    });
+
+    // Send activeLink to email provider
+    const transporter = createTransport(setting);
+    const mailOption = mailOptions(
+      'kien242tran@gmail.com',
+      'toEmail@gmail.com',
+      'Active Link ',
+      activeLink,
+    );
+    console.log(mailOption);
+    transporter.sendMail(mailOption, (err, info) => {
+      if (err) {
+        throw new INTERNAL_SERVER_ERROR();
+      }
+    });
+
     return {
-      userData: removeInfoData({
-        filed: ['password', 'googleId', 'facebookId'],
-        source: data,
-      }),
+      userData,
       authToken,
       activeLink,
     };
@@ -76,10 +96,10 @@ const AccessService = {
   login: async (req) => {
     const { userName, password, email } = req.body[REQ_CUSTOM_FILED.USER_DATA];
     const foundUser = await userModel
-        .findOne({
-          $or: [{ email }, { userName }],
-        })
-        .lean();
+      .findOne({
+        $or: [{ email }, { userName }],
+      })
+      .lean();
     if (!foundUser) {
       logError('User is not exits');
       throw new BadRequestError('User is not registered');
@@ -91,12 +111,12 @@ const AccessService = {
     }
     const { publicKey, privateKey } = generateSecretKey();
     const authToken = await createTokenPair(
-        {
-          userName: foundUser.userName,
-          role: foundUser.role,
-        },
-        publicKey,
-        privateKey,
+      {
+        userName: foundUser.userName,
+        role: foundUser.role,
+      },
+      publicKey,
+      privateKey,
     );
     const saveToken = await authTokenService.createKeyToken({
       userId: foundUser._id,
@@ -138,14 +158,14 @@ const AccessService = {
       throw new ForbiddenError('Active token failed');
     }
     await activeModel.findOneAndUpdate(
-        { userId },
-        { activeToken: '', activeTokenUse: findToken.activeToken },
-        { upsert: true, new: true, setDefaultsOnInsert: true },
+      { userId },
+      { activeToken: '', activeTokenUse: findToken.activeToken },
+      { upsert: true, new: true, setDefaultsOnInsert: true },
     );
     await userModel.findOneAndUpdate(
-        { _id: userId },
-        { status: ACTIVE_STATUS.ACTIVE },
-        { upsert: true, new: true, setDefaultsOnInsert: true },
+      { _id: userId },
+      { status: ACTIVE_STATUS.ACTIVE },
+      { upsert: true, new: true, setDefaultsOnInsert: true },
     );
     return {};
   },
@@ -158,7 +178,7 @@ const AccessService = {
       logError('Not found ID in Keys Token Model');
       throw new NotFoundError('Not found KeyStore');
     }
-    JWT.verify(oldRefreshToken, keyStore.privateKey, function(err, decode) {
+    JWT.verify(oldRefreshToken, keyStore.privateKey, function (err, decode) {
       if (err) {
         switch (err.name) {
           case 'TokenExpiredError':
@@ -191,12 +211,12 @@ const AccessService = {
     }
 
     const authToken = await createTokenPair(
-        {
-          userName: foundUser.userName,
-          role: foundUser.role,
-        },
-        keyStore.publicKey,
-        keyStore.privateKey,
+      {
+        userName: foundUser.userName,
+        role: foundUser.role,
+      },
+      keyStore.publicKey,
+      keyStore.privateKey,
     );
 
     await keyStore.updateOne({

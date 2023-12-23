@@ -48,8 +48,17 @@ class NotFoundError extends errorResponse {
 }
 class FailedDependency extends errorResponse {
   constructor(
-      message = ReasonPhrases.FAILED_DEPENDENCY,
-      statusCode = StatusCodes.FAILED_DEPENDENCY,
+    message = ReasonPhrases.FAILED_DEPENDENCY,
+    statusCode = StatusCodes.FAILED_DEPENDENCY,
+  ) {
+    super(message, statusCode);
+  }
+}
+
+class INTERNAL_SERVER_ERROR extends errorResponse {
+  constructor(
+    message = ReasonPhrases.INTERNAL_SERVER_ERROR,
+    statusCode = StatusCodes.INTERNAL_SERVER_ERROR,
   ) {
     super(message, statusCode);
   }
@@ -62,4 +71,5 @@ module.exports = {
   ForbiddenError,
   NotFoundError,
   FailedDependency,
+  INTERNAL_SERVER_ERROR,
 };
