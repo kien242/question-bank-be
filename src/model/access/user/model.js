@@ -35,7 +35,7 @@ const modelSchema = new Schema(
       },
       genderIdentity: {
         type: String,
-        enum: [GENDER_IDENTITY],
+        enum: GENDER_IDENTITY,
         default: GENDER_IDENTITY.OTHER,
       },
       organization: {
@@ -46,12 +46,12 @@ const modelSchema = new Schema(
       },
       status: {
         type: Number,
-        enum: [ACTIVE_STATUS],
+        enum: ACTIVE_STATUS,
         default: ACTIVE_STATUS.INACTIVE,
       },
       role: {
         type: Number,
-        enum: [ROLE],
+        enum: ROLE,
         default: ROLE.STUDENT,
       },
       googleId: {
