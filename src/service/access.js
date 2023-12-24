@@ -17,9 +17,13 @@ const {
   ForbiddenError,
   AuthFailureError,
   NotFoundError,
+  INTERNAL_SERVER_ERROR,
 } = require('../utils/core/error.res.js');
+
 const { UserService } = require('./user.js');
 const JWT = require('jsonwebtoken');
+const { createTransport } = require('nodemailer');
+const { setting, mailOptions } = require('#config/mail/nodemailer.config.js');
 
 const AccessService = {
   signUp: async (req) => {
@@ -63,12 +67,24 @@ const AccessService = {
       logError('Can not save token to database');
       throw new ForbiddenError('Can not save token to database');
     }
-    const data = newUser;
+
+    const userData = removeInfoData({
+      filed: ['password', 'googleId', 'facebookId'],
+      source: newUser,
+    });
+
+    // Send activeLink to email provider
+    const transporter = createTransport(setting);
+    const mailOption = mailOptions(email, activeLink);
+    console.log(mailOption);
+    transporter.sendMail(mailOption, (err, info) => {
+      if (err) {
+        throw new INTERNAL_SERVER_ERROR();
+      }
+    });
+
     return {
-      userData: removeInfoData({
-        filed: ['password', 'googleId', 'facebookId'],
-        source: data,
-      }),
+      userData,
       authToken,
       activeLink,
     };

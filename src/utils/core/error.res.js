@@ -54,6 +54,15 @@ class FailedDependency extends errorResponse {
     super(message, statusCode);
   }
 }
+
+class INTERNAL_SERVER_ERROR extends errorResponse {
+  constructor(
+      message = ReasonPhrases.INTERNAL_SERVER_ERROR,
+      statusCode = StatusCodes.INTERNAL_SERVER_ERROR,
+  ) {
+    super(message, statusCode);
+  }
+}
 module.exports = {
   errorResponse,
   ConflictError,
@@ -62,4 +71,5 @@ module.exports = {
   ForbiddenError,
   NotFoundError,
   FailedDependency,
+  INTERNAL_SERVER_ERROR,
 };

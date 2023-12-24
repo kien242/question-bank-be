@@ -21,4 +21,6 @@ accessRouter.get('/handle-refresh-token', asyncHandle(AccessController.handleRef
 accessRouter.delete('/logout', asyncHandle(checkAuth), asyncHandle(AccessController.logout));
 
 accessRouter.get('/active', asyncHandle(AccessController.activeUser));
+// accessRouter.get('/new-password', asyncHandle(AccessController.newPassword)); // Quen mat khau
+
 module.exports = accessRouter;
