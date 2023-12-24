@@ -14,8 +14,8 @@ ver1.use('/access', require('../../router/ver1/access/router.js'));
 ver1.use(asyncHandle(checkAuth));
 ver1.use('/user', require('../../router/ver1/user/router.js'));
 ver1.use(
-  '/admin',
-  asyncHandle(checkRole(ROLE.ADMIN)),
-  require('../../router/ver1/admin/router.js'),
+    '/admin',
+    asyncHandle(checkRole(ROLE.ADMIN)),
+    require('../../router/ver1/admin/router.js'),
 );
 module.exports = ver1;
