@@ -74,12 +74,7 @@ const AccessService = {
 
     // Send activeLink to email provider
     const transporter = createTransport(setting);
-    const mailOption = mailOptions(
-      'kien242tran@gmail.com',
-      'toEmail@gmail.com',
-      'Active Link ',
-      activeLink,
-    );
+    const mailOption = mailOptions(email, activeLink);
     console.log(mailOption);
     transporter.sendMail(mailOption, (err, info) => {
       if (err) {

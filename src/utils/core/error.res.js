@@ -48,8 +48,8 @@ class NotFoundError extends errorResponse {
 }
 class FailedDependency extends errorResponse {
   constructor(
-    message = ReasonPhrases.FAILED_DEPENDENCY,
-    statusCode = StatusCodes.FAILED_DEPENDENCY,
+      message = ReasonPhrases.FAILED_DEPENDENCY,
+      statusCode = StatusCodes.FAILED_DEPENDENCY,
   ) {
     super(message, statusCode);
   }
@@ -57,8 +57,8 @@ class FailedDependency extends errorResponse {
 
 class INTERNAL_SERVER_ERROR extends errorResponse {
   constructor(
-    message = ReasonPhrases.INTERNAL_SERVER_ERROR,
-    statusCode = StatusCodes.INTERNAL_SERVER_ERROR,
+      message = ReasonPhrases.INTERNAL_SERVER_ERROR,
+      statusCode = StatusCodes.INTERNAL_SERVER_ERROR,
   ) {
     super(message, statusCode);
   }
