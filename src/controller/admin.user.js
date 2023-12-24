@@ -1,6 +1,6 @@
-const { AdminServiceUser } = require('#service/admin.user.js');
-const { logInfo } = require('#utils/consoleLog/consoleColors.js');
-const { OK } = require('#utils/core/success.res.js');
+const { AdminServiceUser } = require('../service/admin.user.js');
+const { logInfo } = require('../utils/consoleLog/consoleColors.js');
+const { OK } = require('../utils/core/success.res.js');
 
 const AdminController = {
   getUserProfile: async (req, res) => {

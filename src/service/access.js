@@ -1,24 +1,25 @@
 const { hash, compare } = require('bcrypt');
-const { HEADER } = require('#config/header.js');
-const { QUERY } = require('#config/customQuery.js');
-const { OTHER_CONFIG } = require('#config/other.js');
+const { HEADER } = require('../../src/config/header.js');
+const { QUERY } = require('../../src/config/customQuery.js');
+const { OTHER_CONFIG } = require('../../src/config/other.js');
 const { authTokenService } = require('./authToken.js');
-const { getInfoData, removeInfoData } = require('#utils/other/respData.js');
-const { REQ_CUSTOM_FILED } = require('#config/reqCustom.js');
-const { userModel } = require('#model/access/user/model.js');
-const { createTokenPair } = require('#utils/auth/authUtil.js');
-const { generateSecretKey } = require('#utils/key/secretKey.js');
-const { ACTIVE_STATUS } = require('#config/database/activeStatus.js');
-const { generateActiveLink } = require('#helper/generateActiveLink.js');
-const { logError, logInfo } = require('#utils/consoleLog/consoleColors.js');
-const { activeModel } = require('#model/access/token/activeTokens/model.js');
+const { getInfoData, removeInfoData } = require('../utils/other/respData.js');
+const { REQ_CUSTOM_FILED } = require('../../src/config/reqCustom.js');
+const { userModel } = require('../model/access/user/model.js');
+const { createTokenPair } = require('../utils/auth/authUtil.js');
+const { generateSecretKey } = require('../utils/key/secretKey.js');
+const { ACTIVE_STATUS } = require('../config/database/activeStatus.js');
+const { generateActiveLink } = require('../helper/generateActiveLink.js');
+const { logError, logInfo } = require('../utils/consoleLog/consoleColors.js');
+const { activeModel } = require('../model/access/token/activeTokens/model.js');
 const {
   BadRequestError,
   ForbiddenError,
   AuthFailureError,
   NotFoundError,
   INTERNAL_SERVER_ERROR,
-} = require('#utils/core/error.res.js');
+} = require('../utils/core/error.res.js');
+
 const { UserService } = require('./user.js');
 const JWT = require('jsonwebtoken');
 const { createTransport } = require('nodemailer');

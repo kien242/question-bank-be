@@ -1,6 +1,6 @@
-const { COLLECTION_NAME } = require('#config/database/collectionName.js');
-const { ACCESS_AUTHORIZATION } = require('#config/database/permission.js');
-const { QUESTION_TYPE } = require('#config/database/questionType.js');
+const { COLLECTION_NAME } = require('../../config/database/collectionName.js');
+const { ACCESS_AUTHORIZATION } = require('../../config/database/permission.js');
+const { QUESTION_TYPE } = require('../../config/database/questionType.js');
 const { Schema, Types, model } = require('mongoose');
 
 const questionTypeSchema = new Schema(
