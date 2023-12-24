@@ -1,4 +1,4 @@
-const { REQ_CUSTOM_FILED } = require('#config/reqCustom.js');
+const { REQ_CUSTOM_FILED } = require('../../../src/config/reqCustom.js');
 
 const createUserBody = {
   type: 'object',

@@ -1,5 +1,5 @@
-const { currentUserProfile200 } = require('#docs/ver1/res/user/index.js');
-const { updateUserBody } = require('#docs/ver1/schema/user.js');
+const { currentUserProfile200 } = require('../../res/user/index.js');
+const { updateUserBody } = require('../../schema/user.js');
 
 const getCurrentUserInfo = {
   tags: ['User'],

@@ -1,16 +1,16 @@
-{
-  "compilerOptions": {
-    "baseUrl": ".",
-    "paths": {
-      "#model/*": ["./src/model/*"],
-      "#config/*": ["./src/config/*"],
-      "#controller/*": ["./src/controller/*"],
-      "#middleware/*": ["./src/middleware/*"],
-      "#router/*": ["./src/router/*"],
-      "#utils/*": ["./src/utils/*"],
-      "#service/*": ["./src/service/*"],
-      "#helper/*": ["./src/helper/*"],
-      "#docs/*": ["./docs/*"]
-    }
-  }
-}
+// {
+//   "compilerOptions": {
+//     "baseUrl": ".",
+//     "paths": {
+//       "#model/*": ["./src/model/*"],
+//       "#config/*": ["./src/config/*"],
+//       "#controller/*": ["./src/controller/*"],
+//       "#middleware/*": ["./src/middleware/*"],
+//       "#router/*": ["./src/router/*"],
+//       "#utils/*": ["./src/utils/*"],
+//       "#service/*": ["./src/service/*"],
+//       "#helper/*": ["./src/helper/*"],
+//       "#docs/*": ["./docs/*"]
+//     }
+//   }
+// }

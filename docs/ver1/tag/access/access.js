@@ -5,8 +5,8 @@ const {
   loginRes400,
   logoutRes200,
   handleRefreshToken200,
-} = require('#docs/ver1/res/access/index.js');
-const { createUserBody, loginUserBody } = require('#docs/ver1/schema/user.js');
+} = require('../../res/access/index.js');
+const { createUserBody, loginUserBody } = require('../../schema/user.js');
 
 const signUp = {
   tags: ['Access'],

@@ -1,13 +1,13 @@
 const _ = require('lodash');
-const { QUERY } = require('#config/customQuery.js');
-const { ROLE } = require('#config/database/userRole.js');
-const { REQ_CUSTOM_FILED } = require('#config/reqCustom.js');
-const { userModel } = require('#model/access/user/model.js');
-const { ForbiddenError } = require('#utils/core/error.res.js');
-const { removeInfoData } = require('#utils/other/respData.js');
-const { logInfo } = require('#utils/consoleLog/consoleColors.js');
-const { authTokenModel } = require('#model/access/token/auth/model.js');
-const { activeModel } = require('#model/access/token/activeTokens/model.js');
+const { QUERY } = require('../config/customQuery.js');
+const { ROLE } = require('../config/database/userRole.js');
+const { REQ_CUSTOM_FILED } = require('../config/reqCustom.js');
+const { userModel } = require('../model/access/user/model.js');
+const { ForbiddenError } = require('../utils/core/error.res.js');
+const { removeInfoData } = require('../utils/other/respData.js');
+const { logInfo } = require('../utils/consoleLog/consoleColors.js');
+const { authTokenModel } = require('../model/access/token/auth/model.js');
+const { activeModel } = require('../model/access/token/activeTokens/model.js');
 
 const AdminServiceUser = {
   getUserProfile: async (req) => {
@@ -61,9 +61,9 @@ const AdminServiceUser = {
       }
       const options = { upsert: true, new: true, setDefaultsOnInsert: true };
       const updateUser = await userModel
-          .findOneAndUpdate({ _id: user._id }, update, options)
-          .select({ password: 0, __v: 0 })
-          .lean();
+        .findOneAndUpdate({ _id: user._id }, update, options)
+        .select({ password: 0, __v: 0 })
+        .lean();
       updateList.push(updateUser);
     }
     console.log(updateList);

@@ -1,4 +1,4 @@
-const { HEADER } = require('#config/header.js');
+const { HEADER } = require('../../../src/config/header.js');
 
 const securitySchemes = {
   userId: {
