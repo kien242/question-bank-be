@@ -1,6 +1,6 @@
 const { Router } = require('express');
-const { asyncHandle } = require('#utils/asyncHandle/index.js');
-const { AdminController } = require('#controller/admin.user.js');
+const { asyncHandle } = require('../../../../utils/asyncHandle/index.js');
+const { AdminController } = require('../../../../controller/admin.user.js');
 
 const user = Router();
 

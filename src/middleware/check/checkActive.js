@@ -1,8 +1,8 @@
-const { ACTIVE_STATUS } = require('#config/database/activeStatus.js');
-const { HEADER } = require('#config/header.js');
-const { userModel } = require('#model/access/user/model.js');
-const { logInfo } = require('#utils/consoleLog/consoleColors.js');
-const { ForbiddenError } = require('#utils/core/error.res.js');
+const { ACTIVE_STATUS } = require('../../config/database/activeStatus.js');
+const { HEADER } = require('../../config/header.js');
+const { userModel } = require('../../model/access/user/model.js');
+const { logInfo } = require('../../utils/consoleLog/consoleColors.js');
+const { ForbiddenError } = require('../../utils/core/error.res.js');
 
 const checkActive = async (req, res, next) => {
   const userId = req.headers[HEADER.USER_ID];

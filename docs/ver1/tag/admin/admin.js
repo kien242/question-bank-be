@@ -1,6 +1,6 @@
-const { QUERY } = require('#config/customQuery.js');
-const { currentUserProfile200 } = require('#docs/ver1/res/user/index.js');
-const { updateUserBodyAdmin } = require('#docs/ver1/schema/admin.user.js');
+const { QUERY } = require('../../../../src/config/customQuery.js');
+const { currentUserProfile200 } = require('../../res/user/index.js');
+const { updateUserBodyAdmin } = require('../../schema/admin.user.js');
 
 const getUserInfo = {
   tags: ['Admin'],

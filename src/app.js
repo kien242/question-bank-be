@@ -3,7 +3,7 @@ const morgan = require('morgan');
 const express = require('express');
 const compression = require('compression');
 
-require('#helper/database/init.dbs.js');
+require('./helper/database/init.dbs.js');
 
 const app = express();
 
@@ -13,7 +13,7 @@ app.use(compression());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.use('/api/', require('#router/router.js'));
+app.use('/api/', require('./router/router.js'));
 
 // const { questionModel } = require('#model/question/model.js');
 // questionModel.create({

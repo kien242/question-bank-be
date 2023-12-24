@@ -1,23 +1,23 @@
 const { hash, compare } = require('bcrypt');
-const { HEADER } = require('#config/header.js');
-const { QUERY } = require('#config/customQuery.js');
-const { OTHER_CONFIG } = require('#config/other.js');
+const { HEADER } = require('../../src/config/header.js');
+const { QUERY } = require('../../src/config/customQuery.js');
+const { OTHER_CONFIG } = require('../../src/config/other.js');
 const { authTokenService } = require('./authToken.js');
-const { getInfoData, removeInfoData } = require('#utils/other/respData.js');
-const { REQ_CUSTOM_FILED } = require('#config/reqCustom.js');
-const { userModel } = require('#model/access/user/model.js');
-const { createTokenPair } = require('#utils/auth/authUtil.js');
-const { generateSecretKey } = require('#utils/key/secretKey.js');
-const { ACTIVE_STATUS } = require('#config/database/activeStatus.js');
-const { generateActiveLink } = require('#helper/generateActiveLink.js');
-const { logError, logInfo } = require('#utils/consoleLog/consoleColors.js');
-const { activeModel } = require('#model/access/token/activeTokens/model.js');
+const { getInfoData, removeInfoData } = require('../utils/other/respData.js');
+const { REQ_CUSTOM_FILED } = require('../../src/config/reqCustom.js');
+const { userModel } = require('../model/access/user/model.js');
+const { createTokenPair } = require('../utils/auth/authUtil.js');
+const { generateSecretKey } = require('../utils/key/secretKey.js');
+const { ACTIVE_STATUS } = require('../config/database/activeStatus.js');
+const { generateActiveLink } = require('../helper/generateActiveLink.js');
+const { logError, logInfo } = require('../utils/consoleLog/consoleColors.js');
+const { activeModel } = require('../model/access/token/activeTokens/model.js');
 const {
   BadRequestError,
   ForbiddenError,
   AuthFailureError,
   NotFoundError,
-} = require('#utils/core/error.res.js');
+} = require('../utils/core/error.res.js');
 const { UserService } = require('./user.js');
 const JWT = require('jsonwebtoken');
 
@@ -48,9 +48,9 @@ const AccessService = {
 
     const { publicKey, privateKey } = generateSecretKey();
     const authToken = await createTokenPair(
-        { userName: newUser.userName, role: newUser.role },
-        publicKey,
-        privateKey,
+      { userName: newUser.userName, role: newUser.role },
+      publicKey,
+      privateKey,
     );
     const saveToken = await authTokenService.createKeyToken({
       userId: newUser._id,
@@ -76,10 +76,10 @@ const AccessService = {
   login: async (req) => {
     const { userName, password, email } = req.body[REQ_CUSTOM_FILED.USER_DATA];
     const foundUser = await userModel
-        .findOne({
-          $or: [{ email }, { userName }],
-        })
-        .lean();
+      .findOne({
+        $or: [{ email }, { userName }],
+      })
+      .lean();
     if (!foundUser) {
       logError('User is not exits');
       throw new BadRequestError('User is not registered');
@@ -91,12 +91,12 @@ const AccessService = {
     }
     const { publicKey, privateKey } = generateSecretKey();
     const authToken = await createTokenPair(
-        {
-          userName: foundUser.userName,
-          role: foundUser.role,
-        },
-        publicKey,
-        privateKey,
+      {
+        userName: foundUser.userName,
+        role: foundUser.role,
+      },
+      publicKey,
+      privateKey,
     );
     const saveToken = await authTokenService.createKeyToken({
       userId: foundUser._id,
@@ -138,14 +138,14 @@ const AccessService = {
       throw new ForbiddenError('Active token failed');
     }
     await activeModel.findOneAndUpdate(
-        { userId },
-        { activeToken: '', activeTokenUse: findToken.activeToken },
-        { upsert: true, new: true, setDefaultsOnInsert: true },
+      { userId },
+      { activeToken: '', activeTokenUse: findToken.activeToken },
+      { upsert: true, new: true, setDefaultsOnInsert: true },
     );
     await userModel.findOneAndUpdate(
-        { _id: userId },
-        { status: ACTIVE_STATUS.ACTIVE },
-        { upsert: true, new: true, setDefaultsOnInsert: true },
+      { _id: userId },
+      { status: ACTIVE_STATUS.ACTIVE },
+      { upsert: true, new: true, setDefaultsOnInsert: true },
     );
     return {};
   },
@@ -158,7 +158,7 @@ const AccessService = {
       logError('Not found ID in Keys Token Model');
       throw new NotFoundError('Not found KeyStore');
     }
-    JWT.verify(oldRefreshToken, keyStore.privateKey, function(err, decode) {
+    JWT.verify(oldRefreshToken, keyStore.privateKey, function (err, decode) {
       if (err) {
         switch (err.name) {
           case 'TokenExpiredError':
@@ -191,12 +191,12 @@ const AccessService = {
     }
 
     const authToken = await createTokenPair(
-        {
-          userName: foundUser.userName,
-          role: foundUser.role,
-        },
-        keyStore.publicKey,
-        keyStore.privateKey,
+      {
+        userName: foundUser.userName,
+        role: foundUser.role,
+      },
+      keyStore.publicKey,
+      keyStore.privateKey,
     );
 
     await keyStore.updateOne({

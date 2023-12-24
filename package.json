@@ -36,16 +36,5 @@
     "morgan": "^1.10.0",
     "nodemon": "^3.0.2",
     "prettier": "^3.1.1"
-  },
-  "imports": {
-    "#config/*": "./src/config/*",
-    "#controller/*": "./src/controller/*",
-    "#helper/*": "./src/helper/*",
-    "#middleware/*": "./src/middleware/*",
-    "#model/*": "./src/model/*",
-    "#router/*": "./src/router/*",
-    "#service/*": "./src/service/*",
-    "#utils/*": "./src/utils/*",
-    "#docs/*": "./docs/*"
   }
 }

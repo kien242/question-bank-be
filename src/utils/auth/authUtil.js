@@ -1,4 +1,4 @@
-const { logError } = require('#utils/consoleLog/consoleColors.js');
+const { logError } = require('../../utils/consoleLog/consoleColors.js');
 const JWT = require('jsonwebtoken');
 
 const createTokenPairSync = async (payload, publicKey, privateKey) => {
