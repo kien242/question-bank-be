@@ -38,5 +38,12 @@ const AccessController = {
       metadata: await AccessService.handleRefreshToken(req),
     }).send(res);
   },
+  newPassword: async (req, res) => {
+    logInfo('[Access]::Forward Password');
+    new OK({
+      message: 'Restart password successfully',
+      metadata: await AccessService.newPassword(req),
+    }).send(res);
+  },
 };
 module.exports = { AccessController };
