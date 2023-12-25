@@ -1,5 +1,5 @@
-const ReasonPhrases = require('#utils/core/code/reasonPhrases.js');
-const StatusCodes = require('#utils/core/code/statusCodes.js');
+const ReasonPhrases = require('./code/reasonPhrases.js');
+const StatusCodes = require('./code/statusCodes.js');
 
 class errorResponse extends Error {
   constructor(message, status) {
@@ -48,8 +48,8 @@ class NotFoundError extends errorResponse {
 }
 class FailedDependency extends errorResponse {
   constructor(
-      message = ReasonPhrases.FAILED_DEPENDENCY,
-      statusCode = StatusCodes.FAILED_DEPENDENCY,
+    message = ReasonPhrases.FAILED_DEPENDENCY,
+    statusCode = StatusCodes.FAILED_DEPENDENCY,
   ) {
     super(message, statusCode);
   }

@@ -1,9 +1,10 @@
 const swaggerJsdoc = require('swagger-jsdoc');
+// const { getUserInfo, updateUserInfo } = require('./tag/admin/admin.js');
+const { securitySchemes } = require('./schema/security.js');
+const { getCurrentUserInfo, updateCurrentUserInfo } = require('./tag/user/user.js');
+const { createUserBody, loginUserBody, updateUserBody } = require('./schema/user.js');
+const { signUp, login, logout, handleRefreshToken } = require('./tag/access/access.js');
 const { getUserInfo, updateUserInfo } = require('./tag/admin/admin.js');
-const { securitySchemes } = require('#docs/ver1/schema/security.js');
-const { getCurrentUserInfo, updateCurrentUserInfo } = require('#docs/ver1/tag/user/user.js');
-const { createUserBody, loginUserBody, updateUserBody } = require('#docs/ver1/schema/user.js');
-const { signUp, login, logout, handleRefreshToken } = require('#docs/ver1/tag/access/access.js');
 
 const options = {
   definition: {
