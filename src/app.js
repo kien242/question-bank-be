@@ -2,6 +2,7 @@ const helmet = require('helmet');
 const morgan = require('morgan');
 const express = require('express');
 const compression = require('compression');
+const path = require('path');
 
 require('./helper/database/init.dbs.js');
 
@@ -12,6 +13,10 @@ app.use(helmet());
 app.use(compression());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+//Set view engine
+app.set('views', __dirname + '/views');
+app.set('view engine', 'ejs');
 
 app.use('/api/', require('./router/router.js'));
 

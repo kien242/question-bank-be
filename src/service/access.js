@@ -11,16 +11,21 @@ const { createTokenPair } = require('../utils/auth/authUtil.js');
 const { generateSecretKey } = require('../utils/key/secretKey.js');
 const { REQ_CUSTOM_FILED } = require('../../src/config/reqCustom.js');
 const { ACTIVE_STATUS } = require('../config/database/activeStatus.js');
-const { generateActiveLink } = require('../helper/generateActiveLink.js');
+const { generateActiveLink, generateNewPasswordLink } = require('../helper/generateLink.js');
 const { getInfoData, removeInfoData } = require('../utils/other/respData.js');
 const { logError, logInfo } = require('../utils/consoleLog/consoleColors.js');
 const { activeModel } = require('../model/access/token/activeTokens/model.js');
-const { setting, mailActiveForm } = require('../config/mail/nodemailer.config.js');
+const {
+  setting,
+  mailActiveForm,
+  mailNewPasswordForm,
+} = require('../config/mail/nodemailer.config.js');
 const {
   BadRequestError,
   ForbiddenError,
   AuthFailureError,
   NotFoundError,
+  INTERNAL_SERVER_ERROR,
 } = require('../utils/core/error.res.js');
 
 const AccessService = {
@@ -50,9 +55,9 @@ const AccessService = {
 
     const { publicKey, privateKey } = generateSecretKey();
     const authToken = await createTokenPair(
-        { userName: newUser.userName, role: newUser.role },
-        publicKey,
-        privateKey,
+      { userName: newUser.userName, role: newUser.role },
+      publicKey,
+      privateKey,
     );
     const saveToken = await authTokenService.createKeyToken({
       userId: newUser._id,
@@ -89,10 +94,10 @@ const AccessService = {
   login: async (req) => {
     const { userName, password, email } = req.body[REQ_CUSTOM_FILED.USER_DATA];
     const foundUser = await userModel
-        .findOne({
-          $or: [{ email }, { userName }],
-        })
-        .lean();
+      .findOne({
+        $or: [{ email }, { userName }],
+      })
+      .lean();
     if (!foundUser) {
       logError('User is not exits');
       throw new BadRequestError('User is not registered');
@@ -104,12 +109,12 @@ const AccessService = {
     }
     const { publicKey, privateKey } = generateSecretKey();
     const authToken = await createTokenPair(
-        {
-          userName: foundUser.userName,
-          role: foundUser.role,
-        },
-        publicKey,
-        privateKey,
+      {
+        userName: foundUser.userName,
+        role: foundUser.role,
+      },
+      publicKey,
+      privateKey,
     );
     const saveToken = await authTokenService.createKeyToken({
       userId: foundUser._id,
@@ -138,7 +143,46 @@ const AccessService = {
     }
     return {};
   },
-  newPassword: async () => {},
+  changePassword: async (userId, new_password) => {
+    const passwordHash = await hash(new_password, OTHER_CONFIG.ROUNDS_HASH_PASSWORD);
+    const options = { upsert: true, new: true, setDefaultsOnInsert: true };
+    await userModel.findOneAndUpdate({ _id: userId }, { password: passwordHash }, options).lean();
+    await activeModel.findOneAndUpdate(
+      { userId },
+      { forwardPasswordToken: '' },
+      { upsert: true, new: true, setDefaultsOnInsert: true },
+    );
+    return {};
+  },
+  forwardPassword: async (email, userName) => {
+    const foundUser = await userModel
+      .findOne({
+        email,
+      })
+      .lean();
+    if (foundUser.userName !== userName) {
+      logError('userName and Email is not correct');
+      throw new INTERNAL_SERVER_ERROR('Something went wrong, please try again');
+    }
+    // logout user from all sessions
+    const deleteToken = await authTokenService.removeKeyByUserId(foundUser._id);
+    if (!deleteToken) {
+      logError('Cant logout user login sessions');
+    }
+    // Send new password link to email
+    const newPasswordLink = await generateNewPasswordLink(foundUser._id);
+    const transporter = createTransport(setting);
+    const mailOption = mailNewPasswordForm(email, newPasswordLink);
+    console.log(mailOption);
+    transporter.sendMail(mailOption, (err, info) => {
+      if (err) {
+        console.log(err);
+        throw new INTERNAL_SERVER_ERROR('Cant send Email');
+      }
+    });
+
+    return {};
+  },
   activeUser: async (req) => {
     const userId = req.query[QUERY.USER_ID];
     const activeToken = req.query[QUERY.TOKEN];
@@ -152,14 +196,14 @@ const AccessService = {
       throw new ForbiddenError('Active token failed');
     }
     await activeModel.findOneAndUpdate(
-        { userId },
-        { activeToken: '', activeTokenUse: findToken.activeToken },
-        { upsert: true, new: true, setDefaultsOnInsert: true },
+      { userId },
+      { activeToken: '', activeTokenUse: findToken.activeToken },
+      { upsert: true, new: true, setDefaultsOnInsert: true },
     );
     await userModel.findOneAndUpdate(
-        { _id: userId },
-        { status: ACTIVE_STATUS.ACTIVE },
-        { upsert: true, new: true, setDefaultsOnInsert: true },
+      { _id: userId },
+      { status: ACTIVE_STATUS.ACTIVE },
+      { upsert: true, new: true, setDefaultsOnInsert: true },
     );
     return {};
   },
@@ -205,12 +249,12 @@ const AccessService = {
     }
 
     const authToken = await createTokenPair(
-        {
-          userName: foundUser.userName,
-          role: foundUser.role,
-        },
-        keyStore.publicKey,
-        keyStore.privateKey,
+      {
+        userName: foundUser.userName,
+        role: foundUser.role,
+      },
+      keyStore.publicKey,
+      keyStore.privateKey,
     );
 
     await keyStore.updateOne({
