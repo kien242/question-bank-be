@@ -3,6 +3,7 @@ const morgan = require('morgan');
 const express = require('express');
 const compression = require('compression');
 
+
 require('#helper/database/init.dbs.js');
 
 const app = express();
@@ -14,6 +15,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.use('/api/', require('#router/router.js'));
+
 
 // handling errors
 app.use((req, res, next) => {
