@@ -15,9 +15,9 @@ const generateActiveLink = async (userId) => {
 const generateNewPasswordLink = async (userId) => {
   const token = crypto.randomBytes(32).toString('hex');
   await activeModel.findOneAndUpdate(
-    { userId },
-    { forwardPasswordToken: token },
-    { upsert: true, new: true, setDefaultsOnInsert: true },
+      { userId },
+      { forwardPasswordToken: token },
+      { upsert: true, new: true, setDefaultsOnInsert: true },
   );
   const forwardPasswordLink = `${process.env.NEW_PASSWORD_URL}?${QUERY.USER_ID}=${userId}&${QUERY.TOKEN}=${token}`;
   return forwardPasswordLink;

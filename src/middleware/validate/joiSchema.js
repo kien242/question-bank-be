@@ -1,25 +1,42 @@
-const { GENDER_IDENTITY } = require('../../config/database/gender.js');
-const { ROLE } = require('../../config/database/userRole.js');
 const Joi = require('joi');
+const { ROLE } = require('../../config/database/user/userRole.js');
+const { GENDER_IDENTITY } = require('../../config/database/user/gender.js');
+const { QUESTION_ACCESS } = require('../../config/database/question/questionAccess.js');
+const { QUESTION_DIFFICULTY } = require('../../config/database/question/questionDifficulty.js');
 
 const userReqSch = Joi.object({
   fullName: Joi.string(),
   userName: Joi.string().alphanum().min(3).max(30),
   password: Joi.string().pattern(
-      new RegExp('^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[-_@#$%^*()<>]).{8,}$'),
+    new RegExp('^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[-_@#$%^*()<>]).{8,}$'),
   ),
   birthday: Joi.number().integer().min(1900).max(new Date().getFullYear()),
   email: Joi.string()
-      .email({
-        minDomainSegments: 2,
-        tlds: { allow: ['com', 'net'] },
-      })
-      .messages({
-        'string.email': `Email không đúng định dạng cần có @ và domain (.com hoặc .net)`,
-      }),
+    .email({
+      minDomainSegments: 2,
+      tlds: { allow: ['com', 'net'] },
+    })
+    .messages({
+      'string.email': `Email không đúng định dạng cần có @ và domain (.com hoặc .net)`,
+    }),
   avatarUrl: Joi.string(),
   role: Joi.string().valid(...Object.values(ROLE)),
   genderIdentity: Joi.string().valid(...Object.values(GENDER_IDENTITY)),
 });
-
-module.exports = { userReqSch };
+const questionSch = Joi.object({
+  accessAuthorization: Joi.number().valid(...Object.values(QUESTION_ACCESS)),
+  subject: Joi.string().required(),
+  grade: Joi.string().required(),
+  topics: Joi.array(),
+  questionContent: Joi.object()
+    .keys({
+      difficult: Joi.number()
+        .valid(...Object.values(QUESTION_DIFFICULTY))
+        .required(),
+      contentQuestions: Joi.string().required(),
+      answerList: Joi.array(),
+      answer: Joi.string(),
+    })
+    .required(),
+});
+module.exports = { userReqSch, questionSch };

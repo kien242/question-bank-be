@@ -75,4 +75,5 @@ const AccessController = {
     }).send(res);
   },
 };
+
 module.exports = { AccessController };
