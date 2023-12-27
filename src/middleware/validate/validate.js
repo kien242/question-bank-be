@@ -5,7 +5,6 @@ const { ForbiddenError } = require('../../utils/core/error.res.js');
 const validateReq = (schema, field) => {
   return async (req, res, next) => {
     const object = req.body[field];
-
     try {
       await schema.validateAsync(object);
       next();

@@ -5,7 +5,9 @@ const { QUESTION_ACCESS } = require('../../config/database/question/questionAcce
 const { QUESTION_DIFFICULTY } = require('../../config/database/question/questionDifficulty.js');
 
 const questionTypeSchema = new Schema(
-  {},
+  {
+    questionType: { type: Number, required: true },
+  },
   {
     discriminatorKey: 'questionType',
     _id: false,
@@ -17,23 +19,35 @@ const modelSchema = new Schema(
     userOwner: {
       type: Types.ObjectId,
       ref: COLLECTION_NAME.USER,
-      require: true,
+      required: true,
     },
     accessAuthorization: {
       type: Number,
-      require: true,
+      required: true,
       enum: QUESTION_ACCESS,
       default: QUESTION_ACCESS.PUBLIC,
+    },
+    shareMember: {
+      type: Array,
+      required: (accessAuthorization) => {
+        return accessAuthorization === QUESTION_ACCESS.PROTECTED;
+      },
+    },
+    linkToken: {
+      type: String,
+      required: (accessAuthorization) => {
+        return accessAuthorization === QUESTION_ACCESS.VIA_LINK;
+      },
     },
     subject: {
       //Môn học, bộ môn
       type: String,
-      require: true,
+      required: true,
     },
     grade: {
       //Khối lớp
       type: String,
-      require: true,
+      required: true,
     },
     topics: {
       // Chủ đề
@@ -54,11 +68,11 @@ const choiceQuestion = new Schema(
       type: Number,
       enum: QUESTION_DIFFICULTY,
       default: QUESTION_DIFFICULTY.KNOWINGS,
-      require: true,
+      required: true,
     },
     contentQuestions: {
       type: String,
-      require: true,
+      required: true,
     },
     answerList: [{ answerContent: String, isTrue: { type: Boolean, default: false } }],
   },
@@ -73,11 +87,11 @@ const multiChoiceQuestion = new Schema(
       type: Number,
       enum: QUESTION_DIFFICULTY,
       default: QUESTION_DIFFICULTY.KNOWINGS,
-      require: true,
+      required: true,
     },
     contentQuestions: {
       type: String,
-      require: true,
+      required: true,
     },
     answerList: [{ answerContent: String, isTrue: { type: Boolean, default: false } }],
   },
@@ -89,14 +103,14 @@ const multiChoiceQuestion = new Schema(
 const textInput = new Schema(
   {
     difficult: {
-      type: String,
+      type: Number,
       enum: QUESTION_DIFFICULTY,
       default: QUESTION_DIFFICULTY.KNOWINGS,
-      require: true,
+      required: true,
     },
     contentQuestions: {
       type: String,
-      require: true,
+      required: true,
     },
     answer: {
       type: String,

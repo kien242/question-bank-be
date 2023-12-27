@@ -3,6 +3,7 @@ const { ROLE } = require('../../config/database/user/userRole.js');
 const { GENDER_IDENTITY } = require('../../config/database/user/gender.js');
 const { QUESTION_ACCESS } = require('../../config/database/question/questionAccess.js');
 const { QUESTION_DIFFICULTY } = require('../../config/database/question/questionDifficulty.js');
+const { QUESTION_TYPE } = require('../../config/database/question/questionType.js');
 
 const userReqSch = Joi.object({
   fullName: Joi.string(),
@@ -23,20 +24,23 @@ const userReqSch = Joi.object({
   role: Joi.string().valid(...Object.values(ROLE)),
   genderIdentity: Joi.string().valid(...Object.values(GENDER_IDENTITY)),
 });
-const questionSch = Joi.object({
-  accessAuthorization: Joi.number().valid(...Object.values(QUESTION_ACCESS)),
-  subject: Joi.string().required(),
-  grade: Joi.string().required(),
-  topics: Joi.array(),
-  questionContent: Joi.object()
-    .keys({
-      difficult: Joi.number()
-        .valid(...Object.values(QUESTION_DIFFICULTY))
-        .required(),
-      contentQuestions: Joi.string().required(),
-      answerList: Joi.array(),
-      answer: Joi.string(),
-    })
-    .required(),
-});
+const questionSch = Joi.array().items(
+  Joi.object().keys({
+    accessAuthorization: Joi.number().valid(...Object.values(QUESTION_ACCESS)),
+    subject: Joi.string().required(),
+    grade: Joi.string().required(),
+    topics: Joi.array(),
+    questionContent: Joi.object()
+      .keys({
+        questionType: Joi.number().valid(...Object.values(QUESTION_TYPE)),
+        difficult: Joi.number()
+          .valid(...Object.values(QUESTION_DIFFICULTY))
+          .required(),
+        contentQuestions: Joi.string().required(),
+        answerList: Joi.array(),
+        answer: Joi.string(),
+      })
+      .required(),
+  }),
+);
 module.exports = { userReqSch, questionSch };

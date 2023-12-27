@@ -89,6 +89,7 @@ const AccessService = {
     return {
       userData,
       authToken,
+      activeLink,
     };
   },
   login: async (req) => {

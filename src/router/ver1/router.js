@@ -13,6 +13,10 @@ ver1.use('/access', require('./access/router.js'));
 ver1.use(asyncHandle(checkAuth));
 ver1.use('/user', require('./user/router.js'));
 ver1.use('/admin', asyncHandle(checkRole(ROLE.ADMIN)), require('./admin/router.js'));
-ver1.use('/question', require('./question/router.js'));
+ver1.use(
+  '/question',
+  asyncHandle(checkRole(ROLE.ADMIN, ROLE.TEACHER)),
+  require('./question/router.js'),
+);
 
 module.exports = ver1;

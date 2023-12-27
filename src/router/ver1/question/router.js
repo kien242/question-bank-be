@@ -13,4 +13,5 @@ questionRouter.post(
   asyncHandle(questionController.createNewQuestion),
 );
 
+questionRouter.get('/get-question', asyncHandle(questionController.getQuestion));
 module.exports = questionRouter;
