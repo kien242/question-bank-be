@@ -2,7 +2,7 @@ const { currentUserProfile200 } = require('../../res/user/index.js');
 const { updateUserBody } = require('../../schema/user.js');
 
 const getCurrentUserInfo = {
-  tags: ['User'],
+  tags: ['Profile'],
   summary: 'Get current user profile',
   description: 'Get current user profile',
   operationId: 'GetCurrentUserProfile',
@@ -20,7 +20,7 @@ const getCurrentUserInfo = {
   },
 };
 const updateCurrentUserInfo = {
-  tags: ['User'],
+  tags: ['Profile'],
   summary: 'Update current user profile',
   description: 'Update current user profile',
   operationId: 'UpdateCurrentUserProfile',

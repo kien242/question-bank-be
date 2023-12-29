@@ -1,10 +1,10 @@
-const { QUERY } = require('../config/customQuery.js');
-const { REQ_CUSTOM_FILED } = require('../config/reqCustom.js');
-const { activeModel } = require('../model/access/token/activeTokens/model.js');
-const { AccessService } = require('../service/access.js');
-const { logInfo, logError } = require('../utils/consoleLog/consoleColors.js');
-const { ForbiddenError } = require('../utils/core/error.res.js');
-const { CREATE, OK } = require('../utils/core/success.res.js');
+const { QUERY } = require('../../config/customQuery.js');
+const { REQ_CUSTOM_FILED } = require('../../config/reqCustom.js');
+const { activeModel } = require('../../model/access/token/activeTokens/model.js');
+const { AccessService } = require('../../service/access/access.js');
+const { logInfo, logError } = require('../../utils/consoleLog/consoleColors.js');
+const { ForbiddenError } = require('../../utils/core/error.res.js');
+const { CREATE, OK } = require('../../utils/core/success.res.js');
 
 const AccessController = {
   signUp: async (req, res) => {

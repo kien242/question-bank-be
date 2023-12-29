@@ -1,13 +1,13 @@
 const _ = require('lodash');
-const { QUERY } = require('../config/customQuery.js');
-const { ROLE } = require('../config/database/user/userRole.js');
-const { REQ_CUSTOM_FILED } = require('../config/reqCustom.js');
-const { userModel } = require('../model/access/user/model.js');
-const { ForbiddenError } = require('../utils/core/error.res.js');
-const { removeInfoData } = require('../utils/other/respData.js');
-const { logInfo } = require('../utils/consoleLog/consoleColors.js');
-const { authTokenModel } = require('../model/access/token/auth/model.js');
-const { activeModel } = require('../model/access/token/activeTokens/model.js');
+const { QUERY } = require('../../config/customQuery.js');
+const { ROLE } = require('../../config/database/user/userRole.js');
+const { REQ_CUSTOM_FILED } = require('../../config/reqCustom.js');
+const { userModel } = require('../../model/access/user/model.js');
+const { ForbiddenError } = require('../../utils/core/error.res.js');
+const { removeInfoData } = require('../../utils/other/respData.js');
+const { logInfo } = require('../../utils/consoleLog/consoleColors.js');
+const { authTokenModel } = require('../../model/access/token/auth/model.js');
+const { activeModel } = require('../../model/access/token/activeTokens/model.js');
 
 const AdminServiceUser = {
   getUserProfile: async (req) => {

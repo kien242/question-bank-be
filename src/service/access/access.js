@@ -1,32 +1,28 @@
 const JWT = require('jsonwebtoken');
 const { hash, compare } = require('bcrypt');
-const { UserService } = require('./user.js');
+const { UserService } = require('../profile/user.js');
 const { createTransport } = require('nodemailer');
 const { authTokenService } = require('./authToken.js');
-const { HEADER } = require('../../src/config/header.js');
-const { QUERY } = require('../../src/config/customQuery.js');
-const { OTHER_CONFIG } = require('../../src/config/other.js');
-const { userModel } = require('../model/access/user/model.js');
-const { createTokenPair } = require('../utils/auth/authUtil.js');
-const { generateSecretKey } = require('../utils/key/secretKey.js');
-const { REQ_CUSTOM_FILED } = require('../../src/config/reqCustom.js');
-const { ACTIVE_STATUS } = require('../config/database/user/activeStatus.js');
-const { generateActiveLink, generateNewPasswordLink } = require('../helper/generateLink.js');
-const { getInfoData, removeInfoData } = require('../utils/other/respData.js');
-const { logError, logInfo } = require('../utils/consoleLog/consoleColors.js');
-const { activeModel } = require('../model/access/token/activeTokens/model.js');
-const {
-  setting,
-  mailActiveForm,
-  mailNewPasswordForm,
-} = require('../config/mail/nodemailer.config.js');
+const { HEADER } = require('../../config/header.js');
+const { QUERY } = require('../../config/customQuery.js');
+const { OTHER_CONFIG } = require('../../config/other.js');
+const { userModel } = require('../../model/access/user/model.js');
+const { createTokenPair } = require('../../utils/auth/authUtil.js');
+const { generateSecretKey } = require('../../utils/key/secretKey.js');
+const { REQ_CUSTOM_FILED } = require('../../config/reqCustom.js');
+const { ACTIVE_STATUS } = require('../../config/database/user/activeStatus.js');
+const { generateActiveLink, generateNewPasswordLink } = require('../../helper/generateLink.js');
+const { getInfoData, removeInfoData } = require('../../utils/other/respData.js');
+const { logError, logInfo } = require('../../utils/consoleLog/consoleColors.js');
+const { activeModel } = require('../../model/access/token/activeTokens/model.js');
+const { setting, mailActiveForm, mailNewPasswordForm } = require('../../config/mail/nodemailer.config.js');
 const {
   BadRequestError,
   ForbiddenError,
   AuthFailureError,
   NotFoundError,
   INTERNAL_SERVER_ERROR,
-} = require('../utils/core/error.res.js');
+} = require('../../utils/core/error.res.js');
 
 const AccessService = {
   signUp: async (req) => {

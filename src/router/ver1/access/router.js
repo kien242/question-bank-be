@@ -1,9 +1,9 @@
 const { REQ_CUSTOM_FILED } = require('../../../config/reqCustom.js');
-const { AccessController } = require('../../../controller/access.js');
+const { asyncHandle } = require('../../../utils/asyncHandle/index.js');
 const { checkAuth } = require('../../../middleware/check/checkAuth.js');
 const { userReqSch } = require('../../../middleware/validate/joiSchema.js');
 const { validateReq } = require('../../../middleware/validate/validate.js');
-const { asyncHandle } = require('../../../utils/asyncHandle/index.js');
+const { AccessController } = require('../../../controller/access/access.js');
 
 const { Router } = require('express');
 

@@ -1,8 +1,8 @@
-const { HEADER } = require('../config/header.js');
-const { REQ_CUSTOM_FILED } = require('../config/reqCustom.js');
-const { questionService } = require('../service/question.js');
-const { logInfo } = require('../utils/consoleLog/consoleColors.js');
-const { OK } = require('../utils/core/success.res.js');
+const { HEADER } = require('../../config/header.js');
+const { REQ_CUSTOM_FILED } = require('../../config/reqCustom.js');
+const { questionService } = require('../../service/manage/question.js');
+const { logInfo } = require('../../utils/consoleLog/consoleColors.js');
+const { OK } = require('../../utils/core/success.res.js');
 
 const questionController = {
   createNewQuestion: async (req, res) => {

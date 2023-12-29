@@ -16,37 +16,34 @@ const questionTypeSchema = new Schema(
 
 const modelSchema = new Schema(
   {
-    userOwner: {
+    ownerId: {
       type: Types.ObjectId,
       ref: COLLECTION_NAME.USER,
       required: true,
     },
-    accessAuthorization: {
+    accessType: {
       type: Number,
       required: true,
       enum: QUESTION_ACCESS,
       default: QUESTION_ACCESS.PUBLIC,
     },
-    shareMember: {
-      type: Array,
-      required: (accessAuthorization) => {
-        return accessAuthorization === QUESTION_ACCESS.PROTECTED;
+    shareMember: [
+      {
+        type: Types.ObjectId,
+        ref: COLLECTION_NAME.USER,
       },
-    },
-    linkToken: {
-      type: String,
-      required: (accessAuthorization) => {
-        return accessAuthorization === QUESTION_ACCESS.VIA_LINK;
-      },
-    },
+    ],
+
     subject: {
       //Môn học, bộ môn
-      type: String,
+      type: Types.ObjectId,
+      ref: COLLECTION_NAME.SUBJECT,
       required: true,
     },
     grade: {
       //Khối lớp
-      type: String,
+      type: Types.ObjectId,
+      ref: COLLECTION_NAME.GRADE,
       required: true,
     },
     topics: {

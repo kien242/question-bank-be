@@ -1,5 +1,5 @@
 const { HEADER } = require('../../config/header.js');
-const { authTokenService } = require('../../service/authToken.js');
+const { authTokenService } = require('../../service/access/authToken.js');
 const { logError } = require('../../utils/consoleLog/consoleColors.js');
 const { AuthFailureError, NotFoundError } = require('../../utils/core/error.res.js');
 const JWT = require('jsonwebtoken');

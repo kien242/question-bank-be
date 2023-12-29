@@ -12,8 +12,7 @@ const options = {
     info: {
       title: 'Question Bank ',
       version: '1.0.0',
-      description:
-        'This is a simple CRUD API application made with Express and documented with Swagger',
+      description: 'This is a simple CRUD API application made with Express and documented with Swagger',
       license: {
         name: 'MIT',
         url: 'https://spdx.org/licenses/MIT.html',
@@ -31,20 +30,12 @@ const options = {
         description: 'API for accessing',
       },
       {
-        name: 'Admin',
-        description: 'API for administration',
+        name: 'Profile',
+        description: 'API for current user profile',
       },
       {
-        name: 'User',
-        description: 'API for user (teacher and student)',
-      },
-      {
-        name: 'Question',
-        description: 'API for question',
-      },
-      {
-        name: 'Test',
-        description: 'API for test',
+        name: 'Manager',
+        description: 'API for management',
       },
     ],
     paths: {
@@ -60,11 +51,11 @@ const options = {
       '/access/handle-refresh-token': {
         get: handleRefreshToken,
       },
-      '/user': {
+      '/profile': {
         get: getCurrentUserInfo,
         put: updateCurrentUserInfo,
       },
-      '/admin/user': {
+      '/manager/user': {
         get: getUserInfo,
         put: updateUserInfo,
       },

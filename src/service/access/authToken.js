@@ -1,6 +1,6 @@
 const { Types } = require('mongoose');
-const { checkIdValid } = require('../utils/other/checkIdValid.js');
-const { authTokenModel } = require('../model/access/token/auth/model.js');
+const { checkIdValid } = require('../../utils/other/checkIdValid.js');
+const { authTokenModel } = require('../../model/access/token/auth/model.js');
 
 class authTokenService {
   static createKeyTokenSync = async ({ userId, publicKey }) => {

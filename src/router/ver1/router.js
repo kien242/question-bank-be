@@ -11,12 +11,7 @@ const ver1 = Router();
 ver1.use('/docs', serve, setup(specs));
 ver1.use('/access', require('./access/router.js'));
 ver1.use(asyncHandle(checkAuth));
-ver1.use('/user', require('./user/router.js'));
-ver1.use('/admin', asyncHandle(checkRole(ROLE.ADMIN)), require('./admin/router.js'));
-ver1.use(
-  '/question',
-  asyncHandle(checkRole(ROLE.ADMIN, ROLE.TEACHER)),
-  require('./question/router.js'),
-);
+ver1.use('/manager', asyncHandle(checkRole(ROLE.ADMIN, ROLE.TEACHER)), require('./manager/router.js'));
+ver1.use('/profile', require('./profile/router.js'));
 
 module.exports = ver1;

@@ -1,9 +1,9 @@
-const { HEADER } = require('../config/header.js');
-const { REQ_CUSTOM_FILED } = require('../config/reqCustom.js');
-const { userModel } = require('../model/access/user/model.js');
-const { logError } = require('../utils/consoleLog/consoleColors.js');
-const { ForbiddenError } = require('../utils/core/error.res.js');
-const { removeInfoData } = require('../utils/other/respData.js');
+const { HEADER } = require('../../config/header.js');
+const { REQ_CUSTOM_FILED } = require('../../config/reqCustom.js');
+const { userModel } = require('../../model/access/user/model.js');
+const { logError } = require('../../utils/consoleLog/consoleColors.js');
+const { ForbiddenError } = require('../../utils/core/error.res.js');
+const { removeInfoData } = require('../../utils/other/respData.js');
 const _ = require('lodash');
 
 const UserService = {

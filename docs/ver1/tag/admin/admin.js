@@ -3,7 +3,7 @@ const { currentUserProfile200 } = require('../../res/user/index.js');
 const { updateUserBodyAdmin } = require('../../schema/admin.user.js');
 
 const getUserInfo = {
-  tags: ['Admin'],
+  tags: ['Manager'],
   summary: 'Get user profile',
   description: 'Get user profile',
   operationId: 'getListUserProfile',
@@ -34,7 +34,7 @@ const getUserInfo = {
   },
 };
 const updateUserInfo = {
-  tags: ['Admin'],
+  tags: ['Manager'],
   summary: 'Update user profile',
   description: 'Update user profile',
   operationId: 'UpdateUserProfile',
