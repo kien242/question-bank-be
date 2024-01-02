@@ -13,13 +13,18 @@ app.use(compression());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+// Set view engine
+app.set('views', __dirname + '/views');
+app.set('view engine', 'ejs');
+
 app.use('/api/', require('./router/router.js'));
 
-// const { questionModel } = require('#model/question/model.js');
+// const { questionModel } = require('./model/question/model.js');
 // questionModel.create({
+//   grade: 'fasdfj',
 //   questionContent: {
 //     questionType: 3333,
-//     difficult: 'Nhận biết',
+//     difficult: 1111,
 //     contentQuestions: 'asdfjhkjhsdfkjhs',
 //   },
 // });

@@ -5,15 +5,15 @@ const modelSchema = new Schema(
     userId: {
       type: Schema.Types.ObjectId,
       ref: COLLECTION_NAME.USER,
-      require: true,
+      required: true,
     },
     publicKey: {
       type: String,
-      require: true,
+      required: true,
     },
     privateKey: {
       type: String,
-      require: true,
+      required: true,
     },
     refreshTokensUsed: {
       type: Array,
@@ -21,7 +21,7 @@ const modelSchema = new Schema(
     },
     refreshToken: {
       type: String,
-      require: true,
+      required: true,
     },
   },
   {

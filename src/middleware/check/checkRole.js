@@ -1,5 +1,5 @@
 const { HEADER } = require('../../config/header.js');
-const { UserService } = require('../../service/user.js');
+const { UserService } = require('../../service/profile/user.js');
 const { logWarn } = require('../../utils/consoleLog/consoleColors.js');
 const { ForbiddenError } = require('../../utils/core/error.res.js');
 

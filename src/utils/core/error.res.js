@@ -48,8 +48,8 @@ class NotFoundError extends errorResponse {
 }
 class FailedDependency extends errorResponse {
   constructor(
-    message = ReasonPhrases.FAILED_DEPENDENCY,
-    statusCode = StatusCodes.FAILED_DEPENDENCY,
+      message = ReasonPhrases.FAILED_DEPENDENCY,
+      statusCode = StatusCodes.FAILED_DEPENDENCY,
   ) {
     super(message, statusCode);
   }

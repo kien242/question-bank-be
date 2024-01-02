@@ -1,29 +1,28 @@
+const JWT = require('jsonwebtoken');
 const { hash, compare } = require('bcrypt');
-const { HEADER } = require('../../src/config/header.js');
-const { QUERY } = require('../../src/config/customQuery.js');
-const { OTHER_CONFIG } = require('../../src/config/other.js');
+const { UserService } = require('../profile/user.js');
+const { createTransport } = require('nodemailer');
 const { authTokenService } = require('./authToken.js');
-const { getInfoData, removeInfoData } = require('../utils/other/respData.js');
-const { REQ_CUSTOM_FILED } = require('../../src/config/reqCustom.js');
-const { userModel } = require('../model/access/user/model.js');
-const { createTokenPair } = require('../utils/auth/authUtil.js');
-const { generateSecretKey } = require('../utils/key/secretKey.js');
-const { ACTIVE_STATUS } = require('../config/database/activeStatus.js');
-const { generateActiveLink } = require('../helper/generateActiveLink.js');
-const { logError, logInfo } = require('../utils/consoleLog/consoleColors.js');
-const { activeModel } = require('../model/access/token/activeTokens/model.js');
+const { HEADER } = require('../../config/header.js');
+const { QUERY } = require('../../config/customQuery.js');
+const { OTHER_CONFIG } = require('../../config/other.js');
+const { userModel } = require('../../model/access/user/model.js');
+const { createTokenPair } = require('../../utils/auth/authUtil.js');
+const { generateSecretKey } = require('../../utils/key/secretKey.js');
+const { REQ_CUSTOM_FILED } = require('../../config/reqCustom.js');
+const { ACTIVE_STATUS } = require('../../config/database/user/activeStatus.js');
+const { generateActiveLink, generateNewPasswordLink } = require('../../helper/generateLink.js');
+const { getInfoData, removeInfoData } = require('../../utils/other/respData.js');
+const { logError, logInfo } = require('../../utils/consoleLog/consoleColors.js');
+const { activeModel } = require('../../model/access/token/activeTokens/model.js');
+const { setting, mailActiveForm, mailNewPasswordForm } = require('../../config/mail/nodemailer.config.js');
 const {
   BadRequestError,
   ForbiddenError,
   AuthFailureError,
   NotFoundError,
   INTERNAL_SERVER_ERROR,
-} = require('../utils/core/error.res.js');
-
-const { UserService } = require('./user.js');
-const JWT = require('jsonwebtoken');
-const { createTransport } = require('nodemailer');
-const { setting, mailOptions } = require('#config/mail/nodemailer.config.js');
+} = require('../../utils/core/error.res.js');
 
 const AccessService = {
   signUp: async (req) => {
@@ -75,11 +74,11 @@ const AccessService = {
 
     // Send activeLink to email provider
     const transporter = createTransport(setting);
-    const mailOption = mailOptions(email, activeLink);
-    console.log(mailOption);
+    const mailOption = mailActiveForm(email, activeLink);
+
     transporter.sendMail(mailOption, (err, info) => {
       if (err) {
-        throw new INTERNAL_SERVER_ERROR();
+        console.log(err);
       }
     });
 
@@ -139,6 +138,46 @@ const AccessService = {
       logError('Cant remove token from database, Pls re logout');
       throw new ForbiddenError('Cant logout, Pls Logout again');
     }
+    return {};
+  },
+  changePassword: async (userId, new_password) => {
+    const passwordHash = await hash(new_password, OTHER_CONFIG.ROUNDS_HASH_PASSWORD);
+    const options = { upsert: true, new: true, setDefaultsOnInsert: true };
+    await userModel.findOneAndUpdate({ _id: userId }, { password: passwordHash }, options).lean();
+    await activeModel.findOneAndUpdate(
+      { userId },
+      { forwardPasswordToken: '' },
+      { upsert: true, new: true, setDefaultsOnInsert: true },
+    );
+    return {};
+  },
+  forwardPassword: async (email, userName) => {
+    const foundUser = await userModel
+      .findOne({
+        email,
+      })
+      .lean();
+    if (foundUser.userName !== userName) {
+      logError('userName and Email is not correct');
+      throw new INTERNAL_SERVER_ERROR('Something went wrong, please try again');
+    }
+    // logout user from all sessions
+    const deleteToken = await authTokenService.removeKeyByUserId(foundUser._id);
+    if (!deleteToken) {
+      logError('Cant logout user login sessions');
+    }
+    // Send new password link to email
+    const newPasswordLink = await generateNewPasswordLink(foundUser._id);
+    const transporter = createTransport(setting);
+    const mailOption = mailNewPasswordForm(email, newPasswordLink);
+    console.log(mailOption);
+    transporter.sendMail(mailOption, (err, info) => {
+      if (err) {
+        console.log(err);
+        throw new INTERNAL_SERVER_ERROR('Cant send Email');
+      }
+    });
+
     return {};
   },
   activeUser: async (req) => {

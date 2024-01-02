@@ -1,8 +1,8 @@
 const { Schema, model } = require('mongoose');
-const { ACTIVE_STATUS } = require('../../../config/database/activeStatus.js');
+const { ACTIVE_STATUS } = require('../../../config/database/user/activeStatus.js');
 const { COLLECTION_NAME } = require('../../../config/database/collectionName.js');
-const { ROLE } = require('../../../config/database/userRole.js');
-const { GENDER_IDENTITY } = require('../../../config/database/gender.js');
+const { ROLE } = require('../../../config/database/user/userRole.js');
+const { GENDER_IDENTITY } = require('../../../config/database/user/gender.js');
 
 const modelSchema = new Schema(
   {

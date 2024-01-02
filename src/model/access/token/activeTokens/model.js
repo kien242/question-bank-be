@@ -5,13 +5,16 @@ const modelSchema = new Schema(
     userId: {
       type: Schema.Types.ObjectId,
       ref: COLLECTION_NAME.USER,
-      require: true,
+      required: true,
     },
     activeToken: {
       type: String,
-      require: true,
+      required: true,
     },
     activeTokenUse: {
+      type: String,
+    },
+    forwardPasswordToken: {
       type: String,
     },
   },

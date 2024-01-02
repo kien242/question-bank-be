@@ -14,25 +14,25 @@ class Database {
     }
 
     mongoose
-      .connect(connectString, { maxPoolSize: 50 })
-      .then((_) => {
-        logSuccess('Connected to MongoDB successfully');
-        switch (mongoose.connection.readyState) {
-          case 0:
-            logError('MongoDb is disconnected');
-            break;
-          case 1:
-            logSuccess('MongoDb is connected');
-            break;
-          case 2:
-            logSuccess('MongoDb is connecting');
-            break;
-          case 3:
-            logError('MongoDb is disconnecting');
-            break;
-        }
-      })
-      .catch((err) => logError('Error Connect!'));
+        .connect(connectString, { maxPoolSize: 50 })
+        .then((_) => {
+          logSuccess('Connected to MongoDB successfully');
+          switch (mongoose.connection.readyState) {
+            case 0:
+              logError('MongoDb is disconnected');
+              break;
+            case 1:
+              logSuccess('MongoDb is connected');
+              break;
+            case 2:
+              logSuccess('MongoDb is connecting');
+              break;
+            case 3:
+              logError('MongoDb is disconnecting');
+              break;
+          }
+        })
+        .catch((err) => logError('Error Connect!'));
   }
 
   static getInstance() {
