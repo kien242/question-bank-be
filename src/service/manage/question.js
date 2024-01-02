@@ -5,6 +5,7 @@ const { questionModel } = require('../../model/question/model.js');
 const { logError } = require('../../utils/consoleLog/consoleColors.js');
 const { NotFoundError, ForbiddenError } = require('../../utils/core/error.res.js');
 const { OTHER_CONFIG } = require('../../config/other.js');
+const _ = require('lodash');
 
 const questionService = {
   createNewQuestion: async (userId, questionData) => {
@@ -23,8 +24,9 @@ const questionService = {
     return { saveQuestions };
   },
   getQuestion: async (userId, query) => {
+    console.log(userId);
     console.log(query);
-    return query;
+    return { query };
   },
 };
 

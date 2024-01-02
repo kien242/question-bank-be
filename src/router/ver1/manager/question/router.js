@@ -14,4 +14,6 @@ questionRouter.post(
 );
 
 questionRouter.get('/', asyncHandle(questionController.getQuestion));
+// questionRouter.put('/', asyncHandle(questionController.updateQuestion)) //TODO
+// questionRouter.delete('/', asyncHandle(questionController.deleteQuestion));//TODO
 module.exports = questionRouter;

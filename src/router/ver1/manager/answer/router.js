@@ -1,23 +1,8 @@
 const { Router } = require('express');
 
 const answerRouter = Router();
-// answerRouter.get('/', asyncHandle(SubjectController.getSubject)); //TODO
-
-// answerRouter.put(
-//   '/',
-//   asyncHandle(checkRole(ROLE.ADMIN)),
-//   asyncHandle(SubjectController.updateSubject),
-// ); //TODO
-
-// answerRouter.delete(
-//   '/',
-//   asyncHandle(checkRole(ROLE.ADMIN)),
-//   asyncHandle(SubjectController.deleteSubject),
-// ); //TODO
-
-// answerRouter.post(
-//   '/',
-//   asyncHandle(checkRole(ROLE.ADMIN)),
-//   asyncHandle(SubjectController.createNewSubject),
-// ); //TODO
+// answerRouter.post('/', asyncHandle(answerController.createAnswer)) // TODO
+// answerRouter.get('/', asyncHandle(answerController.getAnswer)); //TODO
+// answerRouter.put('/', asyncHandle(answerController.updateAnswer)) // TODO
+// answerRouter.delete('/', asyncHandle(answerController.deleteAnswer)); //TODO
 module.exports = answerRouter;
