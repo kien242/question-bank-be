@@ -16,6 +16,6 @@ const schema = new Schema({
   },
 });
 
-const modelSubject = model(COLLECTION_NAME.SUBJECT, schema);
+const subjectModel = model(COLLECTION_NAME.SUBJECT, schema);
 
-module.exports = { modelSubject };
+module.exports = { subjectModel };
