@@ -7,7 +7,7 @@ const { subjectController } = require('../../../../controller/manage/subject.js'
 const subjectRouter = Router();
 
 subjectRouter.get('/', asyncHandle(subjectController.getSubjects));
-subjectRouter.get('/detail', asyncHandle(subjectController.getSubjects));
+subjectRouter.get('/detail', asyncHandle(subjectController.getDetailSubject));
 subjectRouter.put('/', asyncHandle(checkRole(ROLE.ADMIN)), asyncHandle(subjectController.updateSubject));
 subjectRouter.delete('/', asyncHandle(checkRole(ROLE.ADMIN)), asyncHandle(subjectController.deleteSubjects));
 subjectRouter.post('/', asyncHandle(checkRole(ROLE.ADMIN)), asyncHandle(subjectController.createNewSubject));
