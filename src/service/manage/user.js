@@ -61,9 +61,9 @@ const AdminServiceUser = {
       }
       const options = { upsert: true, new: true, setDefaultsOnInsert: true };
       const updateUser = await userModel
-        .findOneAndUpdate({ _id: user._id }, update, options)
-        .select({ password: 0, __v: 0 })
-        .lean();
+          .findOneAndUpdate({ _id: user._id }, update, options)
+          .select({ password: 0, __v: 0 })
+          .lean();
       updateList.push(updateUser);
     }
     console.log(updateList);
