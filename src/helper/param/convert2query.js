@@ -1,12 +1,10 @@
 const { Types } = require('mongoose');
-const { BadRequestError } = require('../../utils/core/error.res.js');
 
 function toArray(object) {
   const result = {};
 
   for (const key in object) {
     const value = object[key];
-
     if (Array.isArray(value)) {
       result[key] = value;
     } else {

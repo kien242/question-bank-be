@@ -1,10 +1,10 @@
 const { logInfo } = require('../../utils/consoleLog/consoleColors.js');
-const { OK } = require( '../../utils/core/success.res.js' );
+const { OK } = require('../../utils/core/success.res.js');
 const { subjectService } = require('../../service/manage/subject.js');
 const { BadRequestError } = require('../../utils/core/error.res');
 
 const subjectController = {
-  createNewSubject: async (req, _) => {
+  createNewSubject: async (req, res) => {
     logInfo('[subject]: create new subject');
     const subject = req.body(REQ_CUSTOM_FILED.QUESTION_DATA);
     validateData(subject);
@@ -12,10 +12,10 @@ const subjectController = {
     new OK({
       message: 'create new subject success',
       metadata: await subjectService.createNewSubject(subject),
-    });
+    }).send(res);
   },
 
-  getDetailSubject: async (req, _) => {
+  getDetailSubject: async (req, res) => {
     logInfo('[subject]: get detail subject');
 
     const idSubject = req.body(REQ_CUSTOM_FILED.QUESTION_DATA)[id];
@@ -28,20 +28,20 @@ const subjectController = {
     new OK({
       message: 'Get detail a subject success',
       metadata: await subjectService.getDetailSubject(idSubject),
-    });
+    }).send(res);
   },
 
   getSubjects: async () => {
     new OK({
       message: 'Get subjects success',
       metadata: await subjectService.getSubjects(),
-    });
+    }).send(res);
   },
   updateSubject: async (req, res) => {
     console.log(first);
   },
 
-  deleteSubjects: async (req, _) => {
+  deleteSubjects: async (req, res) => {
     const subjectIDs = req.body(REQ_CUSTOM_FILED.QUESTION_DATA);
 
     if (!subjectIDs || subjectIDs.length === 0) {
@@ -52,9 +52,8 @@ const subjectController = {
     new OK({
       message: 'Get subjects success',
       metadata: await subjectService.deleteSubjects(subjectIDs),
-    });
+    }).send(res);
   },
-
 };
 
 function validateData(data) {

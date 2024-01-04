@@ -10,14 +10,14 @@ const { Router } = require('express');
 const accessRouter = Router();
 
 accessRouter.post(
-  '/signup',
-  asyncHandle(validateReq(userReqSch, REQ_CUSTOM_FILED.USER_DATA)),
-  asyncHandle(AccessController.signUp),
+    '/signup',
+    asyncHandle(validateReq(userReqSch, REQ_CUSTOM_FILED.USER_DATA)),
+    asyncHandle(AccessController.signUp),
 );
 accessRouter.post(
-  '/login',
-  //   asyncHandle(validateReq(userReqSch)),
-  asyncHandle(AccessController.login),
+    '/login',
+    //   asyncHandle(validateReq(userReqSch)),
+    asyncHandle(AccessController.login),
 );
 accessRouter.get('/handle-refresh-token', asyncHandle(AccessController.handleRefreshToken));
 accessRouter.delete('/logout', asyncHandle(checkAuth), asyncHandle(AccessController.logout));

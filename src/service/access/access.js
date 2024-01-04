@@ -51,9 +51,9 @@ const AccessService = {
 
     const { publicKey, privateKey } = generateSecretKey();
     const authToken = await createTokenPair(
-      { userName: newUser.userName, role: newUser.role },
-      publicKey,
-      privateKey,
+        { userName: newUser.userName, role: newUser.role },
+        publicKey,
+        privateKey,
     );
     const saveToken = await authTokenService.createKeyToken({
       userId: newUser._id,
@@ -91,10 +91,10 @@ const AccessService = {
   login: async (req) => {
     const { userName, password, email } = req.body[REQ_CUSTOM_FILED.USER_DATA];
     const foundUser = await userModel
-      .findOne({
-        $or: [{ email }, { userName }],
-      })
-      .lean();
+        .findOne({
+          $or: [{ email }, { userName }],
+        })
+        .lean();
     if (!foundUser) {
       logError('User is not exits');
       throw new BadRequestError('User is not registered');
@@ -106,12 +106,12 @@ const AccessService = {
     }
     const { publicKey, privateKey } = generateSecretKey();
     const authToken = await createTokenPair(
-      {
-        userName: foundUser.userName,
-        role: foundUser.role,
-      },
-      publicKey,
-      privateKey,
+        {
+          userName: foundUser.userName,
+          role: foundUser.role,
+        },
+        publicKey,
+        privateKey,
     );
     const saveToken = await authTokenService.createKeyToken({
       userId: foundUser._id,
@@ -145,18 +145,18 @@ const AccessService = {
     const options = { upsert: true, new: true, setDefaultsOnInsert: true };
     await userModel.findOneAndUpdate({ _id: userId }, { password: passwordHash }, options).lean();
     await activeModel.findOneAndUpdate(
-      { userId },
-      { forwardPasswordToken: '' },
-      { upsert: true, new: true, setDefaultsOnInsert: true },
+        { userId },
+        { forwardPasswordToken: '' },
+        { upsert: true, new: true, setDefaultsOnInsert: true },
     );
     return {};
   },
   forwardPassword: async (email, userName) => {
     const foundUser = await userModel
-      .findOne({
-        email,
-      })
-      .lean();
+        .findOne({
+          email,
+        })
+        .lean();
     if (foundUser.userName !== userName) {
       logError('userName and Email is not correct');
       throw new INTERNAL_SERVER_ERROR('Something went wrong, please try again');
@@ -193,14 +193,14 @@ const AccessService = {
       throw new ForbiddenError('Active token failed');
     }
     await activeModel.findOneAndUpdate(
-      { userId },
-      { activeToken: '', activeTokenUse: findToken.activeToken },
-      { upsert: true, new: true, setDefaultsOnInsert: true },
+        { userId },
+        { activeToken: '', activeTokenUse: findToken.activeToken },
+        { upsert: true, new: true, setDefaultsOnInsert: true },
     );
     await userModel.findOneAndUpdate(
-      { _id: userId },
-      { status: ACTIVE_STATUS.ACTIVE },
-      { upsert: true, new: true, setDefaultsOnInsert: true },
+        { _id: userId },
+        { status: ACTIVE_STATUS.ACTIVE },
+        { upsert: true, new: true, setDefaultsOnInsert: true },
     );
     return {};
   },
@@ -246,12 +246,12 @@ const AccessService = {
     }
 
     const authToken = await createTokenPair(
-      {
-        userName: foundUser.userName,
-        role: foundUser.role,
-      },
-      keyStore.publicKey,
-      keyStore.privateKey,
+        {
+          userName: foundUser.userName,
+          role: foundUser.role,
+        },
+        keyStore.publicKey,
+        keyStore.privateKey,
     );
 
     await keyStore.updateOne({

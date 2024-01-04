@@ -1,12 +1,4 @@
-const { hash } = require('bcrypt');
-const { QUESTION_ACCESS } = require('../../config/database/question/questionAccess.js');
-const { userModel } = require('../../model/access/user/model.js');
 const { questionModel } = require('../../model/question/model.js');
-const { logError } = require('../../utils/consoleLog/consoleColors.js');
-const { NotFoundError, ForbiddenError } = require('../../utils/core/error.res.js');
-const { OTHER_CONFIG } = require('../../config/other.js');
-const _ = require('lodash');
-const { Types } = require('mongoose');
 
 const questionService = {
   createNewQuestion: async (userId, questionData) => {
@@ -26,13 +18,13 @@ const questionService = {
   },
   getQuestion: async (userId, query) => {
     const questionList = await questionModel
-      .find(query[0])
-      .populate({
-        path: 'ownerId',
-        select: '-password',
-      })
-      .skip(!query[1].page || !query[1].limit ? '' : query[1].page * query[1].limit)
-      .limit(!query[1].limit ? '' : query[1].limit);
+        .find(query[0])
+        .populate({
+          path: 'ownerId',
+          select: '-password',
+        })
+        .skip(!query[1].page || !query[1].limit ? '' : query[1].page * query[1].limit)
+        .limit(!query[1].limit ? '' : query[1].limit);
     return { questionList };
   },
 };
