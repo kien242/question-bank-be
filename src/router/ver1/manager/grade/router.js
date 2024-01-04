@@ -6,8 +6,8 @@ const { gradeController } = require('../../../../controller/manage/grade.js');
 
 const gradeRouter = Router();
 
-gradeRouter.delete('/', asyncHandle(checkRole(ROLE.ADMIN)), asyncHandle(gradeController.deleteGrade)); //TODO
-// gradeRouter.put('/', asyncHandle(checkRole(ROLE.ADMIN)), asyncHandle(gradeController.updateGrade)); //TODO
+gradeRouter.delete('/', asyncHandle(checkRole(ROLE.ADMIN)), asyncHandle(gradeController.deleteGrade));
+// gradeRouter.put('/', asyncHandle(checkRole(ROLE.ADMIN)), asyncHandle(gradeController.updateGrade));
 gradeRouter.post('/', asyncHandle(checkRole(ROLE.ADMIN)), asyncHandle(gradeController.createNewGrade));
 gradeRouter.get('/', asyncHandle(gradeController.getAllGrade));
 
