@@ -8,9 +8,7 @@ const { QUESTION_TYPE } = require('../../config/database/question/questionType.j
 const userReqSch = Joi.object({
   fullName: Joi.string(),
   userName: Joi.string().alphanum().min(3).max(30),
-  password: Joi.string().pattern(
-    new RegExp('^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[-_@#$%^*()<>]).{8,}$'),
-  ),
+  password: Joi.string().pattern(new RegExp('^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[-_@#$%^*()<>]).{8,}$')),
   birthday: Joi.number().integer().min(1900).max(new Date().getFullYear()),
   email: Joi.string()
     .email({
@@ -26,7 +24,7 @@ const userReqSch = Joi.object({
 });
 const questionSch = Joi.array().items(
   Joi.object().keys({
-    accessAuthorization: Joi.number().valid(...Object.values(QUESTION_ACCESS)),
+    accessType: Joi.number().valid(...Object.values(QUESTION_ACCESS)),
     subject: Joi.string().required(),
     grade: Joi.string().required(),
     topics: Joi.array(),
