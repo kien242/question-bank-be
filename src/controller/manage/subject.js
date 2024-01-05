@@ -2,12 +2,13 @@ const { logInfo } = require('../../utils/consoleLog/consoleColors.js');
 const { OK } = require('../../utils/core/success.res.js');
 const { subjectService } = require('../../service/manage/subject.js');
 const { BadRequestError } = require('../../utils/core/error.res');
+const { checkRequiedField } = require('../../utils/other/validateField.js');
 
 const subjectController = {
   createNewSubject: async (req, res) => {
     logInfo('[subject]: create new subject');
     const subject = req.body(REQ_CUSTOM_FILED.QUESTION_DATA);
-    validateData(subject);
+    checkRequiedField(gradeData, ['subjectName', 'subjectCode', 'subjectDescription']);
 
     new OK({
       message: 'create new subject success',
@@ -20,7 +21,8 @@ const subjectController = {
 
     const idSubject = req.body(REQ_CUSTOM_FILED.QUESTION_DATA)[id];
 
-    if (!idSubject) {
+    // kiểm tra xem Id có hay không, có khác "" không
+    if (!idSubject || idSubject.length === 0) {
       logError(`[subject]: Missing id subject`);
       throw new BadRequestError('ID subject is requied field');
     }
@@ -37,12 +39,13 @@ const subjectController = {
       metadata: await subjectService.getSubjects(),
     }).send(res);
   },
-  updateSubject: async (req, res) => {
+  updateSubject: async (_, res) => {
+    // waiting to code
     console.log(first);
   },
 
   deleteSubjects: async (req, res) => {
-    const subjectIDs = req.body(REQ_CUSTOM_FILED.QUESTION_DATA);
+    const subjectIDs = req.body(REQ_CUSTOM_FILED.QUESTION_DATA) ?? [];
 
     if (!subjectIDs || subjectIDs.length === 0) {
       logError(`[subject]: Missing id subject`);
@@ -55,21 +58,5 @@ const subjectController = {
     }).send(res);
   },
 };
-
-function validateData(data) {
-  const requiredFields = ['subjectName', 'subjectCode', 'subjectDescription'];
-  // trả vế 1 list các field không có data.
-  const missingFields = requiredFields.filter((field) => !subject[field]);
-
-  if (missingFields.length === 1) {
-    logError(`[subject]: Missing a required field: ${missingFields.first}`);
-    throw new BadRequestError('One required field is missing');
-  }
-
-  if (missingFields.length > 1) {
-    logError(`[subject]: Missing required fields: ${missingFields.join(', ')}`);
-    throw new BadRequestError('Some required field are missing');
-  }
-}
 
 module.exports = { subjectController };

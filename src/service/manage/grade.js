@@ -22,10 +22,29 @@ const gradeService = {
     return { newGrade };
   },
   getAllGrade: async () => {
-    const allGrade = await gradeModel.find();
+    // lấy ra toàn bộ các trình độ học vấn, nếu không có thì trả về list rỗng
+    const allGrade = await gradeModel.find() ?? [];
     return { allGrade };
   },
-  deleteGrade: async () => {},
+  getDetailGrade: async (data) => {
+    const grade = await gradeModel.findById({ _id: data });
+    if (!grade) {
+      logError( '[get detail grade]: This grade is not exist' );
+      throw new BadRequestError(' This grade is not exist ');
+    }
+
+    return { grade };
+  },
+
+  updateGrade: async (data) => {
+
+  },
+
+  deleteGrade: async (data) => {
+    await gradeModel.deleteMany({ _id: { $in: data } });
+
+    return {};
+  },
 };
 
 module.exports = { gradeService };
