@@ -1,4 +1,3 @@
-const { HEADER } = require('../../config/header.js');
 const { REQ_CUSTOM_FILED } = require('../../config/reqCustom.js');
 const { userModel } = require('../../model/access/user/model.js');
 const { logError } = require('../../utils/consoleLog/consoleColors.js');

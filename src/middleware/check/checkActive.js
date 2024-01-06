@@ -1,5 +1,4 @@
 const { ACTIVE_STATUS } = require('../../config/database/user/activeStatus.js');
-const { HEADER } = require('../../config/header.js');
 const { userModel } = require('../../model/access/user/model.js');
 const { logInfo } = require('../../utils/consoleLog/consoleColors.js');
 const { ForbiddenError } = require('../../utils/core/error.res.js');
