@@ -1,5 +1,4 @@
 const _ = require('lodash');
-const { HEADER } = require('../../config/header.js');
 const { OK } = require('../../utils/core/success.res.js');
 const { REQ_CUSTOM_FILED } = require('../../config/reqCustom.js');
 const { logInfo } = require('../../utils/consoleLog/consoleColors.js');
@@ -12,7 +11,7 @@ const questionController = {
   createNewQuestion: async (req, res) => {
     logInfo('[Question]::createNewQuestion');
     const questionData = req.body[REQ_CUSTOM_FILED.QUESTION_DATA];
-    const userId = req.headers[HEADER.USER_ID];
+    const { userId } = req.body[REQ_CUSTOM_FILED.JWT_PAYLOAD];
     new OK({
       message: 'Create new question successfully',
       metadata: await questionService.createNewQuestion(userId, questionData),
@@ -20,7 +19,7 @@ const questionController = {
   },
   getQuestion: async (req, res) => {
     logInfo('[Question]::getQuestion');
-    const userId = req.headers[HEADER.USER_ID];
+    const { userId } = req.body[REQ_CUSTOM_FILED.JWT_PAYLOAD];
     const foundUser = await userModel.findOne({ _id: userId });
     let isAdmin;
     foundUser.role === ROLE.ADMIN ? (isAdmin = true) : (isAdmin = false);

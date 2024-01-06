@@ -1,4 +1,4 @@
-const { Schema, Types } = require('mongoose');
+const { Schema, Types, model } = require('mongoose');
 const { COLLECTION_NAME } = require('../../config/database/collectionName.js');
 
 const testSchema = new Schema({
@@ -67,3 +67,7 @@ const testSchema = new Schema({
     max: totalScore,
   },
 });
+
+const testModel = model(COLLECTION_NAME.TEST, testSchema);
+
+module.exports = { testModel };
