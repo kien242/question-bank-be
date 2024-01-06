@@ -1,4 +1,5 @@
 const JWT = require('jsonwebtoken');
+const crypto = require('crypto');
 const { hash, compare } = require('bcrypt');
 const { UserService } = require('../profile/user.js');
 const { createTransport } = require('nodemailer');
@@ -7,8 +8,8 @@ const { HEADER } = require('../../config/header.js');
 const { QUERY } = require('../../config/customQuery.js');
 const { OTHER_CONFIG } = require('../../config/other.js');
 const { userModel } = require('../../model/access/user/model.js');
-const { createTokenPair } = require('../../utils/auth/authUtil.js');
-const { generateSecretKey } = require('../../utils/key/secretKey.js');
+const { createTokenPair, createTokenPairSync } = require('../../utils/auth/authUtil.js');
+const { generateSecretKey, generateSecretKeySync } = require('../../utils/key/secretKey.js');
 const { REQ_CUSTOM_FILED } = require('../../config/reqCustom.js');
 const { ACTIVE_STATUS } = require('../../config/database/user/activeStatus.js');
 const { generateActiveLink, generateNewPasswordLink } = require('../../helper/generateLink.js');
@@ -49,18 +50,22 @@ const AccessService = {
       throw new ForbiddenError('Cant create new user');
     }
 
-    const { publicKey, privateKey } = generateSecretKey();
-    const authToken = await createTokenPair(
-        { userName: newUser.userName, role: newUser.role },
-        publicKey,
-        privateKey,
-    );
-    const saveToken = await authTokenService.createKeyToken({
-      userId: newUser._id,
+    const { publicKey, privateKey } = generateSecretKeySync(); // Create Private Key and public key
+
+    //create new accessToken  and refresh token
+    const authToken = await createTokenPairSync(
+      { userName: newUser.userName, role: newUser.role },
       publicKey,
       privateKey,
+    );
+
+    //save publicKey to DB
+    const saveToken = await authTokenService.createKeyTokenSync({
+      userId: newUser._id,
+      publicKey,
       refreshToken: authToken.refreshToken,
     });
+
     const activeLink = await generateActiveLink(newUser._id);
     if (!saveToken) {
       logError('Can not save token to database');
@@ -91,10 +96,10 @@ const AccessService = {
   login: async (req) => {
     const { userName, password, email } = req.body[REQ_CUSTOM_FILED.USER_DATA];
     const foundUser = await userModel
-        .findOne({
-          $or: [{ email }, { userName }],
-        })
-        .lean();
+      .findOne({
+        $or: [{ email }, { userName }],
+      })
+      .lean();
     if (!foundUser) {
       logError('User is not exits');
       throw new BadRequestError('User is not registered');
@@ -104,21 +109,22 @@ const AccessService = {
       logError('Password is not correct');
       throw new BadRequestError('User or password is not correct');
     }
-    const { publicKey, privateKey } = generateSecretKey();
-    const authToken = await createTokenPair(
-        {
-          userName: foundUser.userName,
-          role: foundUser.role,
-        },
-        publicKey,
-        privateKey,
-    );
-    const saveToken = await authTokenService.createKeyToken({
-      userId: foundUser._id,
-      refreshToken: authToken.refreshToken,
-      privateKey,
+
+    const { publicKey, privateKey } = generateSecretKeySync(); // Create Private Key and public key
+    //create new accessToken  and refresh token
+    const authToken = await createTokenPairSync(
+      { userName: newUser.userName, role: newUser.role },
       publicKey,
+      privateKey,
+    );
+
+    //save publicKey to DB
+    const saveToken = await authTokenService.createKeyTokenSync({
+      userId: newUser._id,
+      publicKey,
+      refreshToken: authToken.refreshToken,
     });
+
     if (!saveToken) {
       logError('Cant save token to database, Login again');
       throw new BadRequestError('Something wrong, Pls Login again');
@@ -145,18 +151,18 @@ const AccessService = {
     const options = { upsert: true, new: true, setDefaultsOnInsert: true };
     await userModel.findOneAndUpdate({ _id: userId }, { password: passwordHash }, options).lean();
     await activeModel.findOneAndUpdate(
-        { userId },
-        { forwardPasswordToken: '' },
-        { upsert: true, new: true, setDefaultsOnInsert: true },
+      { userId },
+      { forwardPasswordToken: '' },
+      { upsert: true, new: true, setDefaultsOnInsert: true },
     );
     return {};
   },
   forwardPassword: async (email, userName) => {
     const foundUser = await userModel
-        .findOne({
-          email,
-        })
-        .lean();
+      .findOne({
+        email,
+      })
+      .lean();
     if (foundUser.userName !== userName) {
       logError('userName and Email is not correct');
       throw new INTERNAL_SERVER_ERROR('Something went wrong, please try again');
@@ -193,14 +199,14 @@ const AccessService = {
       throw new ForbiddenError('Active token failed');
     }
     await activeModel.findOneAndUpdate(
-        { userId },
-        { activeToken: '', activeTokenUse: findToken.activeToken },
-        { upsert: true, new: true, setDefaultsOnInsert: true },
+      { userId },
+      { activeToken: '', activeTokenUse: findToken.activeToken },
+      { upsert: true, new: true, setDefaultsOnInsert: true },
     );
     await userModel.findOneAndUpdate(
-        { _id: userId },
-        { status: ACTIVE_STATUS.ACTIVE },
-        { upsert: true, new: true, setDefaultsOnInsert: true },
+      { _id: userId },
+      { status: ACTIVE_STATUS.ACTIVE },
+      { upsert: true, new: true, setDefaultsOnInsert: true },
     );
     return {};
   },
@@ -213,7 +219,10 @@ const AccessService = {
       logError('Not found ID in Keys Token Model');
       throw new NotFoundError('Not found KeyStore');
     }
-    JWT.verify(oldRefreshToken, keyStore.privateKey, function (err, decode) {
+    // Convert publicKey từ dạng string về dạng rsa có thể đọc được
+    const publicKeyObject = crypto.createPublicKey(keyStore.publicKey);
+
+    JWT.verify(oldRefreshToken, publicKeyObject, function (err, decode) {
       if (err) {
         switch (err.name) {
           case 'TokenExpiredError':
@@ -245,13 +254,28 @@ const AccessService = {
       throw new NotFoundError('User not found');
     }
 
-    const authToken = await createTokenPair(
-        {
-          userName: foundUser.userName,
-          role: foundUser.role,
-        },
-        keyStore.publicKey,
-        keyStore.privateKey,
+    const { publicKey, privateKey } = generateSecretKeySync(); // Create Private Key and public key
+    //create new accessToken  and refresh token
+    const authToken = await createTokenPairSync(
+      { userName: newUser.userName, role: newUser.role },
+      publicKey,
+      privateKey,
+    );
+
+    //save publicKey to DB
+    const saveToken = await authTokenService.createKeyTokenSync({
+      userId: newUser._id,
+      publicKey,
+      refreshToken: authToken.refreshToken,
+    });
+
+    const authToken = await createTokenPairSync(
+      {
+        userName: foundUser.userName,
+        role: foundUser.role,
+      },
+      keyStore.publicKey,
+      keyStore.privateKey,
     );
 
     await keyStore.updateOne({
