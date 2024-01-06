@@ -2,6 +2,7 @@ const { logInfo } = require('../../utils/consoleLog/consoleColors.js');
 const { OK } = require('../../utils/core/success.res.js');
 const { subjectService } = require('../../service/manage/subject.js');
 const { BadRequestError } = require('../../utils/core/error.res');
+const { REQ_CUSTOM_FILED } = require('../../config/reqCustom.js');
 
 const subjectController = {
   createNewSubject: async (req, res) => {
