@@ -5,7 +5,7 @@ const { logInfo } = require('../../utils/consoleLog/consoleColors.js');
 const { ForbiddenError } = require('../../utils/core/error.res.js');
 
 const checkActive = async (req, res, next) => {
-  const userId = req.headers[HEADER.USER_ID];
+  const { userId } = req.body[REQ_CUSTOM_FILED.JWT_PAYLOAD];
   const foundUser = await userModel.findOne({ _id: userId });
   switch (foundUser.status) {
     case ACTIVE_STATUS.INACTIVE:

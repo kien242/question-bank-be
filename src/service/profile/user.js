@@ -11,7 +11,7 @@ const UserService = {
     return await userModel.findOne({ _id: id }).lean();
   },
   getCurrentUserInfo: async (req) => {
-    const userId = req.headers[HEADER.USER_ID];
+    const { userId } = req.body[REQ_CUSTOM_FILED.JWT_PAYLOAD];
     const foundUser = await userModel.findOne({ _id: userId }).lean();
     if (!foundUser) {
       logError('Something went wrong when get current profile');
@@ -25,7 +25,7 @@ const UserService = {
     };
   },
   updateCurrentUser: async (req, res) => {
-    const userId = req.headers[HEADER.USER_ID];
+    const { userId } = req.body[REQ_CUSTOM_FILED.JWT_PAYLOAD];
     const rawData = removeInfoData({
       filed: ['email', 'userName', 'password', 'googleId', 'facebookId', 'role', 'status'],
       source: req.body[REQ_CUSTOM_FILED.USER_DATA],
