@@ -1,5 +1,6 @@
 const { Schema, Types, model } = require('mongoose');
 const { COLLECTION_NAME } = require('../../config/database/collectionName.js');
+const { max } = require('lodash');
 
 const testSchema = new Schema({
   ownerId: {
@@ -57,7 +58,7 @@ const testSchema = new Schema({
   totalScore: {
     type: Number,
     min: 0,
-    enum: (listQuestion) => {
+    max: (listQuestion) => {
       listQuestion.reduce((acc, score) => acc + score.questionScore, 0);
     },
   },
