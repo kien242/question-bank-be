@@ -113,14 +113,14 @@ const AccessService = {
     const { publicKey, privateKey } = generateSecretKeySync(); // Create Private Key and public key
     //create new accessToken  and refresh token
     const authToken = await createTokenPairSync(
-      { userName: newUser.userName, role: newUser.role },
+      { userName: foundUser.userName, role: foundUser.role },
       publicKey,
       privateKey,
     );
 
     //save publicKey to DB
     const saveToken = await authTokenService.createKeyTokenSync({
-      userId: newUser._id,
+      userId: foundUser._id,
       publicKey,
       refreshToken: authToken.refreshToken,
     });
@@ -257,30 +257,22 @@ const AccessService = {
     const { publicKey, privateKey } = generateSecretKeySync(); // Create Private Key and public key
     //create new accessToken  and refresh token
     const authToken = await createTokenPairSync(
-      { userName: newUser.userName, role: newUser.role },
+      { userName: foundUser.userName, role: foundUser.role },
       publicKey,
       privateKey,
     );
 
     //save publicKey to DB
-    const saveToken = await authTokenService.createKeyTokenSync({
-      userId: newUser._id,
-      publicKey,
-      refreshToken: authToken.refreshToken,
-    });
-
-    const authToken = await createTokenPairSync(
-      {
-        userName: foundUser.userName,
-        role: foundUser.role,
-      },
-      keyStore.publicKey,
-      keyStore.privateKey,
-    );
+    // const saveToken = await authTokenService.createKeyTokenSync({
+    //   userId: newUser._id,
+    //   publicKey,
+    //   refreshToken: authToken.refreshToken,
+    // });
 
     await keyStore.updateOne({
       $set: {
         refreshToken: authToken.refreshToken,
+        publicKey,
       },
       $addToSet: {
         refreshTokensUsed: oldRefreshToken,

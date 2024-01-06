@@ -3,6 +3,7 @@ const { authTokenService } = require('../../service/access/authToken.js');
 const { logError } = require('../../utils/consoleLog/consoleColors.js');
 const { AuthFailureError, NotFoundError } = require('../../utils/core/error.res.js');
 const JWT = require('jsonwebtoken');
+const crypto = require('crypto');
 
 const checkAuth = async (req, res, next) => {
   const rawAccessToken = req.headers[HEADER.ACCESS_TOKEN];
@@ -21,8 +22,10 @@ const checkAuth = async (req, res, next) => {
     throw new AuthFailureError('Invalid request');
   }
   const accessToken = rawAccessToken.split(' ')[1];
+  // Convert publicKey từ dạng string về dạng rsa có thể đọc được
+  const publicKey = crypto.createPublicKey(keyTokens.publicKey);
   try {
-    JWT.verify(accessToken, keyTokens.publicKey, function (err, decode) {
+    JWT.verify(accessToken, publicKey, function (err, decode) {
       if (err) {
         switch (err.name) {
           case 'TokenExpiredError':
