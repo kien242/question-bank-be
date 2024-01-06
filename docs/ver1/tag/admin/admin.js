@@ -23,9 +23,6 @@ const getUserInfo = {
   ],
   security: [
     {
-      userId: [],
-    },
-    {
       access_token: [],
     },
   ],
@@ -39,9 +36,6 @@ const updateUserInfo = {
   description: 'Update user profile',
   operationId: 'UpdateUserProfile',
   security: [
-    {
-      userId: [],
-    },
     {
       access_token: [],
     },

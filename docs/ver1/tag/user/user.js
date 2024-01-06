@@ -8,9 +8,6 @@ const getCurrentUserInfo = {
   operationId: 'GetCurrentUserProfile',
   security: [
     {
-      userId: [],
-    },
-    {
       access_token: [],
     },
   ],
@@ -25,9 +22,6 @@ const updateCurrentUserInfo = {
   description: 'Update current user profile',
   operationId: 'UpdateCurrentUserProfile',
   security: [
-    {
-      userId: [],
-    },
     {
       access_token: [],
     },
