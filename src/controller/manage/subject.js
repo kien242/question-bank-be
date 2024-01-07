@@ -17,13 +17,11 @@ const subjectController = {
 
   getDetailSubject: async (req, res) => {
     logInfo('[subject]: get detail subject');
-
     const { subjectId } = req.body[REQ_CUSTOM_FILED.SUBJECT_DATA];
-
     // kiểm tra xem Id có hay không, có khác "" không
     if (!subjectId || subjectId.length === 0) {
       logError(`[subject]: Missing id subject`);
-      throw new BadRequestError('ID subject is requied field');
+      throw new BadRequestError('ID subject is required field');
     }
 
     new OK({
@@ -43,7 +41,7 @@ const subjectController = {
     const data = req.body[REQ_CUSTOM_FILED.SUBJECT_DATA];
     if (!data) {
       logError(`[subject]: Missing data update`);
-      throw new BadRequestError('Data update is requied');
+      throw new BadRequestError('Data update is required');
     }
 
     new OK({
@@ -57,7 +55,7 @@ const subjectController = {
 
     if (!subjectIDs || subjectIDs.length === 0) {
       logError(`[subject]: Missing id subject`);
-      throw new BadRequestError('ID subjects is requied field');
+      throw new BadRequestError('ID subjects is required field');
     }
 
     new OK({
