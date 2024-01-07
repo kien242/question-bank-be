@@ -1,7 +1,4 @@
 const HEADER = {
-  ACCESS_TOKEN: 'authorization',
-  PERMISSIONS: 'permissions',
-  REFRESH_TOKEN: 'x-refresh-token',
-  USER_ID: 'x-user-id',
+  JWT_TOKEN: 'authorization',
 };
 module.exports = { HEADER };

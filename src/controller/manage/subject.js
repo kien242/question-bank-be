@@ -3,17 +3,11 @@ const { OK } = require('../../utils/core/success.res.js');
 const { subjectService } = require('../../service/manage/subject.js');
 const { BadRequestError } = require('../../utils/core/error.res');
 const { REQ_CUSTOM_FILED } = require('../../config/reqCustom.js');
-const { subjectModel } = require('../../model/subject/model.js');
 
 const subjectController = {
   createNewSubject: async (req, res) => {
     logInfo('[subject]: create new subject');
     const subject = req.body[REQ_CUSTOM_FILED.SUBJECT_DATA];
-    const isSubjectExist = subjectModel.findById({ _id: subject.subjectCode });
-    if (!isSubjectExist) {
-      logError(`[subject]: This subject id is existed`);
-      throw new BadRequestError('This subject id is existed');
-    }
 
     new OK({
       message: 'create new subject success',

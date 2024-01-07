@@ -1,20 +1,16 @@
 const { HEADER } = require('../../../src/config/header.js');
 
 const securitySchemes = {
-  userId: {
-    type: 'apiKey',
-    name: HEADER.USER_ID,
-    in: 'header',
-  },
   access_token: {
     type: 'http',
     scheme: 'bearer',
-    name: HEADER.ACCESS_TOKEN,
+    name: HEADER.JWT_TOKEN,
     in: 'header',
   },
   refresh_token: {
-    type: 'apiKey',
-    name: HEADER.REFRESH_TOKEN,
+    type: 'http',
+    scheme: 'bearer',
+    name: HEADER.JWT_TOKEN,
     in: 'header',
   },
 };

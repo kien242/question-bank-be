@@ -53,9 +53,6 @@ const logout = {
   operationId: 'LogoutUser',
   security: [
     {
-      userId: [],
-    },
-    {
       access_token: [],
     },
   ],
@@ -75,9 +72,6 @@ const handleRefreshToken = {
   description: 'Handle refresh token',
   operationId: 'HandleRefreshToken',
   security: [
-    {
-      userId: [],
-    },
     {
       refresh_token: [],
     },

@@ -19,7 +19,7 @@ const generateNewPasswordLink = async (userId) => {
       { forwardPasswordToken: token },
       { upsert: true, new: true, setDefaultsOnInsert: true },
   );
-  const forwardPasswordLink = `${process.env.NEW_PASSWORD_URL}?${QUERY.USER_ID}=${userId}&${QUERY.TOKEN}=${token}`;
+  const forwardPasswordLink = `${process.env.newPassword_URL}?${QUERY.USER_ID}=${userId}&${QUERY.TOKEN}=${token}`;
   return forwardPasswordLink;
 };
 

@@ -1,7 +1,7 @@
 const Joi = require('joi');
 const { ROLE } = require('../../config/database/user/userRole.js');
 const { GENDER_IDENTITY } = require('../../config/database/user/gender.js');
-const { QUESTION_ACCESS } = require('../../config/database/question/questionAccess.js');
+const { ACCESS_TYPE } = require('../../config/accessType.js');
 const { QUESTION_DIFFICULTY } = require('../../config/database/question/questionDifficulty.js');
 const { QUESTION_TYPE } = require('../../config/database/question/questionType.js');
 
@@ -24,7 +24,7 @@ const userReqSch = Joi.object({
 });
 const questionSch = Joi.array().items(
     Joi.object().keys({
-      accessType: Joi.number().valid(...Object.values(QUESTION_ACCESS)),
+      accessType: Joi.number().valid(...Object.values(ACCESS_TYPE)),
       subject: Joi.string().required(),
       grade: Joi.string().required(),
       topics: Joi.array(),
@@ -54,4 +54,27 @@ const subjectSch = Joi.object({
   subjectDescription: Joi.string().required(),
 });
 
-module.exports = { userReqSch, questionSch, subjectSch, gradeSch };
+const testSch = Joi.array().items(
+    Joi.object().keys({
+      testName: Joi.string().required(),
+      accessType: Joi.number().valid(...Object.keys(ACCESS_TYPE)),
+      shareMember: Joi.array().items(Joi.string()),
+      accessPassword: Joi.string(),
+      testTime: Joi.number(),
+      numOfTestAgain: Joi.number(),
+      testStart: Joi.date(),
+      showAnswerAfterTest: Joi.boolean(),
+      testStatus: Joi.boolean(),
+      testDescription: Joi.string(),
+      listQuestions: Joi.array().items(
+          Joi.object().keys({
+            quickView: Joi.string(),
+            questionScore: Joi.number(),
+            questionId: Joi.string(),
+          }),
+      ),
+      totalScore: Joi.number(),
+      passScore: Joi.number(),
+    }),
+);
+module.exports = { userReqSch, questionSch, subjectSch, gradeSch, testSch };

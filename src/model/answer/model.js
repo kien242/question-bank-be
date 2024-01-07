@@ -1,4 +1,4 @@
-const { Schema, Types } = require('mongoose');
+const { Schema, Types, model } = require('mongoose');
 const { COLLECTION_NAME } = require('../../config/database/collectionName.js');
 
 const answerSchema = new Schema({
@@ -24,3 +24,7 @@ const answerSchema = new Schema({
     },
   ],
 });
+
+const answerModel = model(COLLECTION_NAME.ANSWER, answerSchema);
+
+module.exports = { answerModel };

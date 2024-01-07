@@ -1,20 +1,19 @@
+const crypto = require('crypto');
 const JWT = require('jsonwebtoken');
 const { hash, compare } = require('bcrypt');
-const { UserService } = require('../profile/user.js');
 const { createTransport } = require('nodemailer');
+const { UserService } = require('../profile/user.js');
 const { authTokenService } = require('./authToken.js');
-const { HEADER } = require('../../config/header.js');
-const { QUERY } = require('../../config/customQuery.js');
 const { OTHER_CONFIG } = require('../../config/other.js');
 const { userModel } = require('../../model/access/user/model.js');
-const { createTokenPair } = require('../../utils/auth/authUtil.js');
-const { generateSecretKey } = require('../../utils/key/secretKey.js');
 const { REQ_CUSTOM_FILED } = require('../../config/reqCustom.js');
+const { createTokenPairSync } = require('../../utils/auth/authUtil.js');
+const { generateSecretKeySync } = require('../../utils/key/secretKey.js');
 const { ACTIVE_STATUS } = require('../../config/database/user/activeStatus.js');
-const { generateActiveLink, generateNewPasswordLink } = require('../../helper/generateLink.js');
 const { getInfoData, removeInfoData } = require('../../utils/other/respData.js');
 const { logError, logInfo } = require('../../utils/consoleLog/consoleColors.js');
 const { activeModel } = require('../../model/access/token/activeTokens/model.js');
+const { generateActiveLink, generateNewPasswordLink } = require('../../helper/generateLink.js');
 const { setting, mailActiveForm, mailNewPasswordForm } = require('../../config/mail/nodemailer.config.js');
 const {
   BadRequestError,
@@ -49,18 +48,22 @@ const AccessService = {
       throw new ForbiddenError('Cant create new user');
     }
 
-    const { publicKey, privateKey } = generateSecretKey();
-    const authToken = await createTokenPair(
-        { userName: newUser.userName, role: newUser.role },
+    const { publicKey, privateKey } = generateSecretKeySync(); // Create Private Key and public key
+
+    // create new accessToken  and refresh token
+    const authToken = await createTokenPairSync(
+        { userName: newUser.userName, role: newUser.role, userId: newUser._id },
         publicKey,
         privateKey,
     );
-    const saveToken = await authTokenService.createKeyToken({
+
+    // save publicKey to DB
+    const saveToken = await authTokenService.createKeyTokenSync({
       userId: newUser._id,
       publicKey,
-      privateKey,
       refreshToken: authToken.refreshToken,
     });
+
     const activeLink = await generateActiveLink(newUser._id);
     if (!saveToken) {
       logError('Can not save token to database');
@@ -104,20 +107,20 @@ const AccessService = {
       logError('Password is not correct');
       throw new BadRequestError('User or password is not correct');
     }
-    const { publicKey, privateKey } = generateSecretKey();
-    const authToken = await createTokenPair(
-        {
-          userName: foundUser.userName,
-          role: foundUser.role,
-        },
+
+    const { publicKey, privateKey } = generateSecretKeySync(); // Create Private Key and public key
+    // create new accessToken  and refresh token
+    const authToken = await createTokenPairSync(
+        { userName: foundUser.userName, role: foundUser.role, userId: foundUser._id },
         publicKey,
         privateKey,
     );
-    const saveToken = await authTokenService.createKeyToken({
+
+    // save publicKey to DB
+    const saveToken = await authTokenService.createKeyTokenSync({
       userId: foundUser._id,
-      refreshToken: authToken.refreshToken,
-      privateKey,
       publicKey,
+      refreshToken: authToken.refreshToken,
     });
     if (!saveToken) {
       logError('Cant save token to database, Login again');
@@ -131,8 +134,7 @@ const AccessService = {
       authToken,
     };
   },
-  logout: async (req) => {
-    const userId = req.headers[HEADER.USER_ID];
+  logout: async (userId) => {
     const deleteToken = await authTokenService.removeKeyByUserId(userId);
     if (!deleteToken) {
       logError('Cant remove token from database, Pls re logout');
@@ -140,8 +142,8 @@ const AccessService = {
     }
     return {};
   },
-  changePassword: async (userId, new_password) => {
-    const passwordHash = await hash(new_password, OTHER_CONFIG.ROUNDS_HASH_PASSWORD);
+  changePassword: async (userId, newPassword) => {
+    const passwordHash = await hash(newPassword, OTHER_CONFIG.ROUNDS_HASH_PASSWORD);
     const options = { upsert: true, new: true, setDefaultsOnInsert: true };
     await userModel.findOneAndUpdate({ _id: userId }, { password: passwordHash }, options).lean();
     await activeModel.findOneAndUpdate(
@@ -180,9 +182,7 @@ const AccessService = {
 
     return {};
   },
-  activeUser: async (req) => {
-    const userId = req.query[QUERY.USER_ID];
-    const activeToken = req.query[QUERY.TOKEN];
+  activeUser: async (userId, activeToken) => {
     const findToken = await activeModel.findOne({ userId });
     if (!findToken) {
       logError('User Id or token is not correct');
@@ -204,16 +204,16 @@ const AccessService = {
     );
     return {};
   },
-  handleRefreshToken: async (req) => {
-    const oldRefreshToken = req.headers[HEADER.REFRESH_TOKEN];
-    const userId = req.headers[HEADER.USER_ID];
-
+  handleRefreshToken: async (userId, oldRefreshToken) => {
     const keyStore = await authTokenService.findKeyTokenByUserId(userId);
     if (!keyStore) {
       logError('Not found ID in Keys Token Model');
       throw new NotFoundError('Not found KeyStore');
     }
-    JWT.verify(oldRefreshToken, keyStore.privateKey, function (err, decode) {
+    // Convert publicKey từ dạng string về dạng rsa có thể đọc được
+    const publicKeyObject = crypto.createPublicKey(keyStore.publicKey);
+
+    JWT.verify(oldRefreshToken, publicKeyObject, function (err, decode) {
       if (err) {
         switch (err.name) {
           case 'TokenExpiredError':
@@ -245,18 +245,17 @@ const AccessService = {
       throw new NotFoundError('User not found');
     }
 
-    const authToken = await createTokenPair(
-        {
-          userName: foundUser.userName,
-          role: foundUser.role,
-        },
-        keyStore.publicKey,
-        keyStore.privateKey,
+    const { publicKey, privateKey } = generateSecretKeySync(); // Create Private Key and public key
+    // create new accessToken  and refresh token
+    const authToken = await createTokenPairSync(
+        { userName: foundUser.userName, role: foundUser.role, userId: foundUser._id },
+        publicKey,
+        privateKey,
     );
-
     await keyStore.updateOne({
       $set: {
         refreshToken: authToken.refreshToken,
+        publicKey,
       },
       $addToSet: {
         refreshTokensUsed: oldRefreshToken,
