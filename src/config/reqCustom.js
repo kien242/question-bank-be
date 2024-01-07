@@ -4,6 +4,7 @@ const REQ_CUSTOM_FILED = {
   QUESTION_DATA: 'question_data',
   TEST_DATA: 'test_data',
   GRADE_DATA: 'grade_data',
+  SUBJECT_DATA: 'subject_data',
 };
 
 module.exports = { REQ_CUSTOM_FILED };
