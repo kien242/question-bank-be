@@ -13,6 +13,7 @@ const testController = {
       metadata: await testService.createNewTest(userId, testData),
     }).send(res);
   },
+  deleteTest: async (req, res) => {},
 };
 
 module.exports = testController;
