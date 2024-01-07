@@ -37,7 +37,15 @@ const gradeService = {
   },
 
   updateGrade: async (data) => {
+    const gradeExist = await gradeModel.findById({ _id: data._id });
+    if (!gradeExist) {
+      logError( '[get detail grade]: This grade is not exist' );
+      throw new BadRequestError(' This grade is not exist ');
+    };
 
+    const options = { upsert: true, new: true, setDefaultsOnInsert: true };
+    const updateGrade = await gradeModel.findOneAndUpdate({ _id: data._id }, data, options);
+    return { updateGrade };
   },
 
   deleteGrade: async (data) => {

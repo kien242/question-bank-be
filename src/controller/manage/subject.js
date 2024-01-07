@@ -2,13 +2,18 @@ const { logInfo } = require('../../utils/consoleLog/consoleColors.js');
 const { OK } = require('../../utils/core/success.res.js');
 const { subjectService } = require('../../service/manage/subject.js');
 const { BadRequestError } = require('../../utils/core/error.res');
-const { checkRequiedField } = require('../../utils/other/validateField.js');
+const { REQ_CUSTOM_FILED } = require('../../config/reqCustom.js');
+const { subjectModel } = require('../../model/subject/model.js');
 
 const subjectController = {
   createNewSubject: async (req, res) => {
     logInfo('[subject]: create new subject');
-    const subject = req.body(REQ_CUSTOM_FILED.QUESTION_DATA);
-    checkRequiedField(gradeData, ['subjectName', 'subjectCode', 'subjectDescription']);
+    const subject = req.body[REQ_CUSTOM_FILED.SUBJECT_DATA];
+    const isSubjectExist = subjectModel.findById({ _id: subject.subjectCode });
+    if (!isSubjectExist) {
+      logError(`[subject]: This subject id is existed`);
+      throw new BadRequestError('This subject id is existed');
+    }
 
     new OK({
       message: 'create new subject success',
@@ -19,33 +24,42 @@ const subjectController = {
   getDetailSubject: async (req, res) => {
     logInfo('[subject]: get detail subject');
 
-    const idSubject = req.body(REQ_CUSTOM_FILED.QUESTION_DATA)[id];
+    const { subjectId } = req.body[REQ_CUSTOM_FILED.SUBJECT_DATA];
 
     // kiểm tra xem Id có hay không, có khác "" không
-    if (!idSubject || idSubject.length === 0) {
+    if (!subjectId || subjectId.length === 0) {
       logError(`[subject]: Missing id subject`);
       throw new BadRequestError('ID subject is requied field');
     }
 
     new OK({
       message: 'Get detail a subject success',
-      metadata: await subjectService.getDetailSubject(idSubject),
+      metadata: await subjectService.getDetailSubject(subjectId),
     }).send(res);
   },
 
-  getSubjects: async () => {
+  getSubjects: async (_, res) => {
+    logInfo('[subject]: get all subject');
     new OK({
       message: 'Get subjects success',
       metadata: await subjectService.getSubjects(),
     }).send(res);
   },
-  updateSubject: async (_, res) => {
-    // waiting to code
-    console.log(first);
+  updateSubject: async (req, res) => {
+    const data = req.body[REQ_CUSTOM_FILED.SUBJECT_DATA];
+    if (!data) {
+      logError(`[subject]: Missing data update`);
+      throw new BadRequestError('Data update is requied');
+    }
+
+    new OK({
+      message: 'Get detail a subject success',
+      metadata: await subjectService.updateSubject(data),
+    }).send(res);
   },
 
   deleteSubjects: async (req, res) => {
-    const subjectIDs = req.body(REQ_CUSTOM_FILED.QUESTION_DATA) ?? [];
+    const subjectIDs = req.body[REQ_CUSTOM_FILED.SUBJECT_DATA] ?? [];
 
     if (!subjectIDs || subjectIDs.length === 0) {
       logError(`[subject]: Missing id subject`);
@@ -53,7 +67,7 @@ const subjectController = {
     }
 
     new OK({
-      message: 'Get subjects success',
+      message: 'Delete subjects success',
       metadata: await subjectService.deleteSubjects(subjectIDs),
     }).send(res);
   },

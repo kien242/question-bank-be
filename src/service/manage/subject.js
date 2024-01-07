@@ -17,7 +17,7 @@ const subjectService = {
   },
 
   getDetailSubject: async(data) => {
-    const subject = subjectModel.find({ _id: data });
+    const subject = await subjectModel.findById({ _id: data }).lean();
 
     if (!subject) {
       logError( '[get detail subject]: This subject is not exist' );
@@ -27,20 +27,27 @@ const subjectService = {
     return { subject };
   },
 
-  getSubjects: async(data) => {
+  getSubjects: async() => {
     // get data với number page. không có thì trả về list rỗng
-    const subjects = subjectModel.find() ?? [];
-
+    const subjects = await subjectModel.find() ?? [];
     return { subjects };
   },
 
   updateSubject: async(data) => {
-    console.log('ahihihihi');
+    const subjectExist = await subjectModel.findById({ _id: data._id });
+    if (!subjectExist) {
+      logError( '[get detail subject]: This subject is not exist' );
+      throw new BadRequestError(' This subject is not exist ');
+    }
+
+    const options = { upsert: true, new: true, setDefaultsOnInsert: true };
+    const updateSubject = await subjectModel.findByIdAndUpdate({ _id: data._id }, data, options);
+    return { updateSubject };
   },
 
   deleteSubjects: async(data) => {
     // với data là list id các môn học muốn xoá
-    subjectModel.deleteMany({ _id: { $in: data ?? [] } });
+    await subjectModel.deleteMany({ _id: { $in: data ?? [] } });
     return {};
   },
 };

@@ -4,14 +4,12 @@ const { logInfo, logWarn } = require('../../utils/consoleLog/consoleColors.js');
 const { OK } = require('../../utils/core/success.res.js');
 const { logError } = require('../../utils/consoleLog/consoleColors.js');
 const { BadRequestError } = require('../../utils/core/error.res.js');
-const { checkRequiedField } = require('../../utils/other/validateField.js');
 
 
 const gradeController = {
   createNewGrade: async (req, res) => {
     logInfo('[Grade]::createNewGrade');
     const gradeData = req.body[REQ_CUSTOM_FILED.GRADE_DATA];
-    checkRequiedField(gradeData, ['gradeName', 'gradeCode', 'gradeDescription']);
 
     new OK({
       message: 'Create new grade successfully',
@@ -27,7 +25,8 @@ const gradeController = {
   },
   getDetailGrade: async (req, res) => {
     logInfo('[Grade]::getAllGrade');
-    const idGrade = req.body[REQ_CUSTOM_FILED.GRADE_DATA];
+    console.log(`ahihihi ${ req.body[REQ_CUSTOM_FILED.GRADE_DATA].idGrade }`);
+    const { idGrade } = req.body[REQ_CUSTOM_FILED.GRADE_DATA];
 
     // kiểm tra xem Id có hay không, có khác "" không
     if (!idGrade || idGrade.length === 0 ) {
@@ -40,12 +39,19 @@ const gradeController = {
       metadata: await gradeService.getDetailGrade(idGrade),
     }).send(res);
   },
-  updateGrade: async (_, res) => {
+  updateGrade: async (req, res) => {
     logInfo('[Grade]::getAllGrade');
-    // waiting to code
+
+    const data = req.body[REQ_CUSTOM_FILED.GRADE_DATA];
+
+    if (!data) {
+      logError(`[subject]: Missing data update`);
+      throw new BadRequestError('Data update is requied');
+    }
+
     new OK({
       message: 'Get all grade successfully',
-      metadata: await gradeService.getAllGrade(),
+      metadata: await gradeService.updateGrade(data),
     }).send(res);
   },
   deleteGrade: async (req, res) => {

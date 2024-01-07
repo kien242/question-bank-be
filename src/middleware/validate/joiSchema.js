@@ -41,4 +41,17 @@ const questionSch = Joi.array().items(
           .required(),
     }),
 );
-module.exports = { userReqSch, questionSch };
+
+const gradeSch = Joi.object({
+  gradeName: Joi.string().required(),
+  gradeCode: Joi.string().required(),
+  gradeDescription: Joi.string().required(),
+});
+
+const subjectSch = Joi.object({
+  subjectName: Joi.string().required(),
+  subjectCode: Joi.string().required(),
+  subjectDescription: Joi.string().required(),
+});
+
+module.exports = { userReqSch, questionSch, subjectSch, gradeSch };
