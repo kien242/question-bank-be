@@ -1,6 +1,5 @@
 const { Schema, Types, model } = require('mongoose');
 const { COLLECTION_NAME } = require('../../config/database/collectionName.js');
-const { max } = require('lodash');
 
 const testSchema = new Schema({
   ownerId: {
@@ -17,9 +16,15 @@ const testSchema = new Schema({
   accessType: {
     type: Number,
     required: true,
-    enum: QUESTION_ACCESS,
-    default: QUESTION_ACCESS.PUBLIC,
+    enum: ACCESS_TYPE,
+    default: ACCESS_TYPE.PUBLIC,
   },
+  shareMember: [
+    {
+      type: Types.ObjectId,
+      ref: COLLECTION_NAME.USER,
+    },
+  ],
   accessPassword: {
     type: String,
   },
@@ -41,7 +46,7 @@ const testSchema = new Schema({
   testDescription: {
     type: String,
   },
-  listQuestion: [
+  listQuestions: [
     {
       quickView: {
         type: String,
