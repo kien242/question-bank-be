@@ -43,6 +43,7 @@ const modelSchema = new Schema(
       },
       address: {
         type: String,
+        default: 'Ha noi',
       },
       status: {
         type: Number,
