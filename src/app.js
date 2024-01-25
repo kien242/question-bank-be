@@ -2,7 +2,7 @@ const helmet = require('helmet');
 const morgan = require('morgan');
 const express = require('express');
 const compression = require('compression');
-
+const cors = require('cors');
 require('./helper/database/init.dbs.js');
 
 const app = express();
@@ -11,6 +11,7 @@ app.use(morgan('dev'));
 app.use(helmet());
 app.use(compression());
 app.use(express.json());
+app.use(cors());
 app.use(express.urlencoded({ extended: true }));
 
 // Set view engine

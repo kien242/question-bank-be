@@ -1,4 +1,5 @@
-const { Schema } = require('mongoose');
+const { Schema, model } = require('mongoose');
+const { COLLECTION_NAME } = require('../../config/database/collectionName');
 
 const schema = new Schema({
   subjectName: {
@@ -14,3 +15,7 @@ const schema = new Schema({
     required: true,
   },
 });
+
+const subjectModel = model(COLLECTION_NAME.SUBJECT, schema);
+
+module.exports = { subjectModel };

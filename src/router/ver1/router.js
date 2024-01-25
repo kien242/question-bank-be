@@ -5,12 +5,14 @@ const { ROLE } = require('../../config/database/user/userRole.js');
 const { asyncHandle } = require('../../utils/asyncHandle/index.js');
 const { checkAuth } = require('../../middleware/check/checkAuth.js');
 const { checkRole } = require('../../middleware/check/checkRole.js');
+const { checkActive } = require('../../middleware/check/checkActive.js');
 
 const ver1 = Router();
 
 ver1.use('/docs', serve, setup(specs));
 ver1.use('/access', require('./access/router.js'));
 ver1.use(asyncHandle(checkAuth));
+ver1.use(asyncHandle(checkActive));
 ver1.use('/manager', asyncHandle(checkRole(ROLE.ADMIN, ROLE.TEACHER)), require('./manager/router.js'));
 ver1.use('/profile', require('./profile/router.js'));
 

@@ -1,6 +1,27 @@
-const { Schema, Types } = require('mongoose');
+const { Schema, Types, model } = require('mongoose');
 const { COLLECTION_NAME } = require('../../config/database/collectionName.js');
+const { ACCESS_TYPE } = require('../../config/accessType.js');
 
+const questionSch = new Schema(
+    {
+    // questionIndex: {
+    //   type: Number,
+    // },
+      quickView: {
+        type: String,
+      },
+      questionScore: {
+        type: Number,
+      },
+      questionId: {
+        type: Schema.Types.ObjectId,
+        ref: COLLECTION_NAME.QUESTION,
+      },
+    },
+    {
+      _id: false,
+    },
+);
 const testSchema = new Schema({
   ownerId: {
     type: Types.ObjectId,
@@ -16,9 +37,15 @@ const testSchema = new Schema({
   accessType: {
     type: Number,
     required: true,
-    enum: QUESTION_ACCESS,
-    default: QUESTION_ACCESS.PUBLIC,
+    enum: ACCESS_TYPE,
+    default: ACCESS_TYPE.PUBLIC,
   },
+  shareMember: [
+    {
+      type: Types.ObjectId,
+      ref: COLLECTION_NAME.USER,
+    },
+  ],
   accessPassword: {
     type: String,
   },
@@ -40,30 +67,17 @@ const testSchema = new Schema({
   testDescription: {
     type: String,
   },
-  listQuestion: [
-    {
-      quickView: {
-        type: String,
-      },
-      questionScore: {
-        type: Number,
-      },
-      questionId: {
-        type: Schema.Types.ObjectId,
-        ref: COLLECTION_NAME.QUESTION,
-      },
-    },
-  ],
+  listQuestions: [questionSch],
   totalScore: {
     type: Number,
     min: 0,
-    enum: (listQuestion) => {
-      listQuestion.reduce((acc, score) => acc + score.questionScore, 0);
-    },
   },
   passScore: {
     type: Number,
     min: 0,
-    max: totalScore,
   },
 });
+
+const testModel = model(COLLECTION_NAME.TEST, testSchema);
+
+module.exports = { testModel };

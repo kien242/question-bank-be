@@ -3,14 +3,14 @@ const { checkIdValid } = require('../../utils/other/checkIdValid.js');
 const { authTokenModel } = require('../../model/access/token/auth/model.js');
 
 class authTokenService {
-  static createKeyTokenSync = async ({ userId, publicKey }) => {
+  static createKeyTokenSync = async ({ userId, publicKey, refreshToken }) => {
     // Thuật toán bất đối xứng
     try {
       const publicKeyString = publicKey.toString();
-      const tokens = await authTokenModel.create({
-        user: userId,
-        publicKey: publicKeyString,
-      });
+      const filter = { userId };
+      const update = { userId, publicKey: publicKeyString, refreshTokensUsed: [], refreshToken };
+      const options = { upsert: true, new: true, setDefaultsOnInsert: true };
+      const tokens = await authTokenModel.findOneAndUpdate(filter, update, options);
       return tokens ? tokens.publicKey : null;
     } catch (error) {
       return error;
@@ -26,8 +26,8 @@ class authTokenService {
         refreshTokensUsed: [],
         refreshToken,
       };
-      const option = { upsert: true, new: true, setDefaultsOnInsert: true };
-      const tokens = await authTokenModel.findOneAndUpdate(filter, update, option);
+      const options = { upsert: true, new: true, setDefaultsOnInsert: true };
+      const tokens = await authTokenModel.findOneAndUpdate(filter, update, options);
       return tokens ? tokens.publicKey : null;
     } catch (error) {
       return error;
