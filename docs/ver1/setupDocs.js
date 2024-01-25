@@ -23,6 +23,10 @@ const options = {
         url: 'http://localhost:8000/api/v1/',
         description: 'Local Server version 1',
       },
+      {
+        url: 'https://question-bank-be.onrender.com/api/v1/',
+        description: 'Server version 1',
+      },
     ],
     tags: [
       {
