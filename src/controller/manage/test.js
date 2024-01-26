@@ -13,7 +13,14 @@ const testController = {
       metadata: await testService.createNewTest(userId, testData),
     }).send(res);
   },
-  deleteTest: async (req, res) => {},
+  deleteTest: async (req, res) => {
+    logInfo('[TestController]::deleteTest');
+    const { testId } = req.query;
+    new OK({
+      message: 'Delete test successfully',
+      metadata: await testService.deleteTest(testId),
+    }).send(res);
+  },
 };
 
-module.exports = testController;
+module.exports = { testController };

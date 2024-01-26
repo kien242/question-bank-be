@@ -21,9 +21,14 @@ const testService = {
     return { test: saveTest };
   },
 
-  getTest: async (userId) => {}, // TODO,,
+  getTest: async (userId) => {},
+  // TODO,,
   updateTest: async (testId, testData) => {},
-  deleteTest: async (testId) => {},
+
+  deleteTest: async (testId) => {
+    const delTest = await testModel.findOneAndDelete({ _id: testId });
+    return delTest;
+  },
 };
 
 module.exports = { testService };
